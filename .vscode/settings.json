@@ -3,5 +3,18 @@
     "source.fixAll": "explicit",
     "source.organizeImports": "explicit",
     "source.sortMembers": "explicit"
-  }
+  },
+  "colorize.languages": [
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact",
+    "json",
+    "jsonc",
+    "css",
+    "scss",
+    "less",
+    "html",
+    "markdown"
+  ]
 }

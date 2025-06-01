@@ -1,12 +1,12 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 
-const Home = () => {
+const OurTheatres = () => {
   return (
     <View>
-      <Text>Home</Text>
+      <Text>OurTheatres</Text>
     </View>
   )
 }
 
-export default Home
+export default OurTheatres

@@ -1,16 +1,12 @@
-import { Text, View } from "react-native";
+import { useAuth } from "@clerk/clerk-expo";
+import { Redirect } from "expo-router";
 import "../global.css";
 
-export default function Index() {
+export default function Home() {
+  const { isLoaded } = useAuth();
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+    <Redirect href="/(tabs)/home" />
   );
+
 }
