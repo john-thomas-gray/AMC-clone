@@ -1,5 +1,7 @@
 import { Tabs } from "expo-router";
 import { Image, ImageSourcePropType, Text, View } from "react-native";
+
+import CustomHeader from "../../components/CustomHeader";
 import { icons } from "../../constants";
 
 const TabIcon = ({
@@ -27,7 +29,7 @@ const TabIcon = ({
       />
     }
     <Text
-    className={`text-xs mt-1 ${focused ? "text-white" : "text-gray-400"}`}
+    className={`text-xs mt-1 ${focused ? "text-white" : "text-gray-100"}`}
     numberOfLines={1}
     >
       {label}
@@ -46,6 +48,8 @@ export default function TabsLayout() {
         tabBarStyle: {
           height: 90,
           backgroundColor: "black",
+          borderTopWidth: 2,
+          borderTopColor: "#2B2B2B",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -54,14 +58,14 @@ export default function TabsLayout() {
           overflow: "hidden",
           paddingBottom: 65,
         },
-        headerShown: false,
+        headerShown: true,
       }}
     >
       <Tabs.Screen
         name="home"
         options={{
           title: "SEE A MOVIE",
-          headerShown: false,
+          header: () => <CustomHeader title="See a Movie" />,
           tabBarIcon: ({ focused }) => (
             <TabIcon
             source={icons.ticketTab}
@@ -78,7 +82,7 @@ export default function TabsLayout() {
         name="ourTheatres"
         options={{
           title: "OUR THEATRES",
-          headerShown: false,
+          header: () => <CustomHeader title="Our Theatres" />,
           tabBarIcon: ({ focused }) => (
             <TabIcon
             source={icons.locationTab}
@@ -95,7 +99,7 @@ export default function TabsLayout() {
         name="foodAndDrinks"
         options={{
           title: "FOOD & DRINKS",
-          headerShown: false,
+          header: () => <CustomHeader title="Food & Drinks" />,
           tabBarIcon: ({ focused }) => (
             <TabIcon
             source={icons.foodTab}
@@ -111,7 +115,7 @@ export default function TabsLayout() {
         name="myAmc"
         options={{
           title: "MY AMC",
-          headerShown: false,
+          header: () => <CustomHeader title="My AMC" />,
           tabBarIcon: ({ focused }) => (
             <TabIcon
             source={icons.amcTab}
