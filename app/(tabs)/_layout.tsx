@@ -107,7 +107,7 @@ export default function TabsLayout() {
           title: "FOOD & DRINKS",
           header: () => <CustomHeader
             title="Food & Drinks"
-            showSettings={true}
+            showSettings={false}
           />,
           tabBarIcon: ({ focused }) => (
             <TabIcon

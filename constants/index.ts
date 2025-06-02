@@ -1,3 +1,4 @@
+import purpleGradient from "../assets/backgrounds/purpleGradient.jpg"
 import amcTab from "../assets/icons/amcTab.png"
 import amcTabFocused from "../assets/icons/amcTabFocused.png"
 import foodTab from "../assets/icons/foodTab.png"
@@ -24,4 +25,10 @@ export const icons = {
   profile,
   search,
   settings
+}
+
+export const images = { }
+
+export const backgrounds = {
+  purpleGradient
 }

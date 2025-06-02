@@ -5,10 +5,10 @@ import HeaderButton from './HeaderButton'
 
 const CustomHeader = ({ title, showSettings = true }: { title: string; showSettings: boolean }) => {
   return (
-    <View className="flex bg-black pt-14 pb-3 px-3">
+    <View className="flex bg-black pt-14 pb-3 px-3 border-red-500 border-5">
       <View className="flex flex-row items-center justify-between pt-8">
         <Text className="flex justify-start text-white text-3xl font-bold font-gordita-bold">{title}</Text>
-        <View className="flex flex-row">
+        <View className="flex flex-row ">
           {showSettings &&
           <HeaderButton
             icon={icons.settings}
