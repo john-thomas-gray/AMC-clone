@@ -29,7 +29,7 @@ const TabIcon = ({
       />
     }
     <Text
-    className={`text-xs mt-1 ${focused ? "text-white" : "text-gray-100"}`}
+    className={`text-xs mt-1 font-gordita ${focused ? "text-white" : "text-gray-100"}`}
     numberOfLines={1}
     >
       {label}
@@ -65,7 +65,10 @@ export default function TabsLayout() {
         name="home"
         options={{
           title: "SEE A MOVIE",
-          header: () => <CustomHeader title="See a Movie" />,
+          header: () => <CustomHeader
+            title="See a Movie"
+            showSettings={true}
+          />,
           tabBarIcon: ({ focused }) => (
             <TabIcon
             source={icons.ticketTab}
@@ -82,7 +85,10 @@ export default function TabsLayout() {
         name="ourTheatres"
         options={{
           title: "OUR THEATRES",
-          header: () => <CustomHeader title="Our Theatres" />,
+          header: () => <CustomHeader
+            title="Our Theatres"
+            showSettings={true}
+          />,
           tabBarIcon: ({ focused }) => (
             <TabIcon
             source={icons.locationTab}
@@ -99,7 +105,10 @@ export default function TabsLayout() {
         name="foodAndDrinks"
         options={{
           title: "FOOD & DRINKS",
-          header: () => <CustomHeader title="Food & Drinks" />,
+          header: () => <CustomHeader
+            title="Food & Drinks"
+            showSettings={true}
+          />,
           tabBarIcon: ({ focused }) => (
             <TabIcon
             source={icons.foodTab}
@@ -115,7 +124,10 @@ export default function TabsLayout() {
         name="myAmc"
         options={{
           title: "MY AMC",
-          header: () => <CustomHeader title="My AMC" />,
+          header: () => <CustomHeader
+            title="My AMC"
+            showSettings={false}
+          />,
           tabBarIcon: ({ focused }) => (
             <TabIcon
             source={icons.amcTab}

@@ -6,7 +6,16 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-
+        'gordita': ['Gordita-Regular'],
+        'gordita-italic': ['Gordita-Italic'],
+        'gordita-bold': ['Gordita-Bold'],
+        'gordita-bold-italic': ['Gordita-BoldItalic'],
+        'gordita-medium': ['Gordita-Medium'],
+        'gordita-medium-italic': ['Gordita-MediumItalic'],
+        'gordita-light': ['Gordita-Light'],
+        'gordita-light-italic': ['Gordita-LightItalic'],
+        'gordita-black': ['Gordita-Black'],
+        'gordita-black-italic': ['Gordita-BlackItalic'],
       },
       colors: {
         red: {
