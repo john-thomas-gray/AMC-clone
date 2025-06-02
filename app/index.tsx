@@ -23,6 +23,16 @@ export default function Home() {
         'Gordita-LightItalic': require('../assets/fonts/Gordita-Font/Gordita-LightItalic.otf'),
         'Gordita-Black': require('../assets/fonts/Gordita-Font/Gordita-Black.otf'),
         'Gordita-BlackItalic': require('../assets/fonts/Gordita-Font/Gordita-BlackItalic.otf'),
+        'EBGaramond': require('../assets/fonts/EBGaramond/EBGaramond-VariableFont_wght.ttf'),
+        'EBGaramond-Italic': require('../assets/fonts/EBGaramond/EBGaramond-Italic-VariableFont_wght.ttf'),
+        'EBGaramond-Medium': require('../assets/fonts/EBGaramond/EBGaramond-VariableFont_wght.ttf'),
+        'EBGaramond-MediumItalic': require('../assets/fonts/EBGaramond/EBGaramond-Italic-VariableFont_wght.ttf'),
+        'EBGaramond-SemiBold': require('../assets/fonts/EBGaramond/EBGaramond-VariableFont_wght.ttf'),
+        'EBGaramond-SemiBoldItalic': require('../assets/fonts/EBGaramond/EBGaramond-Italic-VariableFont_wght.ttf'),
+        'EBGaramond-Bold': require('../assets/fonts/EBGaramond/EBGaramond-VariableFont_wght.ttf'),
+        'EBGaramond-BoldItalic': require('../assets/fonts/EBGaramond/EBGaramond-Italic-VariableFont_wght.ttf'),
+        'EBGaramond-ExtraBold': require('../assets/fonts/EBGaramond/EBGaramond-VariableFont_wght.ttf'),
+        'EBGaramond-ExtraBoldItalic': require('../assets/fonts/EBGaramond/EBGaramond-Italic-VariableFont_wght.ttf'),
       });
       setFontsLoaded(true);
     };

@@ -16,7 +16,17 @@ module.exports = {
         'gordita-light-italic': ['Gordita-LightItalic'],
         'gordita-black': ['Gordita-Black'],
         'gordita-black-italic': ['Gordita-BlackItalic'],
-      },
+        'ebgaramond': ['EBGaramond'],
+        'ebgaramond-italic': ['EBGaramond-Italic'],
+        'ebgaramond-medium': ['EBGaramond-Medium'],
+        'ebgaramond-medium-italic': ['EBGaramond-MediumItalic'],
+        'ebgaramond-semibold': ['EBGaramond-SemiBold'],
+        'ebgaramond-semibold-italic': ['EBGaramond-SemiBoldItalic'],
+        'ebgaramond-bold': ['EBGaramond-Bold'],
+        'ebgaramond-bold-italic': ['EBGaramond-BoldItalic'],
+        'ebgaramond-extrabold': ['EBGaramond-ExtraBold'],
+        'ebgaramond-extrabold-italic': ['EBGaramond-ExtraBoldItalic'],
+            },
       colors: {
         red: {
             100: "#EF6F73",

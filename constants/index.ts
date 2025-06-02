@@ -12,6 +12,11 @@ import settings from "../assets/icons/settings.png"
 import ticketTab from "../assets/icons/ticketTab.png"
 import ticketTabFocused from "../assets/icons/ticketTabFocused.png"
 
+import stubsLogoBlack from "../assets/images/stubsLogoBlack.png"
+import stubsLogoWhite from "../assets/images/stubsLogoWhite.png"
+
+
+
 export const icons = {
   amcTab,
   amcTabFocused,
@@ -27,7 +32,10 @@ export const icons = {
   settings
 }
 
-export const images = { }
+export const images = {
+  stubsLogoWhite,
+  stubsLogoBlack
+}
 
 export const backgrounds = {
   purpleGradient

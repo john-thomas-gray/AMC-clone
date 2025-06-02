@@ -1,4 +1,5 @@
 import CustomButton from '@/components/CustomButton'
+import StubsCard from '@/components/StubsCard'
 import { backgrounds } from '@/constants'
 import React from 'react'
 import { ImageBackground, ScrollView, Text, View } from 'react-native'
@@ -32,7 +33,16 @@ const MyAmc = () => {
                 Not a member? Join Now!
               </Text>
 
-              {/* <StubsCard backgroundStyle="bg-red-500" /> */}
+              <StubsCard
+                backgroundImage={backgrounds.purpleGradient}
+                logoColor="white"
+                membershipType="Premiere"
+                headline="Join the A List"
+                textBody="Get exclusive access to the best deals."
+                buttonText="Join Now"
+                buttonLink="#"
+                buttonVariant="white"
+              />
 
               {/* <FlatList>
 
