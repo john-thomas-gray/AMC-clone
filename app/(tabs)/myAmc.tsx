@@ -1,6 +1,7 @@
+import CustomButton from '@/components/CustomButton'
 import { backgrounds } from '@/constants'
 import React from 'react'
-import { FlatList, ImageBackground, ScrollView, Text, View } from 'react-native'
+import { ImageBackground, ScrollView, Text, View } from 'react-native'
 
 const MyAmc = () => {
   return (
@@ -12,21 +13,30 @@ const MyAmc = () => {
           className="flex-1 h-full w-full"
         >
           <ScrollView className="flex-1">
-            <View className="flex flex-col w-full p-3">
-              <View className="flex flex-row my-3 items-right space-between border-b-2 border-gray-300">
-                <Text className="text-white text-3xl font-gordita-bold mb-6">
+            <View className="flex flex-col w-full">
+              <View className="flex flex-row items-center mt-3 mb-5 px-3 justify-between">
+                <Text className="text-white text-3xl font-gordita-bold">
                   Already a member?
                 </Text>
-                {/* <CustomButton /> */}
+                <CustomButton
+                  title="Sign In"
+                  onPress={() => { console.log('Sign In Pressed') }}
+                  variant="transparent"
+                  IconLeft={undefined}
+                  IconRight={undefined}
+                />
               </View>
 
-              <Text className="text-white text-3xl font-gordita-bold">
+              <Text className="text-white text-3xl font-gordita-bold px-3 py-5
+              border-t border-gray-300">
                 Not a member? Join Now!
               </Text>
 
-              <FlatList>
+              {/* <StubsCard backgroundStyle="bg-red-500" /> */}
 
-              </FlatList>
+              {/* <FlatList>
+
+              </FlatList> */}
             </View>
           </ScrollView>
         </ImageBackground>
