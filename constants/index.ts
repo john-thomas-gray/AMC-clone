@@ -1,4 +1,9 @@
+import blueGradient from "../assets/backgrounds/blueGradient.jpg"
 import purpleGradient from "../assets/backgrounds/purpleGradient.jpg"
+import purpleGradient2 from "../assets/backgrounds/purpleGradient2.jpg"
+import redTriangleGeo from "../assets/backgrounds/redTriangleGeo.jpg"
+import yellowGradient from "../assets/backgrounds/yellowGradient.jpg"
+
 import amcTab from "../assets/icons/amcTab.png"
 import amcTabFocused from "../assets/icons/amcTabFocused.png"
 import foodTab from "../assets/icons/foodTab.png"
@@ -38,5 +43,9 @@ export const images = {
 }
 
 export const backgrounds = {
-  purpleGradient
+  purpleGradient,
+  purpleGradient2,
+  redTriangleGeo,
+  yellowGradient,
+  blueGradient
 }

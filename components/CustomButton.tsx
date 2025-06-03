@@ -6,7 +6,7 @@ const getVariant = (variant: ButtonProps['variant']) => {
   switch (variant) {
     case 'red':
       return {
-        container: 'bg-red-500 border-red-500',
+        container: 'bg-red-200 border-red-200',
         text: 'text-white',
       };
     case 'white':
@@ -23,6 +23,11 @@ const getVariant = (variant: ButtonProps['variant']) => {
       return {
         container: 'bg-transparent border-white',
         text: 'text-white',
+      };
+    case 'transparent-black':
+      return {
+        container: 'bg-transparent border-black',
+        text: 'text-black',
       };
     default:
       return {
@@ -46,12 +51,12 @@ const CustomButton = ({
 
     <Pressable
       onPress={onPress}
-      style={{ height: 46 }}
+      style={{ height: 38 }}
       className={`flex flex-row items-center justify-center border rounded-full
-      ${getVariant(variant).container} ${className} px-5`}
+      ${getVariant(variant).container} px-5`}
       {...props}>
       {IconLeft && <IconLeft/>}
-      <Text  className={`font-gordita-bold text-lg ${getVariant(variant).text}`}>{title}</Text>
+      <Text  className={`font-gordita-bold ${className} ${getVariant(variant).text}`}>{title}</Text>
       {IconRight && <IconRight/>}
     </Pressable>
   )
