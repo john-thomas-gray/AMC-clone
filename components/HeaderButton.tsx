@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, TouchableOpacity } from "react-native";
+import { HeaderButtonProps } from "../types/type";
 
 const HandleClick = (link: string) => {
   console.log(`Navigating to: ${link}`);

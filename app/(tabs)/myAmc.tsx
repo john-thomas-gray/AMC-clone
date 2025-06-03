@@ -34,7 +34,7 @@ const MyAmc = () => {
                 <CustomButton
                   title="Sign In"
                   onPress={() => { console.log('Sign In Pressed') }}
-                  variant={stubCards[0].buttonVariant as 'white' | 'red' | 'transparent-black' | 'black' | 'transparent'}
+                  variant="transparent"
                   IconLeft={undefined}
                   IconRight={undefined}
                   className="text-lg"

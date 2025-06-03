@@ -31,3 +31,11 @@ declare interface StubsCardProps {
   buttonLink?: string;
   buttonVariant?: "red" | "white" | "black" | "transparent" | "transparent-black" | string;
 }
+
+declare interface SlidingHeaderProps {
+  numberOfSections: number;
+  sectionNames: string[];
+  currentSectionIndex?: number;
+  onSectionChange?: (index: number) => void;
+  className?: string;
+}
