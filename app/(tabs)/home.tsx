@@ -1,7 +1,9 @@
 import HorizontalScrollContainer from '@/components/HorizontalScrollContainer'
+import MovieCard from '@/components/MovieCard'
 import SlidingHeader from '@/components/SlidingHeader'
+import { backgrounds } from '@/constants'
 import React from 'react'
-import { FlatList, Text, View } from 'react-native'
+import { View } from 'react-native'
 
 const Home = () => {
 
@@ -16,14 +18,16 @@ const Home = () => {
         />
 
       <HorizontalScrollContainer>
-        <FlatList
-          data={movieData}
-          renderItem={({ item }) => (
-            <Text className="font-gordita-regular text-white">{item.title}</Text>
-          )}
-          keyExtractor={item => item.id.toString()}
-        />
+        {movieData.map(movie => (
+          <MovieCard
+            key={movie.id}
+            title={movie.title}
+            poster={backgrounds.purpleGradient}
+            onPress={() => console.log(`Pressed ${movie.title}`)}
+          />
+        ))}
       </HorizontalScrollContainer>
+
 
     </View>
   )

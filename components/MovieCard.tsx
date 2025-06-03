@@ -1,14 +1,20 @@
+import { MovieCardProps } from '@/types/type'
 import React from 'react'
-import { ImageBackground, TouchableOpacity } from 'react-native'
+import { ImageBackground, Text, TouchableOpacity } from 'react-native'
 
-const MovieCard = () => {
+const MovieCard = ({ title, poster, onPress }: MovieCardProps) => {
   return (
-    <TouchableOpacity className="w-full">
+    <TouchableOpacity className="w-full" onPress={onPress}>
       <ImageBackground
-        source={require('../assets/images/movie-card-background.png')}
-        className="w-full h-fulloverflow-hidden"
+        source={poster}
+        className="w-full h-full overflow-hidden"
         resizeMode="cover"
       />
+      <Text
+        className="font-gordita-regular text-white"
+      >
+        {title}
+      </Text>
     </TouchableOpacity>
   )
 }

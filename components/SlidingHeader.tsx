@@ -35,6 +35,10 @@ const SlidingHeader = ({
         indicatorStyle='white'
         pagingEnabled={true}
         decelerationRate={'fast'}
+        contentContainerStyle={{
+          justifyContent: 'center',
+          alignItems: 'center',
+         }}
       >
         {Array.from ({ length: numberOfSections }, (_, index) => (
           <View

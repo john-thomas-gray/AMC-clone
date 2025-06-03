@@ -39,3 +39,9 @@ declare interface SlidingHeaderProps {
   onSectionChange?: (index: number) => void;
   className?: string;
 }
+
+declare interface MovieCardProps {
+  title: string;
+  poster: ImageSourcePropType;
+  onPress: () => void;
+}
