@@ -40,7 +40,10 @@ const StubsCard = ({
                     <Text className="text-white text-2xl font-ebgaramond uppercase">LIST</Text>
                     <Text className="text-white text-[4px] font-ebgaramond uppercase pb-3">  ™</Text>
                   </View> :
-                  <Text className="text-black text-2xl font-ebgaramond uppercase">{membershipType}</Text>
+                  <View className="flex flex-row items-center">
+                    <Text className="text-black text-2xl font-ebgaramond uppercase">{membershipType}</Text>
+                    <Text className="text-black text-[4px] font-ebgaramond uppercase pb-3">  ™</Text>
+                  </View>
                 }
               </View>
             </View>
