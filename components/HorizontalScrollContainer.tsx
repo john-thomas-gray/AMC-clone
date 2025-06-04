@@ -3,7 +3,7 @@ import { ScrollView, Text, View } from 'react-native'
 
 const HorizontalScrollContainer = ({children}: {children: React.ReactNode}) => {
   return (
-    <View className="flex-1 bg-black">
+    <View className="flex-1 bg-black bg-color-red-500 border-2 border-blue-100">
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}

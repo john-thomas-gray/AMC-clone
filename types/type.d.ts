@@ -33,7 +33,6 @@ declare interface StubsCardProps {
 }
 
 declare interface SlidingHeaderProps {
-  numberOfSections: number;
   sectionNames: string[];
   currentSectionIndex?: number;
   onSectionChange?: (index: number) => void;
