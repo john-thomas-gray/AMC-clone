@@ -1,29 +1,35 @@
 import React from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import { Animated, Text, View } from 'react-native'
 
-const HorizontalScrollContainer = ({children}: {children: React.ReactNode}) => {
+const HorizontalScrollContainer = ({data}) => {
   return (
-    <View className="flex-1 bg-black bg-color-red-500 border-2 border-blue-100">
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        directionalLockEnabled={true}
-        pagingEnabled={true}
-        decelerationRate={'fast'}
-        contentContainerStyle={{
-          borderWidth: 10,
-          borderColor: 'rgb(255, 0, 0)',
-          backgroundColor: 'rgb(38, 0, 255)',
-          alignItems: 'center',
-          paddingHorizontal: 10,
-        }}
-      >
-        {children}
-      </ScrollView>
-    <View>
-      <Text className="font-gordita-regular text-white text-3xl">Additional Content</Text>
-    </View>
-  </View>
+    <Animated.ScrollView
+              ref={data.scrollViewRef}
+              horizontal
+              pagingEnabled
+              scrollEventThrottle={16}
+              onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { x: data.scrollX  } } }],
+                { useNativeDriver: false }
+              )}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ width: data.screenWidth * data.sectionNames.length }}
+              className={`flex-row ${data.className}`}
+            >
+              {data.sectionNames.map((_, index) => (
+                <View
+                  key={index}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text style={{ color: 'white' }}>Section {index + 1}</Text>
+                </View>
+              ))}
+    </Animated.ScrollView>
 )
 }
 

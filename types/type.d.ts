@@ -34,13 +34,23 @@ declare interface StubsCardProps {
 
 declare interface SlidingHeaderProps {
   sectionNames: string[];
-  currentSectionIndex?: number;
-  onSectionChange?: (index: number) => void;
+  currentSectionIndex: number;
+  onSectionChange: (index: number) => void;
   className?: string;
 }
 
+
 declare interface MovieCardProps {
+  id: string;
   title: string;
   poster: ImageSourcePropType;
   onPress: () => void;
+}
+
+declare interface HorizontalScrollContainerProps {
+  sectionNames: string[];
+  scrollViewRef: React.RefObject<ScrollView>;
+  scrollX: Animated.Value;
+  screenWidth: number;
+  onScrollIndexChange: (index: number) => void;
 }
