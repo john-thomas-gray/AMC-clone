@@ -1,34 +1,63 @@
-import MovieCard from '@/components/MovieCard'
-import { MovieCardProps } from '@/types/type'
-import React from 'react'
-import { FlatList, View } from 'react-native'
+import { fetchMovies } from '@/utils/api';
+import { tailwindColors } from '@/utils/tailwindColors';
+import useFetch from '@/utils/useFetch';
+import React from 'react';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+import MovieCard from './MovieCard';
+
 
 const NowPlaying = () => {
-
-  const movieData: MovieCardProps[] = [
-    { id: '1', title: 'Movie 1', poster: require('@/assets/poster1.jpg'), onPress: () => {} },
-    { id: '2', title: 'Movie 2', poster: require('@/assets/poster2.jpg'), onPress: () => {} },
-    { id: '3', title: 'Movie 3', poster: require('@/assets/poster3.jpg'), onPress: () => {} },
-
-  ];
+  const {
+    data: movies = [],
+    loading: moviesLoading,
+    error: moviesError
+  } = useFetch(() => fetchMovies({ query: '' }));
 
   return (
-    <View>
-      <FlatList
-        data={movieData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <MovieCard
-            id={item.id}
-            title={item.title}
-            poster={item.poster}
-            onPress={item.onPress}
+    <View className="flex-1 bg-white">
+      {moviesLoading ? (
+          <ActivityIndicator
+            size="large"
+            color={tailwindColors.blue?.[100]}
+            className="mt-10 self-center"
           />
-        )}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
-  )
-}
+        ) : moviesError ? (
+          <Text>Error: {moviesError?.message}</Text>
+        ) : (
+          <View className="flex-1">
+            <>
 
-export default NowPlaying
+              <FlatList
+                data={movies}
+                renderItem={({ item }) => (
+                  <MovieCard
+                    {...item}
+                  />
+                )}
+                keyExtractor={(item) => item.id.toString()}
+                numColumns={2}
+                columnWrapperStyle={{
+                  justifyContent: 'flex-start',
+                  padding: 0,
+                  margin: 0,
+
+                }}
+                className="h-full"
+                scrollEnabled={true}
+                contentContainerStyle={{
+                  padding: 0,
+                  margin: 0,
+                  paddingBottom: 90,
+                }}
+              />
+            </>
+          </View>
+        )
+
+        }
+
+    </View>
+  );
+};
+
+export default NowPlaying;

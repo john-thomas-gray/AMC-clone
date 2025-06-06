@@ -42,8 +42,9 @@ declare interface SlidingHeaderProps {
 
 declare interface MovieCardProps {
   id: string;
+  poster_path: ImageSourcePropType;
   title: string;
-  poster: ImageSourcePropType;
+  release_date: string;
   onPress: () => void;
 }
 

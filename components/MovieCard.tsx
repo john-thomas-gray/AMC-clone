@@ -1,21 +1,41 @@
-import { MovieCardProps } from '@/types/type'
-import React from 'react'
-import { ImageBackground, Text, TouchableOpacity } from 'react-native'
 
-const MovieCard = ({ title, poster, onPress }: MovieCardProps) => {
+import { MovieCardProps } from '@/types/type';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Link } from 'expo-router';
+import React from 'react';
+import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+
+
+const MovieCard = ({ id, poster_path, title,
+  release_date }: MovieCardProps) => {
   return (
-    <TouchableOpacity className="w-full" onPress={onPress}>
-      <ImageBackground
-        source={poster}
-        className="w-full h-full overflow-hidden"
-        resizeMode="cover"
-      />
-      <Text
-        className="font-gordita-regular text-white"
-      >
-        {title}
-      </Text>
-    </TouchableOpacity>
+    <Link href={`/movies/${id}`} asChild>
+      <TouchableOpacity className="w-[50%] h-[301.5px] bg-white">
+        <ImageBackground
+          source={{
+            uri: poster_path
+              ? `https://image.tmdb.org/t/p/w500${poster_path}`
+              : 'https://placehold.co/600x400/1a1a1a/ffffff.png'
+          }}
+          resizeMode='contain'
+          className="flex-1 justify-end"
+        >
+          <LinearGradient
+            colors={[
+              'transparent',
+              'rgba(0,0,0,0.4)',
+              'rgba(0,0,0,0.8)',
+              'rgba(0,0,0,1)'
+            ]}
+            locations={[0, 0.4, 0.65, 1]}
+            style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 100 }}
+          />
+          <View className="flex-1 justify-end items-center">
+            <Text className="text-lg font-gordita-bold text-white">{title}</Text>
+          </View>
+        </ImageBackground>
+      </TouchableOpacity>
+    </Link>
   )
 }
 

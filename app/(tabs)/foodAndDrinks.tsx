@@ -1,10 +1,11 @@
+import NowPlaying from '@/components/NowPlaying'
 import React from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 
 const FoodAndDrinks = () => {
   return (
-    <View>
-      <Text>FoodAndDrinks</Text>
+    <View className="flex-1 bg-black">
+      <NowPlaying  />
     </View>
   )
 }
