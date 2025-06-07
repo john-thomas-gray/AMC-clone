@@ -9,7 +9,13 @@ import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 const MovieCard = ({ id, poster_path, title,
   release_date }: MovieCardProps) => {
   return (
-    <Link href={`/movies/${id}`} asChild>
+    <Link
+      href={{
+        pathname: '/movies/[id]',
+        params: { id: id.toString() },
+      }}
+      asChild
+    >
       <TouchableOpacity className="w-[50%] h-[301.5px] bg-white">
         <ImageBackground
           source={{

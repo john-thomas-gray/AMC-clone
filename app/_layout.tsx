@@ -5,7 +5,6 @@ import { Stack } from "expo-router";
 export default function AppLayout() {
   return (
     <ClerkProvider tokenCache={tokenCache}>
-
       <Stack>
         <Stack.Screen
           name="(tabs)"

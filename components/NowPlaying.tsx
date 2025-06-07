@@ -14,7 +14,7 @@ const NowPlaying = () => {
   } = useFetch(() => fetchMovies({ query: '' }));
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-black">
       {moviesLoading ? (
           <ActivityIndicator
             size="large"

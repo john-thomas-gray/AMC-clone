@@ -32,11 +32,9 @@ declare interface StubsCardProps {
   buttonVariant?: "red" | "white" | "black" | "transparent" | "transparent-black" | string;
 }
 
-declare interface SlidingHeaderProps {
+declare interface SlidingLayoutProps {
   sectionNames: string[];
-  currentSectionIndex: number;
-  onSectionChange: (index: number) => void;
-  className?: string;
+  children: React.ReactNode[];
 }
 
 

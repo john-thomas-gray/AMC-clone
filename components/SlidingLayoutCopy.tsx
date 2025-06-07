@@ -1,4 +1,4 @@
-import { SlidingHeaderProps } from '@/types/type';
+import { SlidingLayoutProps } from '@/types/type';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
@@ -14,12 +14,13 @@ import {
 
 const { width: screenWidth } = Dimensions.get('window');
 
-const SlidingHeader = ({
+const SlidingLayout = ({
   sectionNames,
   currentSectionIndex = 0,
   onSectionChange = () => {},
   className = '',
-}: SlidingHeaderProps) => {
+  children = [],
+}: SlidingLayoutProps) => {
   const numberOfSections = sectionNames.length;
   const sectionWidth = screenWidth / numberOfSections;
   const scrollViewRef = useRef<ScrollView>(null);
@@ -29,23 +30,25 @@ const SlidingHeader = ({
   const [pressedIndex, setPressedIndex] = useState<number | null>(null);
   const [initialTouchPos, setInitialTouchPos] = useState<{ x: number; y: number } | null>(null);
 
-  const fillTimerRef = useRef<NodeJS.Timeout | null>(null);
   const wasCanceledRef = useRef(false);
 
+  // Initialize text animation values for each section to 1 or 0 based on the current section index
   const [textAnimValues, setTextAnimValues] = useState<number[]>(() =>
   sectionNames.map((_, i) => (i === currentSectionIndex ? 1 : 0))
   );
-
-  const scale = useRef(new Animated.Value(0)).current;
-  const opacity = useRef(new Animated.Value(0)).current;
-  const [pressIn, setPressIn] = useState(false);
-  const [ripplePos, setRipplePos] = useState({ x: 0, y: 0 });
-
+  // Initialize color animations for each section
   const colorAnimations = useRef(
       sectionNames.map((_, i) => new Animated.Value(i === currentSectionIndex ? 1 : 0))
     ).current;
 
+  const rippleScale = useRef(new Animated.Value(0)).current;
+  const [pressIn, setPressIn] = useState(false);
+  const [ripplePos, setRipplePos] = useState({ x: 0, y: 0 });
+
+
+
   const handlePressIn = (event: GestureResponderEvent, index: number) => {
+    console.log('Press in at index:', index);
     wasCanceledRef.current = false;
     setInitialTouchPos({
       x: event.nativeEvent.pageX,
@@ -55,10 +58,9 @@ const SlidingHeader = ({
     const { locationX, locationY } = event.nativeEvent;
     setRipplePos({ x: locationX, y: locationY });
 
-    opacity.setValue(0.4);
-    scale.setValue(0);
+    rippleScale.setValue(0);
 
-    Animated.timing(scale, {
+    Animated.timing(rippleScale, {
       toValue: 2.5,
       duration: 3000,
       easing: Easing.out(Easing.ease),
@@ -66,105 +68,93 @@ const SlidingHeader = ({
     }).start();
   };
 
+  const handleTouchMove = (event: GestureResponderEvent) => {
+
+    if (!wasCanceledRef.current) {
+      console.log('Touch move detected');
+      if (initialTouchPos == null || pressedIndex == null) return;
+
+      const { pageX, pageY } = event.nativeEvent;
+      const dx = pageX - initialTouchPos.x;
+      const dy = pageY - initialTouchPos.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance > 10) {
+        wasCanceledRef.current = true;
+        cancelPress();
+      }
+    }
+  };
 
   const cancelPress = () => {
+    console.log('Press canceled');
     setPressedIndex(null);
     setInitialTouchPos(null);
     setPressIn(false);
-
-    if (fillTimerRef.current) {
-      clearTimeout(fillTimerRef.current);
-      fillTimerRef.current = null;
-    }
-
-    Animated.timing(opacity, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
   };
-
-
-  const handleTouchMove = (event: GestureResponderEvent) => {
-    if (initialTouchPos == null || pressedIndex == null) return;
-
-    const { pageX, pageY } = event.nativeEvent;
-    const dx = pageX - initialTouchPos.x;
-    const dy = pageY - initialTouchPos.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    if (distance > 10) {
-      cancelPress();
-    }
-  };
-
 
   const handlePressOut = (index: number) => {
-  if (wasCanceledRef.current) {
-    wasCanceledRef.current = false;
-    return;
-  }
+    console.log('Press out at index:', index);
+    if (wasCanceledRef.current) {
+      wasCanceledRef.current = false;
+      return;
+    }
 
-  setPressedIndex(null);
-  setPressIn(false);
+    setTimeout(() => setPressedIndex(null), 200);
+    setPressIn(false);
 
-  if (fillTimerRef.current) {
-    clearTimeout(fillTimerRef.current);
-    fillTimerRef.current = null;
-  }
+    if (index === currentIndex) return;
 
-  Animated.timing(opacity, {
-    toValue: 0,
-    duration: 200,
-    useNativeDriver: true,
-  }).start();
+    Animated.timing(colorAnimations[currentIndex], {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
 
-  if (index === currentIndex) return;
+    Animated.timing(colorAnimations[index], {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
 
-  Animated.timing(colorAnimations[currentIndex], {
-    toValue: 0,
-    duration: 300,
-    useNativeDriver: false,
-  }).start();
-
-  Animated.timing(colorAnimations[index], {
-    toValue: 1,
-    duration: 300,
-    useNativeDriver: false,
-  }).start();
-
-  setCurrentIndex(index);
-  onSectionChange(index);
-
-  scrollViewRef.current?.scrollTo({
-    x: index * sectionWidth,
-    animated: true,
-  });
-};
-
-
-  useEffect(() => {
-
-    Animated.spring(underlineTranslateX, {
-      toValue: currentIndex * sectionWidth,
+    Animated.timing(underlineTranslateX[currentIndex], {
+      toValue: index * sectionWidth,
+      duration: 300,
       useNativeDriver: true,
     }).start();
-  }, [currentIndex]);
+
+    setCurrentIndex(index);
+    onSectionChange(index);
+
+    scrollViewRef.current?.scrollTo({
+      x: index * sectionWidth,
+      animated: true,
+    });
+  };
+
 
   useEffect(() => {
-  const listenerId = scrollX.addListener(({ value }) => {
-    const newAnimValues = sectionNames.map((_, i) => {
-      const distance = Math.abs(value - i * sectionWidth);
-      const progress = Math.max(0, 1 - distance / sectionWidth);
-      return progress;
+
+    const listenerId = scrollX.addListener(({ value }) => {
+      const newAnimValues = sectionNames.map((_, i) => {
+        const distance = Math.abs(value - i * sectionWidth);
+        const progress = Math.max(0, 1 - distance / sectionWidth);
+        return progress;
+      });
+      setTextAnimValues(newAnimValues);
+
+      // Update currentIndex when scrolling nears a new section
+      const newIndex = Math.round(value / sectionWidth);
+      if (newIndex !== currentIndex) {
+        setCurrentIndex(newIndex);
+      }
     });
-    setTextAnimValues(newAnimValues);
-  });
 
   return () => {
     scrollX.removeListener(listenerId);
   };
-}, []);
+}, [scrollX, sectionNames, sectionWidth, currentIndex]);
+
 
   return (
     <View className="flex-1">
@@ -188,6 +178,7 @@ const SlidingHeader = ({
                   { width: sectionWidth, height: 40 }
                 ]}
               >
+                {/* Ripple effect */}
                 {pressedIndex === index && (
                   <Animated.View
                     pointerEvents="none"
@@ -196,8 +187,7 @@ const SlidingHeader = ({
                       {
                         top: ripplePos.y - 150,
                         left: ripplePos.x - 150,
-                        transform: [{ scale }],
-                        opacity,
+                        transform: [{ rippleScale }]
                       },
                     ]}
                   />
@@ -223,6 +213,7 @@ const SlidingHeader = ({
           ))}
         </View>
 
+        {/* Blue bar */}
         <Animated.View
           style={{
             position: 'absolute',
@@ -230,40 +221,47 @@ const SlidingHeader = ({
             left: 0,
             height: 3,
             width: sectionWidth,
-            transform: [
-              {
-                translateX: underlineTranslateX,
-              },
-            ],
+            transform: [{ translateX: underlineTranslateX }],
           }}
           className="bg-blue-100 rounded-full"
         />
       </View>
 
+      {/* Content box */}
       <Animated.ScrollView
         ref={scrollViewRef}
         horizontal
         pagingEnabled
         scrollEventThrottle={16}
         onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { x: scrollX  } } }],
-          { useNativeDriver: false }
+          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+          {
+            useNativeDriver: false,
+            listener: (event) => {
+              const x = event.nativeEvent.contentOffset.x;
+              const newIndex = Math.round(x / screenWidth);
+
+              if (newIndex !== currentIndex) {
+                setCurrentIndex(newIndex);
+                onSectionChange(newIndex);
+              }
+            },
+          }
         )}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ width: sectionWidth * numberOfSections }}
+        contentContainerStyle={{ width: screenWidth * numberOfSections }}
         className={`flex-row ${className}`}
+
       >
-        {sectionNames.map((_, index) => (
+        {React.Children.map(children, (child, index) => (
           <View
             key={index}
             style={{
-              width: '100%',
+              width: screenWidth,
               height: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
             }}
           >
-            <Text style={{ color: 'white' }}>Section {index + 1}</Text>
+            {child}
           </View>
         ))}
       </Animated.ScrollView>
@@ -297,4 +295,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SlidingHeader;
+export default SlidingLayout;
