@@ -1,6 +1,6 @@
 import { SlidingLayoutProps } from '@/types/type';
 import React, { useRef, useState } from 'react';
-import { Animated, Dimensions, LayoutChangeEvent, Pressable, ScrollView, View } from 'react-native';
+import { Animated, Dimensions, GestureResponderEvent, LayoutChangeEvent, Pressable, ScrollView, View } from 'react-native';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -23,7 +23,10 @@ const SlidingLayout = ({
   const [initialTouchPos, setInitialTouchPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
 
-  const handlePressIn = (index: number) => {
+  const handlePressIn = (event: GestureResponderEvent, index: number) => {
+    const { locationX, locationY } = event.nativeEvent;
+
+    setInitialTouchPos({ x: locationX, y: locationY });
     setSelectedButton(index);
     setIsButtonAnimating(true);
     console.log('Press in at index:', selectedButton);
@@ -50,11 +53,16 @@ const SlidingLayout = ({
     console.log('Ripple animation started');
     rippleScale.setValue(0);
     Animated.timing(rippleScale, {
-      toValue: 1,
-      duration: 300,
+      toValue: buttonWidth,
+      duration: 5000,
       useNativeDriver: true,
     }).start(() => {
-      // setIsButtonAnimating(false);
+      setIsButtonAnimating(false);
+      rippleScale.setValue(0);
+      setInitialTouchPos({
+      x: 0,
+      y: 0,
+    });
     });
   }
 
@@ -97,12 +105,13 @@ const SlidingLayout = ({
 
   return (
     <View className="flex-1 bg-black">
+      {/* Buttons */}
       <View className="flex relative">
         <View className={`flex flex-row justify-between`}>
           {Array.from({ length: numberOfButtons }).map((_, index) => (
             <Pressable
               key={index}
-              onPressIn={() => handlePressIn(index)}
+              onPressIn={(event) => handlePressIn(event, index)}
               onPressOut={() => handlePressOut(index)}
               // onTouchMove={() => {}}
               className={`flex items-center justify-center
@@ -112,18 +121,19 @@ const SlidingLayout = ({
               ]}
             >
               {/* Ripple Container */}
-              <View className="overflow-hidden relative justify-center items-center">
+              <View className="flex-1 overflow-hidden relative justify-center items-center">
                 {/* {Ripple Effect} */}
                 {selectedButton === index && isButtonAnimating && (
                   <Animated.View
                       style={{
-                        width: 300,
-                        height: 300,
+                        width: buttonWidth,
+                        height: 60,
                         borderRadius: 150,
                         position: 'absolute',
-                        top: initialTouchPos.y - 150,
-                        left: initialTouchPos.x - 150,
+                        top: initialTouchPos.y - 30,
+                        left: initialTouchPos.x - buttonWidth / 2,
                         transform: [{ scale: rippleScale }],
+                        backgroundColor: 'rgb(255, 0, 234)'
                       }}
                     />
                 )}
@@ -166,6 +176,7 @@ const SlidingLayout = ({
           )}
       </View>
 
+      {/* Scrollable Content */}
       <Animated.ScrollView
         ref={scrollViewRef}
         horizontal
