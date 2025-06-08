@@ -33,7 +33,7 @@ declare interface StubsCardProps {
 }
 
 declare interface SlidingLayoutProps {
-  sectionNames: string[];
+  buttonNames: string[];
   children: React.ReactNode[];
 }
 

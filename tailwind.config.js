@@ -50,6 +50,11 @@ module.exports = {
             100: "#3B0249",
 
         },
+        scrollButton: {
+          default: "#000000",
+          pressed: "rgba(0, 168, 225, 0.1)",
+          ripple: "rgba(0, 168, 225, 0.3)"
+        },
         success: {
             100: "#F0FFF4",
             200: "#C6F6D5",
