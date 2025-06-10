@@ -6,15 +6,19 @@ import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 import MovieCard from './MovieCard';
 
 
-const NowPlaying = () => {
+const ComingSoon = () => {
   const {
     data: movies = [],
     loading: moviesLoading,
     error: moviesError
   } = useFetch(() => fetchMovies({ query: '' }));
 
-  // console.log('NowPlaying movies:', movies);
-
+  console.log('ComingSoon movies:', movies);
+  const today = new Date();
+  const upcomingMovies = movies.filter((movie: any) => {
+    const releaseDate = new Date(movie.release_date);
+    return releaseDate > today;
+  });
   return (
     <View className="flex-1 bg-black">
       {moviesLoading ? (
@@ -62,4 +66,4 @@ const NowPlaying = () => {
   );
 };
 
-export default NowPlaying;
+export default ComingSoon;

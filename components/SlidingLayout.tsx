@@ -1,5 +1,5 @@
 import { SlidingLayoutProps } from '@/types/type';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Dimensions, GestureResponderEvent, LayoutChangeEvent, Pressable, ScrollView, View } from 'react-native';
 
 const { width: screenWidth } = Dimensions.get('window');
@@ -15,17 +15,18 @@ const SlidingLayout = ({
   // Buttons
   const numberOfButtons = children.length;
   const buttonWidth = screenWidth / numberOfButtons;
+  const buttonHeight = 60
   const [selectedButton, setSelectedButton] = useState<number>(0);
 
   // Button animations
   const [isButtonAnimating, setIsButtonAnimating] = useState<boolean>(false);
   const rippleScale = useRef(new Animated.Value(0)).current;
-  const [initialTouchPos, setInitialTouchPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [initialTouchPos, setInitialTouchPos] = useState<{ x: number; y: number }>({ x: 10, y: 0 });
 
 
   const handlePressIn = (event: GestureResponderEvent, index: number) => {
     const { locationX, locationY } = event.nativeEvent;
-
+    console.log("locx: ", locationX, "locy: ", locationY)
     setInitialTouchPos({ x: locationX, y: locationY });
     setSelectedButton(index);
     setIsButtonAnimating(true);
@@ -53,8 +54,8 @@ const SlidingLayout = ({
     console.log('Ripple animation started');
     rippleScale.setValue(0);
     Animated.timing(rippleScale, {
-      toValue: buttonWidth,
-      duration: 5000,
+      toValue: 1,
+      duration: 500,
       useNativeDriver: true,
     }).start(() => {
       setIsButtonAnimating(false);
@@ -103,10 +104,14 @@ const SlidingLayout = ({
     });
   };
 
+  useEffect(() => {
+    console.log('Updated initialTouchPos:', initialTouchPos);
+  }, [initialTouchPos]);
+
   return (
     <View className="flex-1 bg-black">
       {/* Buttons */}
-      <View className="flex relative">
+      <View className="flex relative bg-black">
         <View className={`flex flex-row justify-between`}>
           {Array.from({ length: numberOfButtons }).map((_, index) => (
             <Pressable
@@ -117,25 +122,29 @@ const SlidingLayout = ({
               className={`flex items-center justify-center
               ${selectedButton === index && isButtonAnimating ? 'bg-scrollButton-pressed' : 'bg-scrollButton-default'}`}
               style={[
-                { width: buttonWidth, height: 60 },
+                { width: buttonWidth, height: buttonHeight },
               ]}
             >
               {/* Ripple Container */}
-              <View className="flex-1 overflow-hidden relative justify-center items-center">
+              <View
+                className="overflow-hidden relative justify-center items-center"
+                style={{ width: buttonWidth, height: buttonHeight }}
+              >
                 {/* {Ripple Effect} */}
                 {selectedButton === index && isButtonAnimating && (
                   <Animated.View
-                      style={{
-                        width: buttonWidth,
-                        height: 60,
-                        borderRadius: 150,
-                        position: 'absolute',
-                        top: initialTouchPos.y - 30,
-                        left: initialTouchPos.x - buttonWidth / 2,
-                        transform: [{ scale: rippleScale }],
-                        backgroundColor: 'rgb(255, 0, 234)'
-                      }}
-                    />
+                    style={{
+                      width: buttonWidth * 2,
+                      height: buttonWidth * 2,
+                      borderRadius: buttonWidth,
+                      position: 'absolute',
+                      top: initialTouchPos.y - buttonWidth,
+                      left: initialTouchPos.x - buttonWidth,
+                      transform: [{ scale: rippleScale }],
+                      backgroundColor: 'rgba(0, 168, 225, 0.3)',
+                      // backgroundColor: 'rgb(255, 0, 234)',
+                    }}
+                  />
                 )}
                 {/* Content Container */}
                 <View

@@ -1,5 +1,6 @@
 
 import NowPlaying from '@/components/NowPlaying'
+import OnDemand from '@/components/OnDemand'
 import SlidingLayout from '@/components/SlidingLayout'
 import React from 'react'
 import { View } from 'react-native'
@@ -17,8 +18,9 @@ const Home = () => {
         buttonNames={data.buttonNames}
       >
         <NowPlaying />
+        {/* <ComingSoon /> */}
         <NowPlaying />
-        <NowPlaying />
+        <OnDemand />
 
       </SlidingLayout>
 
