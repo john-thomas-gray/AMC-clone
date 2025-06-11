@@ -21,11 +21,11 @@ const MacguffinsBar = () => {
           className="p-2 rounded-lg w-[95%]"
           style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
         >
-          <Text className="text-white text-3xl font-bold">
-            <Text className="">MacGuffins</Text>
-            <Text className="">®</Text>
-            <Text className="">Bar</Text>
-          </Text>
+          <View className="font-bold flex-row">
+            <Text className="text-white text-3xl font-bold">MacGuffins</Text>
+            <Text className="text-2xl text-white relative leading-none pt-2">®</Text>
+            <Text className="text-white text-3xl font-bold"> Bar</Text>
+          </View>
           <Text className="text-white text-lg mt-2">
             Grown-ups need movie treats, too. At MacGuffins Bar, beer and wine are always ready to be poured, and select theatres even offer premium had-crafted beverages you can&apos;t find anywhere else. For guests 21+ only.
           </Text>

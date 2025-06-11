@@ -141,7 +141,7 @@ const SlidingLayout = ({
                       top: initialTouchPos.y - buttonWidth,
                       left: initialTouchPos.x - buttonWidth,
                       transform: [{ scale: rippleScale }],
-                      backgroundColor: 'rgba(0, 168, 225, 0.3)',
+                      backgroundColor: 'rgba(0, 168, 225, 0.1)',
                       // backgroundColor: 'rgb(255, 0, 234)',
                     }}
                   />

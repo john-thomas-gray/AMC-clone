@@ -53,7 +53,7 @@ module.exports = {
         scrollButton: {
           default: "#000000",
           pressed: "rgba(0, 168, 225, 0.1)",
-          ripple: "rgba(0, 168, 225, 0.3)"
+          ripple: "rgba(0, 168, 225, 0.1)"
         },
         fandango: {
             blue: "#3478C1",
