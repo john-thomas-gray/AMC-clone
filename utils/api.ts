@@ -8,9 +8,10 @@ export const TMDB_CONFIG = {
 }
 
 export const fetchMovies = async ({ query }: { query: string }) => {
-  const endpoint = query
-  ? `${TMDB_CONFIG.BASE_URL}/search/movie?query${encodeURIComponent(query)}`
-  : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc`
+  const endpoint = 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1'
+  // // ? `${TMDB_CONFIG.BASE_URL}/search/movie?query${encodeURIComponent(query)}`
+  // ? `${TMDB_CONFIG.BASE_URL}/3/movie/now_playing`
+  // : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=popularity.desc`
 
   const response = await fetch(endpoint, {
     method: 'GET',
@@ -27,9 +28,9 @@ export const fetchMovies = async ({ query }: { query: string }) => {
   return data.results;
 }
 export const fetchComingSoon = async ({ query }: { query: string }) => {
-  const endpoint = query
-  ? `${TMDB_CONFIG.BASE_URL}/search/movie?query${encodeURIComponent(query)}`
-  : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=upcoming.desc`
+  const endpoint = 'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=2'
+  // ? `${TMDB_CONFIG.BASE_URL}/3/movie/upcoming`
+  // : `${TMDB_CONFIG.BASE_URL}/discover/movie?sort_by=upcoming.desc`
 
   const response = await fetch(endpoint, {
     method: 'GET',

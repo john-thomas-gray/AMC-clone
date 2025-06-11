@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, Text } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { ButtonProps } from '../types/type';
 
 const getVariant = (variant: ButtonProps['variant']) => {
@@ -44,22 +44,29 @@ const CustomButton = ({
   variant,
   IconLeft = undefined,
   IconRight = undefined,
-  className,
+  className = '',
   ...props
 }: ButtonProps) => {
   return (
-
     <Pressable
       onPress={onPress}
       style={{ height: 38 }}
-      className={`flex flex-row items-center justify-center border rounded-full
-      ${getVariant(variant).container} px-5`}
-      {...props}>
-      {IconLeft && <IconLeft/>}
-      <Text  className={`font-gordita-bold ${className} ${getVariant(variant).text}`}>{title}</Text>
-      {IconRight && <IconRight/>}
+      className={`flex flex-row items-center border rounded-full
+        ${getVariant(variant).container} px-4 ${className}`}
+      {...props}
+    >
+      {IconLeft && <View className="mr-2">{<IconLeft />}</View>}
+
+      <Text
+        className={`flex-grow text-center font-gordita-bold ${getVariant(variant).text}`}
+      >
+        {title}
+      </Text>
+
+      {IconRight && <View className="ml-2">{<IconRight />}</View>}
     </Pressable>
   )
 }
+
 
 export default CustomButton

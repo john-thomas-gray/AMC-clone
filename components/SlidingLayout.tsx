@@ -15,7 +15,7 @@ const SlidingLayout = ({
   // Buttons
   const numberOfButtons = children.length;
   const buttonWidth = screenWidth / numberOfButtons;
-  const buttonHeight = 60
+  const buttonHeight = 56
   const [selectedButton, setSelectedButton] = useState<number>(0);
 
   // Button animations
@@ -204,7 +204,11 @@ const SlidingLayout = ({
         )}
         scrollEventThrottle={16}
       >
-        {children}
+        {React.Children.map(children, (child, index) => (
+          <View key={index} style={{ width: screenWidth }}>
+            {child}
+          </View>
+        ))}
       </Animated.ScrollView>
     </View>
   )

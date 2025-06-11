@@ -3,10 +3,12 @@ import { ImageSourcePropType, TouchableOpacityProps } from "react-native";
 declare interface ButtonProps extends TouchableOpacityProps {
   title: string;
   variant: "red" | "white" | "black" | "transparent" | "transparent-black" | string;
+  height?: number;
   onPress: () => void;
   IconRight?: React.ComponentType<any>;
   IconLeft?: React.ComponentType<any>;
   className?: string;
+  textClassName?: string;
 }
 
 declare interface HeaderProps {

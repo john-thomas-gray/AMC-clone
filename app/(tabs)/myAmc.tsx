@@ -37,7 +37,7 @@ const MyAmc = () => {
                   variant="transparent"
                   IconLeft={undefined}
                   IconRight={undefined}
-                  className="text-lg"
+                  textClassName="text-lg"
                 />
             </View>
 

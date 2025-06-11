@@ -1,6 +1,7 @@
 import blueGradient from "../assets/backgrounds/blueGradient.jpg"
 import purpleGradient from "../assets/backgrounds/purpleGradient.jpg"
 import purpleGradient2 from "../assets/backgrounds/purpleGradient2.jpg"
+import redOrangeGradient from "../assets/backgrounds/redOrangeGradient.png"
 import redTriangleGeo from "../assets/backgrounds/redTriangleGeo.jpg"
 import yellowGradient from "../assets/backgrounds/yellowGradient.jpg"
 
@@ -17,9 +18,12 @@ import settings from "../assets/icons/settings.png"
 import ticketTab from "../assets/icons/ticketTab.png"
 import ticketTabFocused from "../assets/icons/ticketTabFocused.png"
 
+import stubsLogoAllWhite from "../assets/images/stubsLogoAllWhite.png"
 import stubsLogoBlack from "../assets/images/stubsLogoBlack.png"
 import stubsLogoWhite from "../assets/images/stubsLogoWhite.png"
 
+import macguffinsBar from "../assets/banners/macguffins.png"
+import orderAhead from "../assets/banners/orderAhead.png"
 
 
 export const icons = {
@@ -39,7 +43,8 @@ export const icons = {
 
 export const images = {
   stubsLogoWhite,
-  stubsLogoBlack
+  stubsLogoBlack,
+  stubsLogoAllWhite
 }
 
 export const backgrounds = {
@@ -47,5 +52,11 @@ export const backgrounds = {
   purpleGradient2,
   redTriangleGeo,
   yellowGradient,
-  blueGradient
+  blueGradient,
+  redOrangeGradient
+}
+
+export const banners = {
+  orderAhead,
+  macguffinsBar
 }

@@ -16,7 +16,7 @@ const MovieCard = ({ id, poster_path, title,
       }}
       asChild
     >
-      <TouchableOpacity className="w-[50%] h-[301.5px] bg-white">
+      <TouchableOpacity className="w-[50%] h-[301.5px] bg-black">
         <ImageBackground
           source={{
             uri: poster_path

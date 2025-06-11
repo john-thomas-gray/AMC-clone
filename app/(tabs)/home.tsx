@@ -1,6 +1,7 @@
 
-import NowPlaying from '@/components/NowPlaying'
-import OnDemand from '@/components/OnDemand'
+import ComingSoon from '@/components/home/ComingSoon'
+import NowPlaying from '@/components/home/NowPlaying'
+import OnDemand from '@/components/home/OnDemand'
 import SlidingLayout from '@/components/SlidingLayout'
 import React from 'react'
 import { View } from 'react-native'
@@ -18,8 +19,7 @@ const Home = () => {
         buttonNames={data.buttonNames}
       >
         <NowPlaying />
-        {/* <ComingSoon /> */}
-        <NowPlaying />
+        <ComingSoon />
         <OnDemand />
 
       </SlidingLayout>

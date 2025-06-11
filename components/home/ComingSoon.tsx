@@ -1,20 +1,19 @@
-import { fetchMovies } from '@/utils/api';
+import { fetchComingSoon } from '@/utils/api';
 import { tailwindColors } from '@/utils/tailwindColors';
 import useFetch from '@/utils/useFetch';
 import React from 'react';
 import { ActivityIndicator, FlatList, Text, View } from 'react-native';
-import MovieCard from './MovieCard';
+import MovieCard from '../MovieCard';
 
 
-const NowPlaying = () => {
+const ComingSoon = () => {
   const {
     data: movies = [],
     loading: moviesLoading,
     error: moviesError
-  } = useFetch(() => fetchMovies({ query: '' }));
+  } = useFetch(() => fetchComingSoon({ query: '' }));
 
-  // console.log('NowPlaying movies:', movies);
-
+  // console.log('ComingSoon movies:', movies);
   return (
     <View className="flex-1 bg-black">
       {moviesLoading ? (
@@ -62,4 +61,4 @@ const NowPlaying = () => {
   );
 };
 
-export default NowPlaying;
+export default ComingSoon;

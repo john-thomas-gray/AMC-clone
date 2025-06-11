@@ -55,6 +55,10 @@ module.exports = {
           pressed: "rgba(0, 168, 225, 0.1)",
           ripple: "rgba(0, 168, 225, 0.3)"
         },
+        fandango: {
+            blue: "#3478C1",
+            orange: "#FF7300"
+        },
         success: {
             100: "#F0FFF4",
             200: "#C6F6D5",

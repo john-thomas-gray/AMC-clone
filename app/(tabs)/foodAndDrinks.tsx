@@ -1,14 +1,17 @@
+import MacGuffinsBar from '@/components/foodAndDrinks/MacguffinsBar'
+import OrderAhead from '@/components/foodAndDrinks/OrderAhead'
+import SlidingLayout from '@/components/SlidingLayout'
 import React from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 
 const FoodAndDrinks = () => {
   return (
     <View className="flex-1 bg-black">
-      <Text className="text-white text-center text-2xl mt-10">
-        Food and Drinks Section
-      </Text>
+      <SlidingLayout buttonNames={['ORDER AHEAD', 'MACGUFFINS BAR']}>
+        <OrderAhead />
+        <MacGuffinsBar />
+      </SlidingLayout>
     </View>
   )
 }
-
 export default FoodAndDrinks
