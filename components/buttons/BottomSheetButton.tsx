@@ -10,7 +10,7 @@ type BottomSheetButtonProps = {
 const BottomSheetButton = ({ title, onPress }: BottomSheetButtonProps) => {
   return (
     <View>
-      <Pressable className="flex-row justify-between items-center rounded-lg px-3 py-4"
+      <Pressable className="flex-row justify-between items-center rounded-lg px-3 py-4 w-full"
         style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
         onPress={onPress}
       >
