@@ -1,7 +1,7 @@
 import { onDemand } from '@/constants/OnDemandContent'
 import React from 'react'
 import { Image, Linking, Text, View } from 'react-native'
-import CustomButton from '../CustomButton'
+import CustomButton from '../buttons/CustomButton'
 
 const OnDemand = () => {
   return (

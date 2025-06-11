@@ -1,4 +1,4 @@
-import CustomButton from '@/components/CustomButton'
+import CustomButton from '@/components/buttons/CustomButton'
 import StubsCard from '@/components/StubsCard'
 import { backgrounds } from '@/constants'
 import { stubsCardData } from '@/constants/stubsCardContent'

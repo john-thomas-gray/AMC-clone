@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { ButtonProps } from '../types/type';
+import { ButtonProps } from '../../types/type';
 
 const getVariant = (variant: ButtonProps['variant']) => {
   switch (variant) {

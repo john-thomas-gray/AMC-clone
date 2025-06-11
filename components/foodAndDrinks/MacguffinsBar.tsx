@@ -1,7 +1,8 @@
 import React from 'react'
 import { Image, ImageBackground, Text, View } from 'react-native'
 import { backgrounds, banners } from '../../constants/index'
-import CustomButton from '../CustomButton'
+import BottomSheetButton from '../buttons/BottomSheetButton'
+import CustomButton from '../buttons/CustomButton'
 
 const MacguffinsBar = () => {
   return (
@@ -15,7 +16,10 @@ const MacguffinsBar = () => {
           <Image source={banners.macguffinsBar} className="w-full h-full" />
         </View>
 
-        {/* DROPDOWN MENU */}
+        <BottomSheetButton
+          title="Select a Participating Theatre"
+          onPress={() => console.log('Select a Participating Theatre pressed')}
+        />
 
         <View
           className="p-2 rounded-lg w-[95%]"

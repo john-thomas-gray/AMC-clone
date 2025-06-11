@@ -7,6 +7,8 @@ import yellowGradient from "../assets/backgrounds/yellowGradient.jpg"
 
 import amcTab from "../assets/icons/amcTab.png"
 import amcTabFocused from "../assets/icons/amcTabFocused.png"
+import dropdownIconBlack from "../assets/icons/dropdownIconBlack.png"
+import dropdownIconWhite from "../assets/icons/dropdownIconWhite.png"
 import foodTab from "../assets/icons/foodTab.png"
 import foodTabFocused from "../assets/icons/foodTabFocused.png"
 import locationTab from "../assets/icons/locationTab.png"
@@ -38,7 +40,9 @@ export const icons = {
   mail,
   profile,
   search,
-  settings
+  settings,
+  dropdownIconWhite,
+  dropdownIconBlack
 }
 
 export const images = {

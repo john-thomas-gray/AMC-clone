@@ -3,7 +3,7 @@ import { StubsCardProps } from '@/types/type'
 import { Link } from 'expo-router'
 import React from 'react'
 import { Image, ImageBackground, Text, View } from 'react-native'
-import CustomButton from './CustomButton'
+import CustomButton from './buttons/CustomButton'
 
 const StubsCard = ({
   backgroundImage,

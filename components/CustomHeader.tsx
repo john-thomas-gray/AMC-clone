@@ -2,11 +2,11 @@ import { icons } from '@/constants'
 import { HeaderProps } from '@/types/type'
 import React from 'react'
 import { Text, View } from 'react-native'
-import HeaderButton from './HeaderButton'
+import HeaderButton from './buttons/HeaderButton'
 
 const CustomHeader = ({ title, showSettings = true }: HeaderProps) => {
   return (
-    <View className="flex bg-black pt-14 pb-3 px-3 border-red-500 border-">
+    <View className="flex bg-black pt-14 pb-3 px-3">
       <View className="flex flex-row items-center justify-between pt-8">
         <Text className="flex justify-start text-white text-3xl font-bold font-gordita-bold">{title}</Text>
         <View className="flex flex-row ">

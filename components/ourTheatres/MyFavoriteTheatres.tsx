@@ -1,7 +1,7 @@
 import { images } from '@/constants/index';
 import React, { useState } from 'react';
 import { Image, Text, View } from 'react-native';
-import CustomButton from '../CustomButton';
+import CustomButton from '../buttons/CustomButton';
 
 const MyFavoriteTheatres = () => {
   const [textWidth, setTextWidth] = useState(0);

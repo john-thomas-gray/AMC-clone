@@ -48,7 +48,7 @@ export default function TabsLayout() {
         tabBarStyle: {
           height: 90,
           backgroundColor: "black",
-          borderTopWidth: 2,
+          borderTopWidth: 1,
           borderTopColor: "#2B2B2B",
           display: "flex",
           justifyContent: "space-between",
