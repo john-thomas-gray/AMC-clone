@@ -14,7 +14,7 @@ const BottomSheetButton = ({ title, onPress }: BottomSheetButtonProps) => {
         style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
         onPress={onPress}
       >
-        <Text className="text-white text-lg text-garamond-regular">
+        <Text className="text-white text-lg font-gordita-regular">
           {title}
         </Text>
         <Image

@@ -23,10 +23,10 @@ const OrderAhead = () => {
           </View>
 
           <View className="flex-1 p-3">
-            <Text className="text-white text-3xl font-bold">
+            <Text className="text-white font-gordita-bold text-3xl">
               Order Ahead
             </Text>
-            <Text className="text-white text-lg mt-1 mb-2">
+            <Text className="text-white font-gordita-regular text-lg mt-1 mb-2">
               Select your theatre to order your favorite food & drinks ahead of time.
             </Text>
 
@@ -38,16 +38,31 @@ const OrderAhead = () => {
           </View>
 
           <View
+            className="px-3 pt-0 pb-1 rounded-lg w-[95%] mt-6"
+            style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
+          >
+            <View className="flex-row mt-1">
+              <Text className="text-white text-3xl font-gordita-bold">Express Pickup</Text>
+            </View>
+            <Text className="text-white font-gordita-regular text-[16px] leading-snug mt-2 mb-1">
+              When you arrive, look for our Express Pick-Up kiosk located near concessions.
+              We&apos;ll have your order ready at the time you choose.
+            </Text>
+          </View>
+
+          <View
             className="flex-row justify-end items-center bg-black mt-4
             h-[15.5%] w-full border-t border-gray-300"/>
         </View>
         <SelectTheatreBottomSheet
-          style="grey"
           snapPoints={['1%', '70%']}
           initialSnapIndex={0}
           bottomSheetRef={bottomSheetRef}
+          onPressX={() => bottomSheetRef.current?.close()}
         >
         </SelectTheatreBottomSheet>
+
+
       </ImageBackground>
     </GestureHandlerRootView>
   )

@@ -1,8 +1,11 @@
 import { Tabs } from "expo-router";
 import { Image, ImageSourcePropType, Text, View } from "react-native";
 
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CustomHeader from "../../components/CustomHeader";
+import SelectTheatreBottomSheet from "../../components/foodAndDrinks/SelectTheatreBottomSheet";
 import { icons } from "../../constants";
+import { BottomSheetProvider, useBottomSheet } from '../../context/BottomSheetContext';
 
 
 const TabIcon = ({
@@ -41,106 +44,120 @@ const TabIcon = ({
 
 export default function TabsLayout() {
   return (
-    <Tabs
-      initialRouteName="home"
-      screenOptions={{
-        tabBarActiveTintColor: "#000",
-        tabBarInactiveTintColor: "#000",
-        tabBarStyle: {
-          height: 90,
-          backgroundColor: "black",
-          borderTopWidth: 1,
-          borderTopColor: "#2B2B2B",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexDirection: "row",
-          position: "absolute",
-          overflow: "hidden",
-          paddingBottom: 65,
-        },
-        headerShown: true,
-      }}
-    >
-      <Tabs.Screen
-        name="home"
-        options={{
-          title: "SEE A MOVIE",
-          header: () => <CustomHeader
-            title="See a Movie"
-            showSettings={true}
-          />,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon
-            source={icons.ticketTab}
-            sourceFocused={icons.ticketTabFocused}
-            focused={focused}
-            label="SEE A MOVIE"
-            />
-          )
+    <BottomSheetProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <InnerTabsLayout />
+      </GestureHandlerRootView>
+    </BottomSheetProvider>
+  );
+}
 
-        }}
-      />
 
-      <Tabs.Screen
-        name="ourTheatres"
-        options={{
-          title: "OUR THEATRES",
-          header: () => <CustomHeader
-            title="Our Theatres"
-            showSettings={true}
-          />,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon
-            source={icons.locationTab}
-            sourceFocused={icons.locationTabFocused}
-            focused={focused}
-            label="OUR THEATRES"
-            />
-          )
+function InnerTabsLayout() {
 
-        }}
-      />
+  const { bottomSheetRef } = useBottomSheet();
+  return (
+      <>
+        <Tabs
+          initialRouteName="home"
+          screenOptions={{
+            tabBarActiveTintColor: "#000",
+            tabBarInactiveTintColor: "#000",
+            tabBarStyle: {
+              height: 90,
+              backgroundColor: "black",
+              borderTopWidth: 1,
+              borderTopColor: "#2B2B2B",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexDirection: "row",
+              position: "absolute",
+              overflow: "hidden",
+              paddingBottom: 65,
+            },
+            headerShown: true,
+          }}
+        >
+          <Tabs.Screen
+            name="home"
+            options={{
+              title: "SEE A MOVIE",
+              header: () => (
+                <CustomHeader title="See a Movie" showSettings={true} />
+              ),
+              tabBarIcon: ({ focused }) => (
+                <TabIcon
+                  source={icons.ticketTab}
+                  sourceFocused={icons.ticketTabFocused}
+                  focused={focused}
+                  label="SEE A MOVIE"
+                />
+              ),
+            }}
+          />
 
-      <Tabs.Screen
-        name="foodAndDrinks"
-        options={{
-          title: "FOOD & DRINKS",
-          header: () => <CustomHeader
-            title="Food & Drinks"
-            showSettings={false}
-          />,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon
-            source={icons.foodTab}
-            sourceFocused={icons.foodTabFocused}
-            focused={focused}
-            label="FOOD & DRINKS"
-            />
-          )
+          <Tabs.Screen
+            name="ourTheatres"
+            options={{
+              title: "OUR THEATRES",
+              header: () => (
+                <CustomHeader title="Our Theatres" showSettings={true} />
+              ),
+              tabBarIcon: ({ focused }) => (
+                <TabIcon
+                  source={icons.locationTab}
+                  sourceFocused={icons.locationTabFocused}
+                  focused={focused}
+                  label="OUR THEATRES"
+                />
+              ),
+            }}
+          />
 
-        }}
-      />
-      <Tabs.Screen
-        name="myAmc"
-        options={{
-          title: "MY AMC",
-          header: () => <CustomHeader
-            title="My AMC"
-            showSettings={false}
-          />,
-          tabBarIcon: ({ focused }) => (
-            <TabIcon
-            source={icons.amcTab}
-            sourceFocused={icons.amcTabFocused}
-            focused={focused}
-            label="MY AMC"
-            />
-          )
+          <Tabs.Screen
+            name="foodAndDrinks"
+            options={{
+              title: "FOOD & DRINKS",
+              header: () => (
+                <CustomHeader title="Food & Drinks" showSettings={false} />
+              ),
+              tabBarIcon: ({ focused }) => (
+                <TabIcon
+                  source={icons.foodTab}
+                  sourceFocused={icons.foodTabFocused}
+                  focused={focused}
+                  label="FOOD & DRINKS"
+                />
+              ),
+            }}
+          />
 
-        }}
-      />
+          <Tabs.Screen
+            name="myAmc"
+            options={{
+              title: "MY AMC",
+              header: () => (
+                <CustomHeader title="My AMC" showSettings={false} />
+              ),
+              tabBarIcon: ({ focused }) => (
+                <TabIcon
+                  source={icons.amcTab}
+                  sourceFocused={icons.amcTabFocused}
+                  focused={focused}
+                  label="MY AMC"
+                />
+              ),
+            }}
+          />
+        </Tabs>
 
-    </Tabs>
-  )
+        <SelectTheatreBottomSheet
+          snapPoints={['1%', '70%']}
+          initialSnapIndex={0}
+          bottomSheetRef={bottomSheetRef}
+          onPressX={() => bottomSheetRef.current?.close()}
+        />
+    </>
+  );
 }

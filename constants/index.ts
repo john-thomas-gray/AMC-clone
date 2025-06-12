@@ -19,6 +19,7 @@ import search from "../assets/icons/search.png"
 import settings from "../assets/icons/settings.png"
 import ticketTab from "../assets/icons/ticketTab.png"
 import ticketTabFocused from "../assets/icons/ticketTabFocused.png"
+import xIcon from "../assets/icons/xIcon.png"
 
 import stubsLogoAllWhite from "../assets/images/stubsLogoAllWhite.png"
 import stubsLogoBlack from "../assets/images/stubsLogoBlack.png"
@@ -42,7 +43,8 @@ export const icons = {
   search,
   settings,
   dropdownIconWhite,
-  dropdownIconBlack
+  dropdownIconBlack,
+  xIcon
 }
 
 export const images = {
