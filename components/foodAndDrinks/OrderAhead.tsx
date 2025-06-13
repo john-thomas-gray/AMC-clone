@@ -62,7 +62,7 @@ const OrderAhead = () => {
               </View>
 
               <View
-                className="flex-row justify-end bg-black mt-4 pt-4 pr-4
+                className="flex-row justify-end bg-black mt-4 pt-5 pr-4
                 h-[23.8%] w-full border-t border-gray-300"
               >
                 <CustomButton

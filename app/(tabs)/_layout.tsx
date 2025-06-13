@@ -1,6 +1,7 @@
+import LeftSheet from "@/components/sheets/LeftSheet";
 import { Tabs } from "expo-router";
+import React from "react";
 import { Image, ImageSourcePropType, Text, View } from "react-native";
-
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CustomHeader from "../../components/CustomHeader";
 import SelectTheatreBottomSheet from "../../components/foodAndDrinks/SelectTheatreBottomSheet";
@@ -43,6 +44,7 @@ const TabIcon = ({
 )
 
 export default function TabsLayout() {
+
   return (
     <BottomSheetProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -54,10 +56,10 @@ export default function TabsLayout() {
 
 
 function InnerTabsLayout() {
-
   const { bottomSheetRef } = useBottomSheet();
   return (
-      <>
+      <LeftSheet
+        >
         <Tabs
           initialRouteName="home"
           screenOptions={{
@@ -158,6 +160,6 @@ function InnerTabsLayout() {
           bottomSheetRef={bottomSheetRef}
           onPressX={() => bottomSheetRef.current?.close()}
         />
-    </>
+    </LeftSheet>
   );
 }
