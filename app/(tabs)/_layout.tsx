@@ -4,9 +4,9 @@ import { Image, ImageSourcePropType, Text, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CustomHeader from "../../components/CustomHeader";
 import SelectTheatreBottomSheet from "../../components/foodAndDrinks/SelectTheatreBottomSheet";
+import GlobalOverlay from "../../components/GlobalOverlay";
 import { icons } from "../../constants";
 import { BottomSheetProvider, useBottomSheet } from '../../context/BottomSheetContext';
-
 
 const TabIcon = ({
   source,
@@ -151,9 +151,9 @@ function InnerTabsLayout() {
             }}
           />
         </Tabs>
-
+        <GlobalOverlay />
         <SelectTheatreBottomSheet
-          snapPoints={['1%', '70%']}
+          snapPoints={['1%', '56%']}
           initialSnapIndex={0}
           bottomSheetRef={bottomSheetRef}
           onPressX={() => bottomSheetRef.current?.close()}

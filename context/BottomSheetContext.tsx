@@ -1,17 +1,27 @@
 import BottomSheet from '@gorhom/bottom-sheet';
-import React, { createContext, useContext, useRef } from 'react';
+import React, { createContext, useContext, useRef, useState } from 'react';
 
 type BottomSheetContextType = {
   bottomSheetRef: React.RefObject<BottomSheet | null>;
+  isSheetOpen: boolean;
+  setIsSheetOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const BottomSheetContext = createContext<BottomSheetContextType | null>(null);
 
 export const BottomSheetProvider = ({ children }: { children: React.ReactNode }) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  console.log('layoutbsr',bottomSheetRef.current);
 
   return (
-    <BottomSheetContext.Provider value={{ bottomSheetRef }}>
+    <BottomSheetContext.Provider
+      value={{
+        bottomSheetRef,
+        isSheetOpen,
+        setIsSheetOpen,
+      }}
+    >
       {children}
     </BottomSheetContext.Provider>
   );

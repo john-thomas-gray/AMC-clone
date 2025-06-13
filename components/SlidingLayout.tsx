@@ -26,13 +26,13 @@ const SlidingLayout = ({
 
   const handlePressIn = (event: GestureResponderEvent, index: number) => {
     const { locationX, locationY } = event.nativeEvent;
-    console.log("locx: ", locationX, "locy: ", locationY)
+    // console.log("locx: ", locationX, "locy: ", locationY)
     setInitialTouchPos({ x: locationX, y: locationY });
     setSelectedButton(index);
     setIsButtonAnimating(true);
-    console.log('Press in at index:', selectedButton);
-    console.log('Initial touch position:', initialTouchPos);
-    console.log('buttonIsAnimating:', isButtonAnimating);
+    // console.log('Press in at index:', selectedButton);
+    // console.log('Initial touch position:', initialTouchPos);
+    // console.log('buttonIsAnimating:', isButtonAnimating);
 
     handleAnimation();
   };
@@ -51,7 +51,7 @@ const SlidingLayout = ({
   }
 
   const handleAnimation = () => {
-    console.log('Ripple animation started');
+    // console.log('Ripple animation started');
     rippleScale.setValue(0);
     Animated.timing(rippleScale, {
       toValue: 1,
@@ -105,7 +105,7 @@ const SlidingLayout = ({
   };
 
   useEffect(() => {
-    console.log('Updated initialTouchPos:', initialTouchPos);
+    // console.log('Updated initialTouchPos:', initialTouchPos);
   }, [initialTouchPos]);
 
   return (

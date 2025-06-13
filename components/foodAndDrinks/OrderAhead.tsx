@@ -1,14 +1,13 @@
-import BottomSheet from '@gorhom/bottom-sheet'
-import React, { useRef } from 'react'
+import React from 'react'
 import { Image, ImageBackground, Text, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { backgrounds, banners } from '../../constants/index'
+import { useBottomSheet } from '../../context/BottomSheetContext'
 import BottomSheetButton from '../buttons/BottomSheetButton'
-import SelectTheatreBottomSheet from './SelectTheatreBottomSheet'
 
 
 const OrderAhead = () => {
-  const bottomSheetRef = useRef<BottomSheet>(null);
+  const { bottomSheetRef: bottomSheetRef } = useBottomSheet();
 
   return (
     <GestureHandlerRootView>
@@ -32,7 +31,7 @@ const OrderAhead = () => {
 
             <BottomSheetButton
               title="Select a Participating Theatre"
-              onPress={() => bottomSheetRef.current?.expand()}
+              onPress={() => bottomSheetRef.current?.snapToIndex(1)}
             />
 
           </View>
@@ -54,14 +53,6 @@ const OrderAhead = () => {
             className="flex-row justify-end items-center bg-black mt-4
             h-[15.5%] w-full border-t border-gray-300"/>
         </View>
-        <SelectTheatreBottomSheet
-          snapPoints={['1%', '70%']}
-          initialSnapIndex={0}
-          bottomSheetRef={bottomSheetRef}
-          onPressX={() => bottomSheetRef.current?.close()}
-        >
-        </SelectTheatreBottomSheet>
-
 
       </ImageBackground>
     </GestureHandlerRootView>

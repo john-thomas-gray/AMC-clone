@@ -26,8 +26,7 @@ const MacguffinsBar = () => {
           <BottomSheetButton
             title="Select a Participating Theatre"
             onPress={() => {
-              console.log("Button Pressed");
-              bottomSheetRef.current?.expand();
+              bottomSheetRef.current?.snapToIndex(1);
             }}
           />
         </View>
@@ -49,7 +48,7 @@ const MacguffinsBar = () => {
 
         {/* Bottom Bar */}
         <View className="flex-row bg-black justify-start items-center w-full h-[11%]
-          border-t border-gray-300 px-4 mt-[16px] relative">
+          border-t border-gray-300 px-4 mt-[166px] relative">
           <CustomButton
             title="Featured Drinks"
             onPress={() => (console.log("Featured Drinks Pressed"))}

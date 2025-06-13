@@ -4,15 +4,23 @@ import { icons } from '../../constants/index';
 
 type BottomSheetButtonProps = {
   title: string;
-  onPress?: () => void;
+  onPress: () => void;
 }
 
 const BottomSheetButton = ({ title, onPress }: BottomSheetButtonProps) => {
+  const [isFocused, setIsFocused] = React.useState(false);
   return (
     <View>
-      <Pressable className="flex-row justify-between items-center rounded-lg px-3 py-4 w-full"
+      <Pressable className=
+      {`flex-row justify-between items-center rounded-lg px-3 py-4 w-full
+        ${isFocused ? 'border-2 border-white' : ''}`}
+
         style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-        onPress={onPress}
+        onPress={() => {
+          onPress();
+          setIsFocused(true);
+        }}
+        // onPressOut={() => setIsFocused(false)}
       >
         <Text className="text-white text-lg font-gordita-regular">
           {title}
