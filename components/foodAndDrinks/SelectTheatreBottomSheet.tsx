@@ -21,7 +21,7 @@ const SelectTheatreBottomSheet = ({
   initialSnapIndex=0
   }: SelectTheatreBottomSheetProps) => {
 
-  const { setIsSheetOpen } = useBottomSheet();
+  const { setIsSheetOpen, setSelectedTheatre, selectedTheatre } = useBottomSheet();
 
   const handleSheetChange = (index: number) => {
     const isOpen = index > 0;
@@ -35,8 +35,6 @@ const SelectTheatreBottomSheet = ({
   const DummyData = {
     theatres: ["AMC Bay Street 16", "AMC Burbank 16", "AMC Century City 15", "AMC Downtown Disney 12", "AMC Empire 25", "AMC Garden State Plaza 16", "AMC Lincoln Square 13", "AMC Loews Boston Common 19", "AMC Loews Cherry Hill 24", "AMC Loews Jersey Gardens 20", "AMC Loews Lincoln Square 13", "AMC Loews Newport Centre 11", "AMC Loews Oak Tree 6", "AMC Loews Palisades Center 21", "AMC Loews Rockaway 16", "AMC Loews Stony Brook 17"]
   }
-
-  const [selectedTheatre, setSelectedTheatre] = React.useState<string | null>(null);
 
   const handleTheatreSelection = (theatre: string) => {
     setSelectedTheatre(theatre);

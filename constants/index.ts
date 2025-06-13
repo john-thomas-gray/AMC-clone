@@ -27,6 +27,7 @@ import stubsLogoWhite from "../assets/images/stubsLogoWhite.png"
 
 import macguffinsBar from "../assets/banners/macguffins.png"
 import orderAhead from "../assets/banners/orderAhead.png"
+import orderAhead2 from "../assets/banners/orderAhead2.png"
 import checkmark from "../assets/icons/checkmark.png"
 
 
@@ -66,5 +67,6 @@ export const backgrounds = {
 
 export const banners = {
   orderAhead,
-  macguffinsBar
+  macguffinsBar,
+  orderAhead2
 }

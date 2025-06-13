@@ -5,6 +5,8 @@ type BottomSheetContextType = {
   bottomSheetRef: React.RefObject<BottomSheet | null>;
   isSheetOpen: boolean;
   setIsSheetOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedTheatre: string;
+  setSelectedTheatre: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const BottomSheetContext = createContext<BottomSheetContextType | null>(null);
@@ -12,6 +14,7 @@ const BottomSheetContext = createContext<BottomSheetContextType | null>(null);
 export const BottomSheetProvider = ({ children }: { children: React.ReactNode }) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [selectedTheatre, setSelectedTheatre] = useState('');
   console.log('layoutbsr',bottomSheetRef.current);
 
   return (
@@ -20,6 +23,8 @@ export const BottomSheetProvider = ({ children }: { children: React.ReactNode })
         bottomSheetRef,
         isSheetOpen,
         setIsSheetOpen,
+        selectedTheatre,
+        setSelectedTheatre,
       }}
     >
       {children}

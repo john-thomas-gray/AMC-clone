@@ -3,7 +3,7 @@ import { Pressable, Text, View } from 'react-native';
 import { ButtonProps } from '../../types/type';
 
 const getVariant = (variant: ButtonProps['variant']) => {
-  switch (variant) {
+  switch (variant?.toLowerCase()) {
     case 'red':
       return {
         container: 'bg-red-200 border-red-200',
@@ -30,10 +30,7 @@ const getVariant = (variant: ButtonProps['variant']) => {
         text: 'text-black',
       };
     default:
-      return {
-        container: '',
-        text: '',
-      };
+      throw new Error("Illegal variant.");
   }
 };
 
