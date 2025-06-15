@@ -15,7 +15,6 @@ export const BottomSheetProvider = ({ children }: { children: React.ReactNode })
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [selectedTheatre, setSelectedTheatre] = useState('');
-  console.log('layoutbsr',bottomSheetRef.current);
 
   return (
     <BottomSheetContext.Provider

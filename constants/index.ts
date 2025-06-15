@@ -17,6 +17,7 @@ import mail from "../assets/icons/mail.png"
 import profile from "../assets/icons/profile.png"
 import search from "../assets/icons/search.png"
 import settings from "../assets/icons/settings.png"
+import target from "../assets/icons/target.png"
 import ticketTab from "../assets/icons/ticketTab.png"
 import ticketTabFocused from "../assets/icons/ticketTabFocused.png"
 import xIcon from "../assets/icons/xIcon.png"
@@ -29,6 +30,8 @@ import macguffinsBar from "../assets/banners/macguffins.png"
 import orderAhead from "../assets/banners/orderAhead.png"
 import orderAhead2 from "../assets/banners/orderAhead2.png"
 import checkmark from "../assets/icons/checkmark.png"
+import favoriteOff from "../assets/icons/favouriteOff.png"
+import targetWhite from "../assets/icons/targetWhite.png"
 
 
 export const icons = {
@@ -47,7 +50,10 @@ export const icons = {
   dropdownIconWhite,
   dropdownIconBlack,
   xIcon,
-  checkmark
+  checkmark,
+  target,
+  targetWhite,
+  favoriteOff
 }
 
 export const images = {

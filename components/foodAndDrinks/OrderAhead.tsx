@@ -33,7 +33,7 @@ const OrderAhead = () => {
             </Text>
 
             <BottomSheetButton
-              title="Select a Participating Theatre"
+              title={selectedTheatre.length > 0 ? selectedTheatre :"Select a Participating Theatre"}
               onPress={() => bottomSheetRef.current?.snapToIndex(1)}
             />
           </View>

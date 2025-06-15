@@ -50,7 +50,7 @@ const SelectTheatreBottomSheet = ({
         snapPoints={snapPoints}
         onChange={handleSheetChange}
         ref={bottomSheetRef}
-        // animateOnMount={true}
+        enableOverDrag={false}
         enablePanDownToClose={true}
         backgroundStyle={{
           backgroundColor: '#141414',

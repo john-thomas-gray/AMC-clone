@@ -9,6 +9,7 @@ import CustomButton from '../buttons/CustomButton'
 const MacguffinsBar = () => {
 
   const { bottomSheetRef: bottomSheetRef } = useBottomSheet();
+  const { selectedTheatre } = useBottomSheet();
   return (
     <ImageBackground
             source={backgrounds.redOrangeGradient}
@@ -24,7 +25,7 @@ const MacguffinsBar = () => {
         {/* Select Theatre Button */}
         <View className="flex-row items-center w-full px-3 mt-2">
           <BottomSheetButton
-            title="Select a Participating Theatre"
+            title={selectedTheatre.length > 0 ? selectedTheatre :"Select a Participating Theatre"}
             onPress={() => {
               bottomSheetRef.current?.snapToIndex(1);
             }}
