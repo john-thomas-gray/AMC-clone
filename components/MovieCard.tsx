@@ -3,7 +3,7 @@ import { MovieCardProps } from '@/types/type';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link } from 'expo-router';
 import React from 'react';
-import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
+import { ImageBackground, Pressable, Text, View } from 'react-native';
 
 
 const MovieCard = ({ id, poster_path, title,
@@ -16,7 +16,7 @@ const MovieCard = ({ id, poster_path, title,
       }}
       asChild
     >
-      <TouchableOpacity className="w-[50%] h-[301.5px] bg-black">
+      <Pressable className="w-[50%] h-[301.5px] bg-black">
         <ImageBackground
           source={{
             uri: poster_path
@@ -40,7 +40,7 @@ const MovieCard = ({ id, poster_path, title,
             <Text className="text-lg font-gordita-bold text-white">{title}</Text>
           </View>
         </ImageBackground>
-      </TouchableOpacity>
+      </Pressable>
     </Link>
   )
 }

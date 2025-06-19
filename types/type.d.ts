@@ -1,6 +1,6 @@
-import { ImageSourcePropType, TouchableOpacityProps } from "react-native";
+import { ImageSourcePropType, PressableProps } from "react-native";
 
-declare interface ButtonProps extends TouchableOpacityProps {
+declare interface ButtonProps extends PressableProps {
   title: string;
   variant: "red" | "white" | "black" | "transparent" | "transparent-black" | string;
   height?: number;

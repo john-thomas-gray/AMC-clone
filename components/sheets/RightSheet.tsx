@@ -119,11 +119,11 @@ const Menu = () => {
 
 const menu = <Menu />;
 
-type LeftSheetProps = {
+type RightSheetProps = {
   children: React.ReactNode;
 };
 
-const LeftSheet: React.FC<LeftSheetProps> = ({ children }) => {
+const RightSheet: React.FC<RightSheetProps> = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -138,4 +138,4 @@ const LeftSheet: React.FC<LeftSheetProps> = ({ children }) => {
   );
 };
 
-export default LeftSheet;
+export default RightSheet;

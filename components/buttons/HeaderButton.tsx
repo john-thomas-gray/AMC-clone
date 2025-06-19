@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, TouchableOpacity } from "react-native";
+import { Image, Pressable } from "react-native";
 import { HeaderButtonProps } from "../../types/type";
 
 const HandleClick = (link: string) => {
@@ -8,9 +8,9 @@ const HandleClick = (link: string) => {
 
 const HeaderButton = ({ icon, link, additionalStyles }: HeaderButtonProps) => {
   return (
-    <TouchableOpacity onPress={() => HandleClick(link)} className={`${additionalStyles} flex items-center justify-center`}>
+    <Pressable onPress={() => HandleClick(link)} className={`${additionalStyles} flex items-center justify-center`}>
       <Image source={icon} className="w-8 h-8" />
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 

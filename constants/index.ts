@@ -29,6 +29,7 @@ import stubsLogoWhite from "../assets/images/stubsLogoWhite.png"
 import macguffinsBar from "../assets/banners/macguffins.png"
 import orderAhead from "../assets/banners/orderAhead.png"
 import orderAhead2 from "../assets/banners/orderAhead2.png"
+import backArrow from "../assets/icons/backArrow.png"
 import checkmark from "../assets/icons/checkmark.png"
 import favoriteOff from "../assets/icons/favouriteOff.png"
 import targetWhite from "../assets/icons/targetWhite.png"
@@ -53,7 +54,8 @@ export const icons = {
   checkmark,
   target,
   targetWhite,
-  favoriteOff
+  favoriteOff,
+  backArrow
 }
 
 export const images = {

@@ -10,6 +10,10 @@ export default function AppLayout() {
           name="(tabs)"
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="movies/[id]"
+          options={{ headerShown: false }}
+        />
       </Stack>
     </ClerkProvider>
   )
