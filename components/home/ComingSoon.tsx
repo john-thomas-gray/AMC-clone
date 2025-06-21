@@ -1,4 +1,4 @@
-import { fetchComingSoon } from '@/utils/api';
+import { fetchComingSoon } from '@/utils/TMDBapi';
 import { tailwindColors } from '@/utils/tailwindColors';
 import useFetch from '@/utils/useFetch';
 import React from 'react';

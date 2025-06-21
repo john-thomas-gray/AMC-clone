@@ -6,6 +6,7 @@ import React from 'react';
 import { ImageBackground, Pressable, Text, View } from 'react-native';
 
 
+
 const MovieCard = ({ id, poster_path, title,
   release_date }: MovieCardProps) => {
   return (

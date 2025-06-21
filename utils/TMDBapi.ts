@@ -1,6 +1,7 @@
 export const TMDB_CONFIG = {
   BASE_URL: 'https://api.themoviedb.org/3',
   API_KEY: process.env.EXPO_PUBLIC_MOVIE_API_KEY,
+  BACKDROP_URL: 'https://image.tmdb.org/t/p/w533_and_h300_bestv2',
   headers: {
     accept: 'application/json',
     Authorization: `Bearer ${process.env.EXPO_PUBLIC_MOVIE_API_KEY}`
@@ -47,16 +48,17 @@ export const fetchComingSoon = async ({ query }: { query: string }) => {
   return data.results;
 }
 
-// const url = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc';
-// const options = {
-//   method: 'GET',
-//   headers: {
-//     accept: 'application/json',
-//     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0Y2QxY2IwNGZhMjVhMjUyYmIzMGU4ODE4ODJkNzgyMyIsIm5iZiI6MTc0NjYzODg2My4yMDUsInN1YiI6IjY4MWI5ODBmMmRiYTdhOGI3YTg1MGM1MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.gbPS9VH-5VQ_bDV1hgTtV5_KUC72tk86N_TBvq2iT1U'
-//   }
-// };
+export const fetchMovieById = async (id: string | string[]) => {
+  const response = await fetch(`${TMDB_CONFIG.BASE_URL}/movie/${id}?language=en-US`, {
+    method: 'GET',
+    headers: TMDB_CONFIG.headers,
+  });
 
-// fetch(url, options)
-//   .then(res => res.json())
-//   .then(json => console.log(json))
-//   .catch(err => console.error(err));
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error(`Failed to fetch movie ${id}:`, response.status, errorText);
+    throw new Error('Failed to fetch movie details');
+  }
+
+  return await response.json();
+};
