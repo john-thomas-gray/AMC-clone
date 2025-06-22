@@ -23,3 +23,12 @@ export const formatBackdrop = (path: string): string => {
   console.log(`${TMDB_CONFIG.BACKDROP_URL}${path}`)
   return `${TMDB_CONFIG.BACKDROP_URL}${path}`
 }
+
+export const formatMPAA = (genre: string): string => {
+  if(genre === 'HORROR')
+  {
+    return 'R'
+  }
+
+  return 'PG-13'
+}

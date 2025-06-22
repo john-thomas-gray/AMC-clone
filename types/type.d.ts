@@ -55,3 +55,8 @@ declare interface HorizontalScrollContainerProps {
   screenWidth: number;
   onScrollIndexChange: (index: number) => void;
 }
+
+type IconButtonProps = {
+    icon: ImageSourcePropType;
+    title: string;
+  };

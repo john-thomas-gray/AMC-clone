@@ -30,10 +30,13 @@ import macguffinsBar from "../assets/banners/macguffins.png"
 import orderAhead from "../assets/banners/orderAhead.png"
 import orderAhead2 from "../assets/banners/orderAhead2.png"
 import backArrow from "../assets/icons/backArrow.png"
+import calendar from "../assets/icons/calendar.png"
 import checkmark from "../assets/icons/checkmark.png"
 import favoriteOff from "../assets/icons/favouriteOff.png"
+import info from "../assets/icons/info.png"
 import targetWhite from "../assets/icons/targetWhite.png"
-
+import upload from "../assets/icons/upload.png"
+import uploadBlack from "../assets/icons/uploadBlack.png"
 
 export const icons = {
   amcTab,
@@ -55,7 +58,11 @@ export const icons = {
   target,
   targetWhite,
   favoriteOff,
-  backArrow
+  backArrow,
+  info,
+  calendar,
+  upload,
+  uploadBlack
 }
 
 export const images = {

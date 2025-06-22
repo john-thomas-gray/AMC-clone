@@ -6,9 +6,7 @@ import React from 'react';
 import { ImageBackground, Pressable, Text, View } from 'react-native';
 
 
-
-const MovieCard = ({ id, poster_path, title,
-  release_date }: MovieCardProps) => {
+const MovieCard = ({ id, poster_path, title }: MovieCardProps) => {
   return (
     <Link
       href={{
@@ -17,7 +15,7 @@ const MovieCard = ({ id, poster_path, title,
       }}
       asChild
     >
-      <Pressable className="w-[50%] h-[301.5px] bg-black">
+      <Pressable className="w-[50%] h-[341px] bg-black">
         <ImageBackground
           source={{
             uri: poster_path

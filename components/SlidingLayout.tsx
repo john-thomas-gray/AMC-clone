@@ -1,6 +1,9 @@
+import { icons } from '@/constants';
 import { SlidingLayoutProps } from '@/types/type';
+import { getCurrentDate } from '@/utils/date';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Dimensions, GestureResponderEvent, LayoutChangeEvent, Pressable, ScrollView, View } from 'react-native';
+import { IconButton } from './buttons/IconButton';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -185,6 +188,14 @@ const SlidingLayout = ({
           )}
       </View>
 
+      {buttonNames[selectedButton] === 'SHOWTIMES' && (
+        <View className="flex-row justify-between items-center bg-black p-10">
+          <IconButton title="LOCATION" icon={icons.calendar} />
+          <IconButton title={getCurrentDate()} icon={icons.targetWhite} />
+          <IconButton title="Premium Offerings" icon={icons.settings} />
+        </View>
+      )}
+
       {/* Scrollable Content */}
       <Animated.ScrollView
         ref={scrollViewRef}
@@ -203,6 +214,11 @@ const SlidingLayout = ({
           { useNativeDriver: false }
         )}
         scrollEventThrottle={16}
+        onMomentumScrollEnd={(event) => {
+          const offsetX = event.nativeEvent.contentOffset.x;
+          const newIndex = Math.round(offsetX / screenWidth);
+          setSelectedButton(newIndex);
+        }}
       >
         {React.Children.map(children, (child, index) => (
           <View key={index} style={{ width: screenWidth }}>
@@ -210,6 +226,7 @@ const SlidingLayout = ({
           </View>
         ))}
       </Animated.ScrollView>
+
     </View>
   )
 }
