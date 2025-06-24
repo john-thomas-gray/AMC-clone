@@ -1,39 +1,38 @@
-import React from 'react';
-import { Pressable, Text, View } from 'react-native';
-import { ButtonProps } from '../../types/type';
+import React from "react";
+import { Pressable, Text, View } from "react-native";
+import { ButtonProps } from "../../types/type";
 
-const getVariant = (variant: ButtonProps['variant']) => {
+const getVariant = (variant: ButtonProps["variant"]) => {
   switch (variant?.toLowerCase()) {
-    case 'red':
+    case "red":
       return {
-        container: 'bg-red-200 border-red-200',
-        text: 'text-white',
+        container: "bg-red-200 border-red-200",
+        text: "text-white"
       };
-    case 'white':
+    case "white":
       return {
-        container: 'bg-white border-white',
-        text: 'text-black',
+        container: "bg-white border-white",
+        text: "text-black"
       };
-    case 'black':
+    case "black":
       return {
-        container: 'bg-black border-white',
-        text: 'text-white',
+        container: "bg-black border-white",
+        text: "text-white"
       };
-    case 'transparent':
+    case "transparent":
       return {
-        container: 'bg-transparent border-white',
-        text: 'text-white',
+        container: "bg-transparent border-white",
+        text: "text-white"
       };
-    case 'transparent-black':
+    case "transparent-black":
       return {
-        container: 'bg-transparent border-black',
-        text: 'text-black',
+        container: "bg-transparent border-black",
+        text: "text-black"
       };
     default:
       throw new Error("Illegal variant.");
   }
 };
-
 
 const CustomButton = ({
   title,
@@ -41,7 +40,7 @@ const CustomButton = ({
   variant,
   IconLeft = undefined,
   IconRight = undefined,
-  className = '',
+  className = "",
   ...props
 }: ButtonProps) => {
   return (
@@ -55,15 +54,16 @@ const CustomButton = ({
       {IconLeft && <View className="mr-2">{<IconLeft />}</View>}
 
       <Text
-        className={`flex-grow text-center font-gordita-bold ${getVariant(variant).text}`}
+        className={`flex-grow text-center font-gordita-bold ${
+          getVariant(variant).text
+        }`}
       >
         {title}
       </Text>
 
       {IconRight && <View className="ml-2">{<IconRight />}</View>}
     </Pressable>
-  )
-}
+  );
+};
 
-
-export default CustomButton
+export default CustomButton;

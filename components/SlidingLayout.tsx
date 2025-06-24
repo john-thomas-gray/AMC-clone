@@ -1,6 +1,6 @@
 import { icons } from '@/constants';
 import { SlidingLayoutProps } from '@/types/type';
-import { getCurrentDate } from '@/utils/date';
+import { formatCalendarDate } from '@/utils/formatMovieData';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Dimensions, GestureResponderEvent, LayoutChangeEvent, Pressable, ScrollView, View } from 'react-native';
 import { IconButton } from './buttons/IconButton';
@@ -25,6 +25,8 @@ const SlidingLayout = ({
   const [isButtonAnimating, setIsButtonAnimating] = useState<boolean>(false);
   const rippleScale = useRef(new Animated.Value(0)).current;
   const [initialTouchPos, setInitialTouchPos] = useState<{ x: number; y: number }>({ x: 10, y: 0 });
+
+  const [calendarDate, setCalendarDate] = useState<string>(Date());
 
 
   const handlePressIn = (event: GestureResponderEvent, index: number) => {
@@ -190,9 +192,9 @@ const SlidingLayout = ({
 
       {buttonNames[selectedButton] === 'SHOWTIMES' && (
         <View className="flex-row justify-between items-center bg-black p-10">
-          <IconButton title="LOCATION" icon={icons.calendar} />
-          <IconButton title={getCurrentDate()} icon={icons.targetWhite} />
-          <IconButton title="Premium Offerings" icon={icons.settings} />
+          <IconButton title={formatCalendarDate(calendarDate)} icon={icons.calendar}  />
+          <IconButton title="Location" icon={icons.targetWhite}/>
+          <IconButton title="Premium Offerings" icon={icons.settings}/>
         </View>
       )}
 

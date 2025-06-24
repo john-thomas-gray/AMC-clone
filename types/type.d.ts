@@ -59,4 +59,6 @@ declare interface HorizontalScrollContainerProps {
 type IconButtonProps = {
     icon: ImageSourcePropType;
     title: string;
+    width?: string;
+    style?: string
   };

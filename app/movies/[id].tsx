@@ -4,7 +4,7 @@ import Showtimes from '@/components/movies/showtimes'
 import Videos from '@/components/movies/videos'
 import { icons } from '@/constants/index'
 import { fetchMovieById } from '@/utils/TMDBapi'
-import { formatBackdrop, formatGenre, formatMPAA, formatRuntime } from "@/utils/formatMovieData"
+import { formatBackdrop, formatGenre, formatMPAA, formatReleaseDate, formatRuntime } from "@/utils/formatMovieData"
 import { LinearGradient } from 'expo-linear-gradient'
 import { useLocalSearchParams } from 'expo-router'
 import React, { useEffect, useState } from 'react'
@@ -30,17 +30,7 @@ const MovieDetail = () => {
 
   const slideButtonNames = ['SHOWTIMES', 'DETAILS', 'VIDEOS']
 
-  const getReleaseLabel = (releaseDate?: string) => {
-    if (!releaseDate) return null;
-    const date = new Date(releaseDate);
-    const label = new Date() > date ? 'Released' : 'Coming';
-    const formatted = date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-    return `${label} ${formatted}`;
-  };
+
 
   useEffect(() => {
     if (!id) return;
@@ -56,6 +46,7 @@ const MovieDetail = () => {
 
   return (
     <View className='flex-1 flex-col bg-black'>
+
       <ImageBackground
         source={{ uri: formatBackdrop(movie.backdrop_path) }}
         style={{ width: '100%', height: 250 }}
@@ -108,7 +99,7 @@ const MovieDetail = () => {
           </View>
 
           <Text className="text-white font-gordita-regular">
-            {getReleaseLabel(movie?.release_date)}
+            {formatReleaseDate(movie?.release_date)}
           </Text>
         </View>
 

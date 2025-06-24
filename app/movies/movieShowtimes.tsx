@@ -1,12 +1,12 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 
-const Showtimes = () => {
+const movieShowtimes = () => {
   return (
     <View>
-      <Text>Showtimes</Text>
+      <Text>movieShowtimes</Text>
     </View>
   )
 }
 
-export default Showtimes
+export default movieShowtimes
