@@ -86,8 +86,6 @@ import orderAhead from "../assets/banners/orderAhead.png";
 
 import orderAhead2 from "../assets/banners/orderAhead2.png";
 
-
-
 export const icons = {
   amcTab,
   amcTabFocused,
@@ -114,7 +112,7 @@ export const icons = {
   ticketTabFocused,
   upload,
   uploadBlack,
-  xIcon,
+  xIcon
 };
 
 export const images = {
@@ -126,7 +124,7 @@ export const images = {
   stubsLogo,
   stubsLogoAllWhite,
   stubsLogoBlack,
-  stubsLogoWhite,
+  stubsLogoWhite
 };
 
 export const backgrounds = {
@@ -135,11 +133,18 @@ export const backgrounds = {
   purpleGradient2,
   redOrangeGradient,
   redTriangleGeo,
-  yellowGradient,
+  yellowGradient
 };
 
 export const banners = {
   macguffins,
   orderAhead,
-  orderAhead2,
+  orderAhead2
+};
+
+export const logos = {
+  reald,
+  dolby,
+  laser,
+  imax
 };

@@ -1,20 +1,21 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 const assetDirs = {
-  icons: './assets/icons',
-  images: './assets/images',
-  backgrounds: './assets/backgrounds',
-  banners: './assets/banners',
+  icons: "./assets/icons",
+  images: "./assets/images",
+  backgrounds: "./assets/backgrounds",
+  banners: "./assets/banners",
+  logos: "./assets/logos"
 };
 
-const outputFilePath = './constants/index.ts';
+const outputFilePath = "./constants/index.ts";
 
 function toCamelCase(fileName: string): string {
   return fileName
-    .replace(/\.[^/.]+$/, '') // Remove extension
+    .replace(/\.[^/.]+$/, "") // Remove extension
     .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase()) // kebab/snake to camelCase
-    .replace(/^[^a-zA-Z]+/, ''); // remove invalid starting characters
+    .replace(/^[^a-zA-Z]+/, ""); // remove invalid starting characters
 }
 
 function generateImportsAndExports() {
@@ -24,6 +25,7 @@ function generateImportsAndExports() {
     images: [],
     backgrounds: [],
     banners: [],
+    logos: []
   };
 
   for (const [group, dir] of Object.entries(assetDirs)) {
@@ -32,8 +34,8 @@ function generateImportsAndExports() {
 
     for (const file of files) {
       const ext = path.extname(file).toLowerCase();
-      if (!['.png', '.jpg', '.jpeg', '.svg'].includes(ext)) continue;
-      if (file.startsWith('.')) continue; // skip .DS_Store and hidden files
+      if (![".png", ".jpg", ".jpeg", ".svg"].includes(ext)) continue;
+      if (file.startsWith(".")) continue; // skip .DS_Store and hidden files
 
       const varName = toCamelCase(file);
       if (!varName) continue; // skip if we somehow end up with an empty name
@@ -44,13 +46,14 @@ function generateImportsAndExports() {
     }
   }
 
-  const exportLines = Object.entries(exportGroups)
-    .map(([groupName, identifiers]) => {
-      const items = identifiers.map((id) => `  ${id},`).join('\n');
+  const exportLines = Object.entries(exportGroups).map(
+    ([groupName, identifiers]) => {
+      const items = identifiers.map(id => `  ${id},`).join("\n");
       return `export const ${groupName} = {\n${items}\n};`;
-    });
+    }
+  );
 
-  const fullOutput = [...importLines, '', ...exportLines].join('\n\n');
+  const fullOutput = [...importLines, "", ...exportLines].join("\n\n");
 
   fs.writeFileSync(outputFilePath, fullOutput);
   console.log(`✅ Asset file written to ${outputFilePath}`);
