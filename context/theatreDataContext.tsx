@@ -1,6 +1,6 @@
 import { logos } from "@/constants/index";
 import { NearbyTheatre, Screen, ScreenTypesMap, Theatre } from "@/types/type";
-import { getNearbyTheatres, getUserLocation } from "@/utils/location";
+import { getNearbyTheatres } from "@/utils/location";
 import { fetchMovies } from "@/utils/TMDBapi";
 import React, { createContext, useEffect, useState } from "react";
 
@@ -128,6 +128,7 @@ const screenTypes: ScreenTypesMap = {
 
 const generateScreens = async (screenCount: number): Promise<Screen[]> => {
   const movies = await fetchMovies({ query: "" });
+  console.log(movies);
   const moviePool = [...movies];
   const screenTypeKeys = Object.keys(screenTypes) as (keyof ScreenTypesMap)[];
   const imaxLimit = 2;
@@ -179,7 +180,7 @@ const generateTheatres = async (
       };
     })
   );
-
+  console.log(theatres);
   return theatres;
 };
 
@@ -200,8 +201,7 @@ export const TheatreDataContextProvider = ({
       setError(undefined);
 
       try {
-        // 1. Get user location
-        const userLoc = await getUserLocation(apiKey);
+        console.log("useeffect");
 
         // 2. Get nearby theatres
         const nearby = await getNearbyTheatres(apiKey);

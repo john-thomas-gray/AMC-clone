@@ -36,14 +36,39 @@ export const getUserLocation = async (
   address: string;
   raw: any;
 }> => {
-  const position = await getCurrentCoordinates();
-  const { latitude, longitude } = position.coords;
+  // 1. Get location from Google Geolocation API
+  const geoResponse = await fetch(
+    `https://www.googleapis.com/geolocation/v1/geolocate?key=${apiKey}`,
+    {
+      method: "POST"
+    }
+  );
 
-  const addressData = await getAddressFromCoords(latitude, longitude, apiKey);
+  if (!geoResponse.ok) {
+    const error = await geoResponse.json();
+    throw new Error(`Geolocation API error: ${error.error.message}`);
+  }
+
+  const geoData = await geoResponse.json();
+  const { lat: latitude, lng: longitude } = geoData.location;
+
+  // 2. Get address from Google Geocoding API
+  const addressResponse = await fetch(
+    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
+  );
+
+  if (!addressResponse.ok) {
+    const error = await addressResponse.json();
+    throw new Error(`Geocoding API error: ${error.error_message}`);
+  }
+
+  const addressData = await addressResponse.json();
+  const formatted_address =
+    addressData.results[0]?.formatted_address || "Unknown location";
 
   return {
     coords: { latitude, longitude },
-    address: addressData.formatted_address,
+    address: formatted_address,
     raw: addressData
   };
 };
@@ -55,6 +80,7 @@ export const getNearbyTheatres = async (
     // Step 1: Get user's coordinates and address
     const { coords } = await getUserLocation(apiKey);
     const { latitude, longitude } = coords;
+    console.log("User coordinates:", latitude, longitude);
 
     // Step 2: Fetch nearby theatres using Google Places API
     const radiusInMeters = 50000; // Google Places API max radius is 50,000 meters (~31 miles)

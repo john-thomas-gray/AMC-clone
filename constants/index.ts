@@ -86,6 +86,16 @@ import orderAhead from "../assets/banners/orderAhead.png";
 
 import orderAhead2 from "../assets/banners/orderAhead2.png";
 
+import dolby from "../assets/logos/dolby.png";
+
+import imax from "../assets/logos/imax.png";
+
+import laser from "../assets/logos/laser.png";
+
+import reald from "../assets/logos/reald.png";
+
+
+
 export const icons = {
   amcTab,
   amcTabFocused,
@@ -112,7 +122,7 @@ export const icons = {
   ticketTabFocused,
   upload,
   uploadBlack,
-  xIcon
+  xIcon,
 };
 
 export const images = {
@@ -124,7 +134,7 @@ export const images = {
   stubsLogo,
   stubsLogoAllWhite,
   stubsLogoBlack,
-  stubsLogoWhite
+  stubsLogoWhite,
 };
 
 export const backgrounds = {
@@ -133,18 +143,18 @@ export const backgrounds = {
   purpleGradient2,
   redOrangeGradient,
   redTriangleGeo,
-  yellowGradient
+  yellowGradient,
 };
 
 export const banners = {
   macguffins,
   orderAhead,
-  orderAhead2
+  orderAhead2,
 };
 
 export const logos = {
-  reald,
   dolby,
+  imax,
   laser,
-  imax
+  reald,
 };

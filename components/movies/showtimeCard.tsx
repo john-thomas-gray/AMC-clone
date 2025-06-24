@@ -25,7 +25,7 @@ type ShowtimeCardProps = {
 
 const ShowtimeCard = ({ data }: ShowtimeCardProps) => {
   return (
-    <View className="flex bg-black border-t border-gray-300 p-4">
+    <View className="flex bg-red-500 border-t border-gray-300 p-4">
       {/* Theatre Header */}
       <View className="flex-row items-center mb-2">
         <Image

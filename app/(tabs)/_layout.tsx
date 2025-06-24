@@ -1,5 +1,4 @@
 import RightSheet from "@/components/sheets/RightSheet";
-import { TheatreDataContextProvider } from "@/context/theatreDataContext";
 import { Tabs } from "expo-router";
 import React from "react";
 import { Image, ImageSourcePropType, Text, View } from "react-native";
@@ -43,13 +42,11 @@ const TabIcon = ({
 
 export default function TabsLayout() {
   return (
-    <TheatreDataContextProvider>
-      <BottomSheetProvider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <InnerTabsLayout />
-        </GestureHandlerRootView>
-      </BottomSheetProvider>
-    </TheatreDataContextProvider>
+    <BottomSheetProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <InnerTabsLayout />
+      </GestureHandlerRootView>
+    </BottomSheetProvider>
   );
 }
 
