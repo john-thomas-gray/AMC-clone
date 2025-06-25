@@ -122,7 +122,7 @@ const SlidingLayout = ({ buttonNames, children = [] }: SlidingLayoutProps) => {
   return (
     <View className="flex-1 bg-black">
       {/* Buttons */}
-      <View className="flex relative bg-black">
+      <View className="flex relative bg-black ">
         <View className={`flex flex-row justify-between`}>
           {Array.from({ length: numberOfButtons }).map((_, index) => (
             <Pressable
@@ -193,7 +193,7 @@ const SlidingLayout = ({ buttonNames, children = [] }: SlidingLayoutProps) => {
       </View>
 
       {buttonNames[selectedButton] === "SHOWTIMES" && (
-        <View className="flex-row justify-between items-center bg-black py-3 pr-4 pl-6 w-full">
+        <View className="flex-row justify-between items-center bg-black py-3 pr-4 pl-6 w-full border-b border-gray-300">
           <View style={{ width: 100 }}>
             <IconButton
               title={formatCalendarDate(calendarDate)}
@@ -219,7 +219,10 @@ const SlidingLayout = ({ buttonNames, children = [] }: SlidingLayoutProps) => {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ width: screenWidth * numberOfButtons }}
+        contentContainerStyle={{
+          width: screenWidth * numberOfButtons,
+          paddingBottom: 80
+        }}
         onScroll={Animated.event(
           [
             {

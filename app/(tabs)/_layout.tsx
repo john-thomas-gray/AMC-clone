@@ -2,7 +2,6 @@ import RightSheet from "@/components/sheets/RightSheet";
 import { Tabs } from "expo-router";
 import React from "react";
 import { Image, ImageSourcePropType, Text, View } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CustomHeader from "../../components/CustomHeader";
 import SelectTheatreBottomSheet from "../../components/foodAndDrinks/SelectTheatreBottomSheet";
 import GlobalOverlay from "../../components/GlobalOverlay";
@@ -43,9 +42,7 @@ const TabIcon = ({
 export default function TabsLayout() {
   return (
     <BottomSheetProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <InnerTabsLayout />
-      </GestureHandlerRootView>
+      <InnerTabsLayout />
     </BottomSheetProvider>
   );
 }

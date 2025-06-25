@@ -28,7 +28,7 @@ const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
   }, [theatreData]);
 
   return (
-    <View className="flex-1 bg-black border-t border-gray-300 p-4">
+    <View className="flex-1 bg-black border-b border-gray-300 p-4">
       {/* Theatre Header */}
       <View className="flex-col ">
         <View className="flex-row items-start mb-2 justify-between items-end">
@@ -110,7 +110,7 @@ const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
             </View>
           </View>
 
-          <View className="flex-row flex-wrap gap-2">
+          <View className="flex-row flex-wrap gap-2 mb-6">
             {screen.showtimes.map((time, i) => (
               <CustomButton
                 key={i}

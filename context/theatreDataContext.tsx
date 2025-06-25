@@ -177,7 +177,6 @@ const generateScreens = async (screenCount: number): Promise<Screen[]> => {
       showtimes: getRandomShowtimes()
     });
   }
-  console.log(moviePool);
   return screens;
 };
 
