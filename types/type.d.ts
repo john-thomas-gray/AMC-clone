@@ -71,6 +71,8 @@ declare interface IconButtonProps {
   icon: ImageSourcePropType;
   title: string;
   width?: string;
+  textProps?: string;
+  iconStyle?: string;
   style?: string;
 }
 

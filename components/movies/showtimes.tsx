@@ -1,4 +1,4 @@
-import { TheatreDataContext } from "@/context/theatreDataContext"; // update path if needed
+import { TheatreDataContext } from "@/context/theatreDataContext";
 import React, { useContext } from "react";
 import { ScrollView, Text } from "react-native";
 import ShowtimeCard from "./ShowtimeCard";

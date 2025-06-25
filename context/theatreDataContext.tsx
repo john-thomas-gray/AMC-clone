@@ -1,5 +1,11 @@
 import { logos } from "@/constants/index";
-import { NearbyTheatre, Screen, ScreenTypesMap, Theatre } from "@/types/type";
+import {
+  Movie,
+  NearbyTheatre,
+  Screen,
+  ScreenTypesMap,
+  Theatre
+} from "@/types/type";
 import { getNearbyTheatres } from "@/utils/location";
 import { fetchMovies } from "@/utils/TMDBapi";
 import React, { createContext, useEffect, useState } from "react";
@@ -138,7 +144,21 @@ const generateScreens = async (screenCount: number): Promise<Screen[]> => {
   for (let i = 0; i < screenCount; i++) {
     if (moviePool.length === 0) break;
     const movieIndex = Math.floor(Math.random() * moviePool.length);
-    const movie = moviePool.splice(movieIndex, 1)[0];
+    const rawMovie = moviePool.splice(movieIndex, 1)[0];
+
+    const movie: Movie = {
+      id: rawMovie.id,
+      backdropPath: rawMovie.backdrop_path,
+      genres: rawMovie.genres,
+      title: rawMovie.title,
+      synopsis: rawMovie.overview,
+      release_date: rawMovie.release_date,
+      runtime: rawMovie.runtime,
+      tagline: rawMovie.tagline,
+      status: rawMovie.status,
+      vote_average: rawMovie.vote_average,
+      poster_path: rawMovie.poster_path
+    };
 
     let typeKey: keyof ScreenTypesMap;
     do {
@@ -198,7 +218,7 @@ export const TheatreDataContextProvider = ({
     async function fetchTheatreData() {
       setLoading(true);
       setError(undefined);
-
+      console.log("generating theatre data context");
       try {
         // 2. Get nearby theatres
         const nearby = await getNearbyTheatres(apiKey);

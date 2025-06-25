@@ -1,16 +1,21 @@
-import { icons } from '@/constants';
-import { SlidingLayoutProps } from '@/types/type';
-import { formatCalendarDate } from '@/utils/formatMovieData';
-import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Dimensions, GestureResponderEvent, LayoutChangeEvent, Pressable, ScrollView, View } from 'react-native';
-import { IconButton } from './buttons/IconButton';
+import { icons } from "@/constants";
+import { SlidingLayoutProps } from "@/types/type";
+import { formatCalendarDate } from "@/utils/formatMovieData";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Animated,
+  Dimensions,
+  GestureResponderEvent,
+  LayoutChangeEvent,
+  Pressable,
+  ScrollView,
+  View
+} from "react-native";
+import { IconButton } from "./buttons/IconButton";
 
-const { width: screenWidth } = Dimensions.get('window');
+const { width: screenWidth } = Dimensions.get("window");
 
-const SlidingLayout = ({
-  buttonNames,
-  children = [],
-}: SlidingLayoutProps) => {
+const SlidingLayout = ({ buttonNames, children = [] }: SlidingLayoutProps) => {
   const [textWidths, setTextWidths] = useState<number[]>([]);
   const scrollViewRef = useRef<ScrollView>(null);
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -18,16 +23,18 @@ const SlidingLayout = ({
   // Buttons
   const numberOfButtons = children.length;
   const buttonWidth = screenWidth / numberOfButtons;
-  const buttonHeight = 56
+  const buttonHeight = 56;
   const [selectedButton, setSelectedButton] = useState<number>(0);
 
   // Button animations
   const [isButtonAnimating, setIsButtonAnimating] = useState<boolean>(false);
   const rippleScale = useRef(new Animated.Value(0)).current;
-  const [initialTouchPos, setInitialTouchPos] = useState<{ x: number; y: number }>({ x: 10, y: 0 });
+  const [initialTouchPos, setInitialTouchPos] = useState<{
+    x: number;
+    y: number;
+  }>({ x: 10, y: 0 });
 
   const [calendarDate, setCalendarDate] = useState<string>(Date());
-
 
   const handlePressIn = (event: GestureResponderEvent, index: number) => {
     const { locationX, locationY } = event.nativeEvent;
@@ -42,18 +49,18 @@ const SlidingLayout = ({
     handleAnimation();
   };
 
-  const handlePressOut = (index:number) => {
-     Animated.timing(scrollX, {
+  const handlePressOut = (index: number) => {
+    Animated.timing(scrollX, {
       toValue: index * screenWidth,
       duration: 300,
-      useNativeDriver: false,
+      useNativeDriver: false
     }).start();
 
     scrollViewRef.current?.scrollTo({
       x: index * screenWidth,
-      animated: true,
+      animated: true
     });
-  }
+  };
 
   const handleAnimation = () => {
     // console.log('Ripple animation started');
@@ -61,48 +68,47 @@ const SlidingLayout = ({
     Animated.timing(rippleScale, {
       toValue: 1,
       duration: 500,
-      useNativeDriver: true,
+      useNativeDriver: true
     }).start(() => {
       setIsButtonAnimating(false);
       rippleScale.setValue(0);
       setInitialTouchPos({
-      x: 0,
-      y: 0,
+        x: 0,
+        y: 0
+      });
     });
-    });
-  }
-
+  };
 
   // Underline Animation
   const underlineTranslateX = scrollX.interpolate({
     inputRange: buttonNames.map((_, i) => i * screenWidth),
     outputRange: buttonNames.map(
-      (_, i) =>
-        i * buttonWidth + (buttonWidth - (textWidths[i] || 0)) / 2
+      (_, i) => i * buttonWidth + (buttonWidth - (textWidths[i] || 0)) / 2
     ),
-    extrapolate: 'clamp',
+    extrapolate: "clamp"
   });
   const underlineWidth = scrollX.interpolate({
     inputRange: buttonNames.map((_, i) => i * screenWidth),
     outputRange: buttonNames.map((_, i) => textWidths[i] || 0),
-    extrapolate: 'clamp',
+    extrapolate: "clamp"
   });
-  const allTextWidthsMeasured = textWidths.length === numberOfButtons && textWidths.every((w) => w > 0);
+  const allTextWidthsMeasured =
+    textWidths.length === numberOfButtons && textWidths.every(w => w > 0);
 
   // Text Color and Layout
   const animateTextColor = buttonNames.map((_, i) =>
-  scrollX.interpolate({
-    inputRange: buttonNames.map((_, j) => j * screenWidth),
-    outputRange: buttonNames.map((_, j) =>
-      i === j ? 'rgba(0, 168, 225, 1)' : 'rgba(255, 255, 255, 1)'
-    ),
-    extrapolate: 'clamp',
-  })
-);
+    scrollX.interpolate({
+      inputRange: buttonNames.map((_, j) => j * screenWidth),
+      outputRange: buttonNames.map((_, j) =>
+        i === j ? "rgba(0, 168, 225, 1)" : "rgba(255, 255, 255, 1)"
+      ),
+      extrapolate: "clamp"
+    })
+  );
 
   const handleTextLayout = (event: LayoutChangeEvent, index: number) => {
     const { width } = event.nativeEvent.layout;
-    setTextWidths((prev) => {
+    setTextWidths(prev => {
       const updated = [...prev];
       updated[index] = width;
       return updated;
@@ -121,14 +127,16 @@ const SlidingLayout = ({
           {Array.from({ length: numberOfButtons }).map((_, index) => (
             <Pressable
               key={index}
-              onPressIn={(event) => handlePressIn(event, index)}
+              onPressIn={event => handlePressIn(event, index)}
               onPressOut={() => handlePressOut(index)}
               // onTouchMove={() => {}}
               className={`flex items-center justify-center
-              ${selectedButton === index && isButtonAnimating ? 'bg-scrollButton-pressed' : 'bg-scrollButton-default'}`}
-              style={[
-                { width: buttonWidth, height: buttonHeight },
-              ]}
+              ${
+                selectedButton === index && isButtonAnimating
+                  ? "bg-scrollButton-pressed"
+                  : "bg-scrollButton-default"
+              }`}
+              style={[{ width: buttonWidth, height: buttonHeight }]}
             >
               {/* Ripple Container */}
               <View
@@ -142,24 +150,21 @@ const SlidingLayout = ({
                       width: buttonWidth * 2,
                       height: buttonWidth * 2,
                       borderRadius: buttonWidth,
-                      position: 'absolute',
+                      position: "absolute",
                       top: initialTouchPos.y - buttonWidth,
                       left: initialTouchPos.x - buttonWidth,
                       transform: [{ scale: rippleScale }],
-                      backgroundColor: 'rgba(0, 168, 225, 0.1)',
+                      backgroundColor: "rgba(0, 168, 225, 0.1)"
                       // backgroundColor: 'rgb(255, 0, 234)',
                     }}
                   />
                 )}
                 {/* Content Container */}
-                <View
-                  className={`flex-1 justify-center items-center`}
-
-                  >
+                <View className={`flex-1 justify-center items-center`}>
                   <Animated.Text
-                    onLayout={(event) => handleTextLayout(event, index)}
+                    onLayout={event => handleTextLayout(event, index)}
                     style={{
-                      color: animateTextColor[index],
+                      color: animateTextColor[index]
                     }}
                     className="gordita-regular text-lg text-white"
                   >
@@ -167,34 +172,44 @@ const SlidingLayout = ({
                   </Animated.Text>
                 </View>
               </View>
-
-
             </Pressable>
-
           ))}
         </View>
 
         {/* Blue underline */}
-          {allTextWidthsMeasured && (
-            <Animated.View
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                height: 3,
-                width: underlineWidth || 0,
-                transform: [{ translateX: underlineTranslateX }],
-              }}
-              className="bg-blue-100 rounded-full"
-            />
-          )}
+        {allTextWidthsMeasured && (
+          <Animated.View
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              height: 3,
+              width: underlineWidth || 0,
+              transform: [{ translateX: underlineTranslateX }]
+            }}
+            className="bg-blue-100 rounded-full"
+          />
+        )}
       </View>
 
-      {buttonNames[selectedButton] === 'SHOWTIMES' && (
-        <View className="flex-row justify-between items-center bg-black p-10">
-          <IconButton title={formatCalendarDate(calendarDate)} icon={icons.calendar}  />
-          <IconButton title="Location" icon={icons.targetWhite}/>
-          <IconButton title="Premium Offerings" icon={icons.settings}/>
+      {buttonNames[selectedButton] === "SHOWTIMES" && (
+        <View className="flex-row justify-between items-center bg-black py-3 pr-4 pl-6 w-full">
+          <View style={{ width: 100 }}>
+            <IconButton
+              title={formatCalendarDate(calendarDate)}
+              icon={icons.calendar}
+            />
+          </View>
+          <View style={{ width: 100 }}>
+            <IconButton title="Location" icon={icons.targetWhite} />
+          </View>
+          <View style={{ width: 120 }}>
+            <IconButton
+              title="Premium Offerings"
+              icon={icons.settings}
+              iconStyle="h-8 w-8 mb-3"
+            />
+          </View>
         </View>
       )}
 
@@ -209,14 +224,14 @@ const SlidingLayout = ({
           [
             {
               nativeEvent: {
-                contentOffset: { x: scrollX },
-              },
-            },
+                contentOffset: { x: scrollX }
+              }
+            }
           ],
           { useNativeDriver: false }
         )}
         scrollEventThrottle={16}
-        onMomentumScrollEnd={(event) => {
+        onMomentumScrollEnd={event => {
           const offsetX = event.nativeEvent.contentOffset.x;
           const newIndex = Math.round(offsetX / screenWidth);
           setSelectedButton(newIndex);
@@ -228,9 +243,8 @@ const SlidingLayout = ({
           </View>
         ))}
       </Animated.ScrollView>
-
     </View>
-  )
-}
+  );
+};
 
-export default SlidingLayout
+export default SlidingLayout;

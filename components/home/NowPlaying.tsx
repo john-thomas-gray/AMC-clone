@@ -1,63 +1,58 @@
-import { fetchMovies } from '@/utils/TMDBapi';
-import { tailwindColors } from '@/utils/tailwindColors';
-import useFetch from '@/utils/useFetch';
-import React from 'react';
-import { ActivityIndicator, FlatList, Text, View } from 'react-native';
-import MovieCard from '../MovieCard';
-
+import { TheatreDataContext } from "@/context/theatreDataContext";
+import { tailwindColors } from "@/utils/tailwindColors";
+import React, { useContext } from "react";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import MovieCard from "../MovieCard";
 
 const NowPlaying = () => {
-  const {
-    data: movies = [],
-    loading: moviesLoading,
-    error: moviesError
-  } = useFetch(() => fetchMovies({ query: '' }));
+  const { theatres, loading, error } = useContext(TheatreDataContext);
+  if (loading) return <Text>Loading nearby showtimes...</Text>;
+  if (error) return <Text>Error: {error.message}</Text>;
+  if (!theatres || theatres.length === 0)
+    return <Text>No theatres found nearby.</Text>;
 
-  // console.log('NowPlaying movies:', movies);
+  const movies = [
+    ...new Map(
+      theatres
+        .flatMap(theatre => theatre.screens.map(screen => screen.movie))
+        .map(movie => [movie.id, movie]) // key by movie.id
+    ).values()
+  ];
 
   return (
     <View className="flex-1 bg-black">
-      {moviesLoading ? (
-          <ActivityIndicator
-            size="large"
-            color={tailwindColors.blue?.[100]}
-            className="mt-10 self-center"
-          />
-        ) : moviesError ? (
-          <Text>Error: {moviesError?.message}</Text>
-        ) : (
-          <View className="flex-1">
-            <>
-
-              <FlatList
-                data={movies}
-                renderItem={({ item }) => (
-                  <MovieCard
-                    {...item}
-                  />
-                )}
-                keyExtractor={(item) => item.id.toString()}
-                numColumns={2}
-                columnWrapperStyle={{
-                  justifyContent: 'flex-start',
-                  padding: 0,
-                  margin: 0,
-
-                }}
-                className="h-full"
-                scrollEnabled={true}
-                contentContainerStyle={{
-                  padding: 0,
-                  margin: 0,
-                  paddingBottom: 90,
-                }}
-              />
-            </>
-          </View>
-        )
-
-        }
-
+      {loading ? (
+        <ActivityIndicator
+          size="large"
+          color={tailwindColors.blue?.[100]}
+          className="mt-10 self-center"
+        />
+      ) : error ? (
+        <Text>Error: {error?.message}</Text>
+      ) : (
+        <View className="flex-1">
+          <>
+            <FlatList
+              data={movies}
+              renderItem={({ item }) => <MovieCard {...item} />}
+              keyExtractor={item => item.id.toString()}
+              numColumns={2}
+              columnWrapperStyle={{
+                justifyContent: "flex-start",
+                padding: 0,
+                margin: 0
+              }}
+              className="h-full"
+              scrollEnabled={true}
+              contentContainerStyle={{
+                padding: 0,
+                margin: 0,
+                paddingBottom: 90
+              }}
+            />
+          </>
+        </View>
+      )}
     </View>
   );
 };
