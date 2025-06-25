@@ -81,19 +81,19 @@ declare interface Genre {
 
 declare interface Movie {
   id: number;
-  backdropPath: string;
-  genres: Genre[];
-  title: string;
-  synopsis: string;
-  release_date: string;
-  runtime: string;
-  tagline: string;
-  status: string;
-  vote_average: number;
-  poster_path: string;
+  backdropPath?: string;
+  genres?: Genre[];
+  title?: string;
+  synopsis?: string;
+  release_date?: string;
+  runtime?: string;
+  tagline?: string;
+  status?: string;
+  vote_average?: number;
+  poster_path?: string;
 }
 
-export interface Screen {
+declare interface Screen {
   number: number;
   movie: Movie;
   type: ScreenType;
@@ -101,31 +101,9 @@ export interface Screen {
   showtimes: string[];
 }
 
-interface Theatre {
-  id: string;
-  name: string;
-  location: {
-    lat: number;
-    lng: number;
-  };
-  screens: Screen[];
-  movies: Movie[];
-}
-
-declare interface NearbyTheatre {
-  place_id: string;
-  name: string;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-}
-
 declare interface ScreenType {
   projector: string;
-  logo: string;
+  logo: ImageSourcePropType;
   tagline: string;
   seatCount: number;
 }
@@ -135,4 +113,32 @@ declare interface ScreenTypesMap {
   reald: ScreenType;
   dolby: ScreenType;
   imax: ScreenType;
+}
+
+declare interface Theatre {
+  id: string;
+  name: string;
+  location: {
+    lat: number;
+    lng: number;
+  };
+  vicinity: string;
+  compound_code: string;
+  screens: Screen[];
+  movies: Movie[];
+}
+
+declare interface NearbyTheatre {
+  place_id: string;
+  name: string;
+  vicinity: string;
+  plus_code: {
+    compound_code: string;
+  };
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
 }

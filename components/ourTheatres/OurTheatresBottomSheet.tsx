@@ -1,25 +1,26 @@
-import { icons } from '@/constants'
-import BottomSheet, { BottomSheetFlatList, BottomSheetView } from '@gorhom/bottom-sheet'
-import React from 'react'
-import { Image, Keyboard, Pressable, Text, View } from 'react-native'
-import CustomButton from '../buttons/CustomButton'
+import { icons } from "@/constants";
+import BottomSheet, {
+  BottomSheetFlatList,
+  BottomSheetView
+} from "@gorhom/bottom-sheet";
+import React from "react";
+import { Image, Keyboard, Pressable, Text, View } from "react-native";
+import CustomButton from "../buttons/CustomButton";
 
 type OurTheatresBottomSheetProps = {
-  children?: React.ReactNode,
-  snapPoints?: number[] | string[],
-  initialSnapIndex: number | 0,
-  bottomSheetRef?: React.RefObject<any>,
-}
+  children?: React.ReactNode;
+  snapPoints?: number[] | string[];
+  initialSnapIndex: number | 0;
+  bottomSheetRef?: React.RefObject<any>;
+};
 
 const OurTheatresBottomSheet = ({
   children,
   bottomSheetRef,
-  snapPoints = ['30%', '85%'],
-  initialSnapIndex=0
-  }: OurTheatresBottomSheetProps) => {
-
+  snapPoints = ["30%", "85%"],
+  initialSnapIndex = 0
+}: OurTheatresBottomSheetProps) => {
   const handleSheetChange = (index: number) => {
-
     if (index === 0) {
       Keyboard.dismiss();
     }
@@ -58,13 +59,11 @@ const OurTheatresBottomSheet = ({
         distance: "45.3"
       }
     ]
-  }
-
-
+  };
 
   const handleTheatreSelection = (theatre: string) => {
-    console.log("handleTheatreSelection pressed")
-  }
+    console.log("handleTheatreSelection pressed");
+  };
 
   return (
     <>
@@ -78,43 +77,44 @@ const OurTheatresBottomSheet = ({
         enableOverDrag={false}
         bottomInset={0}
         backgroundStyle={{
-          backgroundColor: '#000000',
+          backgroundColor: "#000000"
         }}
         handleStyle={{
-          backgroundColor: '#000000',
+          backgroundColor: "#000000"
         }}
         handleIndicatorStyle={{
-          backgroundColor: '#ffffff',
-          width: 50,
+          backgroundColor: "#ffffff",
+          width: 50
         }}
-        >
+      >
         <BottomSheetView className="flex-1 bg-black">
           <View className="flex-1">
-
-          <BottomSheetFlatList
-            contentContainerStyle={{ paddingBottom: 100 }}
-            data={DummyData.theatres}
-            keyExtractor={(item, index) => `theatre-${index}`}
-            renderItem={({ item, index }) => (
-              <View
-                className="w-full mb-4"
-              >
+            <BottomSheetFlatList
+              contentContainerStyle={{ paddingBottom: 100 }}
+              data={DummyData.theatres}
+              keyExtractor={(item, index) => `theatre-${index}`}
+              renderItem={({ item, index }) => (
+                <View className="w-full mb-4">
                   <View className="flex-row items-center h-12 bg-black px-4">
                     <Text className={`text-white font-gordita-regular text-xl`}>
                       {index + 1}.
                     </Text>
-                    <Image source={icons.favoriteOff} className="h-6 w-6 mx-2"/>
+                    <Image
+                      source={icons.favouriteOff}
+                      className="h-6 w-6 mx-2"
+                    />
                     <Text className={`text-white font-gordita-bold text-2xl`}>
                       {item.name}
                     </Text>
-
                   </View>
 
-                  <View className='flex-row items-center justify-between'>
+                  <View className="flex-row items-center justify-between">
                     <Pressable
-                      className='flex-col ml-[15.5%]'
-                      onPress={() => {console.log(item, "pressed")}}
-                      >
+                      className="flex-col ml-[15.5%]"
+                      onPress={() => {
+                        console.log(item, "pressed");
+                      }}
+                    >
                       <Text className="text-blue-100 font-gordita-regular text-sm">
                         {item.address1}
                       </Text>
@@ -122,31 +122,35 @@ const OurTheatresBottomSheet = ({
                         {item.address2}
                       </Text>
                     </Pressable>
-                    <Text className="text-gray-100 font-gordita-regular text-sm mr-4">{item.distance} mi</Text>
+                    <Text className="text-gray-100 font-gordita-regular text-sm mr-4">
+                      {item.distance} mi
+                    </Text>
                   </View>
                   <View className="flex-row ml-[15.5%] my-4">
                     <CustomButton
                       title="Theatre Info"
                       variant="black"
-                      onPress={() => {console.log("Theatre info pressed")}}
+                      onPress={() => {
+                        console.log("Theatre info pressed");
+                      }}
                       className="mr-2"
                     />
                     <CustomButton
                       title="Showtimes"
                       variant="white"
-                      onPress={() => {console.log("Showtimes pressed")}}
+                      onPress={() => {
+                        console.log("Showtimes pressed");
+                      }}
                     />
                   </View>
-              </View>
-            )}
-
-          />
+                </View>
+              )}
+            />
           </View>
-
         </BottomSheetView>
       </BottomSheet>
     </>
-  )
-}
+  );
+};
 
-export default OurTheatresBottomSheet
+export default OurTheatresBottomSheet;

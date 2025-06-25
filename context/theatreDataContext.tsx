@@ -128,7 +128,6 @@ const screenTypes: ScreenTypesMap = {
 
 const generateScreens = async (screenCount: number): Promise<Screen[]> => {
   const movies = await fetchMovies({ query: "" });
-  console.log(movies);
   const moviePool = [...movies];
   const screenTypeKeys = Object.keys(screenTypes) as (keyof ScreenTypesMap)[];
   const imaxLimit = 2;
@@ -170,17 +169,17 @@ const generateTheatres = async (
     nearbyTheatres.map(async theatre => {
       const screens = await generateScreens(getScreenNum(theatre.name));
       const movies = screens.map(screen => screen.movie);
-
       return {
         id: theatre.place_id,
         name: theatre.name,
+        vicinity: theatre.vicinity,
+        compound_code: theatre.plus_code.compound_code,
         location: theatre.geometry.location,
         screens,
         movies
       };
     })
   );
-  console.log(theatres);
   return theatres;
 };
 
@@ -201,14 +200,11 @@ export const TheatreDataContextProvider = ({
       setError(undefined);
 
       try {
-        console.log("useeffect");
-
         // 2. Get nearby theatres
         const nearby = await getNearbyTheatres(apiKey);
 
         // 3. Generate detailed theatre data
         const detailedTheatres = await generateTheatres(nearby);
-
         setTheatres(detailedTheatres);
       } catch (err) {
         setError(err as Error);
@@ -216,7 +212,6 @@ export const TheatreDataContextProvider = ({
         setLoading(false);
       }
     }
-
     fetchTheatreData();
   }, [apiKey]);
   return (

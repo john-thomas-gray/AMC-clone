@@ -80,12 +80,11 @@ export const getNearbyTheatres = async (
     // Step 1: Get user's coordinates and address
     const { coords } = await getUserLocation(apiKey);
     const { latitude, longitude } = coords;
-    console.log("User coordinates:", latitude, longitude);
 
     // Step 2: Fetch nearby theatres using Google Places API
     const radiusInMeters = 50000; // Google Places API max radius is 50,000 meters (~31 miles)
     const response = await fetch(
-      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radiusInMeters}&keyword=movie+theater&type=movie_theater&key=${apiKey}`
+      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radiusInMeters}&keyword=AMC+Theatre&type=movie_theater&key=${apiKey}`
     );
 
     const data = await response.json();
@@ -94,17 +93,22 @@ export const getNearbyTheatres = async (
       throw new Error(`Google Places API error: ${data.status}`);
     }
 
-    // Step 3: Format results
-    const theatres: NearbyTheatre[] = data.results.map((place: any) => ({
-      place_id: place.place_id,
-      name: place.name,
-      geometry: {
-        location: {
-          lat: place.geometry.location.lat,
-          lng: place.geometry.location.lng
+    const theatres: NearbyTheatre[] = data.results
+      .filter((place: any) => place.name.toLowerCase().includes("amc"))
+      .map((place: any) => ({
+        place_id: place.place_id,
+        name: place.name,
+        vicinity: place.vicinity,
+        plus_code: {
+          compound_code: place.plus_code.compound_code
+        },
+        geometry: {
+          location: {
+            lat: place.geometry.location.lat,
+            lng: place.geometry.location.lng
+          }
         }
-      }
-    }));
+      }));
 
     return theatres;
   } catch (error) {
