@@ -28,28 +28,30 @@ const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
   return (
     <View className="flex bg-black border-t border-gray-300 p-4">
       {/* Theatre Header */}
-      <View className="flex-row items-center mb-2 justify-between">
-        <Image
-          className="h-5 w-5 mr-2"
-          source={icons.favouriteOff}
-          resizeMode="contain"
-        />
-        <View>
-          <Text className="text-white font-gordita-regular">
-            {theatreData.name}
-          </Text>
-          {address.length > 0 && (
-            <>
-              <Text className="text-blue-100 font-gordita-regular">
-                {address[0]}
-              </Text>
-              <Text className="text-blue-100 font-gordita-regular">
-                {address[1]}
-              </Text>
-            </>
-          )}
+      <View className="flex-row items-start mb-2 justify-between ">
+        <View className="flex-row">
+          <Image
+            className="h-7 w-7 mr-2"
+            source={icons.favouriteOff}
+            resizeMode="contain"
+          />
+          <View>
+            <Text className="text-white font-gordita-bold text-xl">
+              {theatreData.name}
+            </Text>
+            {address.length > 0 && (
+              <>
+                <Text className="text-blue-100 font-gordita-regular">
+                  {address[0]}
+                </Text>
+                <Text className="text-blue-100 font-gordita-regular">
+                  {address[1]}
+                </Text>
+              </>
+            )}
+          </View>
         </View>
-        <Text className="text-white font-gordita-regular">Distance</Text>
+        <Text className="text-gray-100 font-gordita-regular">Distance mi</Text>
       </View>
 
       {/* Screen type */}
