@@ -43,7 +43,7 @@ const getScreenNum = (theatre: string): number => {
 
 const getRandomShowtimes = () => {
   const showtimes = [];
-  const count = Math.floor(Math.random() * 8) + 4;
+  const count = Math.floor(Math.random() * 8) + 1;
   for (let i = 0; i < count; i++) {
     const hour = Math.floor(Math.random() * 12) + 1;
     const minute = Math.random() < 0.5 ? "00" : "30";
@@ -133,7 +133,7 @@ const screenTypes: ScreenTypesMap = {
 };
 
 const generateScreens = async (screenCount: number): Promise<Screen[]> => {
-  const movies = await fetchMovies({ query: "" });
+  const movies = await fetchMovies();
   const moviePool = [...movies];
   const screenTypeKeys = Object.keys(screenTypes) as (keyof ScreenTypesMap)[];
   const imaxLimit = 2;
@@ -145,7 +145,6 @@ const generateScreens = async (screenCount: number): Promise<Screen[]> => {
     if (moviePool.length === 0) break;
     const movieIndex = Math.floor(Math.random() * moviePool.length);
     const rawMovie = moviePool.splice(movieIndex, 1)[0];
-
     const movie: Movie = {
       id: rawMovie.id,
       backdropPath: rawMovie.backdrop_path,
@@ -178,7 +177,7 @@ const generateScreens = async (screenCount: number): Promise<Screen[]> => {
       showtimes: getRandomShowtimes()
     });
   }
-
+  console.log(moviePool);
   return screens;
 };
 

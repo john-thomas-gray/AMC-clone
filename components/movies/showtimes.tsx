@@ -1,20 +1,14 @@
-import { TheatreDataContext } from "@/context/theatreDataContext";
-import React, { useContext } from "react";
-import { ScrollView, Text } from "react-native";
+import { Theatre } from "@/types/type";
+import React from "react";
+import { ScrollView } from "react-native";
 import ShowtimeCard from "./ShowtimeCard";
 
 type ShowtimesProps = {
   movieId: number;
+  theatres: Theatre[];
 };
 
-const Showtimes = ({ movieId }: ShowtimesProps) => {
-  const { theatres, loading, error } = useContext(TheatreDataContext);
-
-  if (loading) return <Text>Loading nearby showtimes...</Text>;
-  if (error) return <Text>Error: {error.message}</Text>;
-  if (!theatres || theatres.length === 0)
-    return <Text>No theatres found nearby.</Text>;
-
+const Showtimes = ({ movieId, theatres }: ShowtimesProps) => {
   return (
     <ScrollView className="flex-1 bg-black">
       {theatres.map(theatre => {

@@ -1,6 +1,7 @@
 import { icons } from "@/constants";
 import { Screen, Theatre } from "@/types/type";
 import { formatTheatreAddress } from "@/utils/formatMovieData";
+import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import CustomButton from "../buttons/CustomButton";
@@ -12,6 +13,7 @@ type ShowtimeCardProps = {
 
 const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
   const [address, setAddress] = useState<string[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const getAddress = async () => {
@@ -26,32 +28,37 @@ const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
   }, [theatreData]);
 
   return (
-    <View className="flex bg-black border-t border-gray-300 p-4">
+    <View className="flex-1 bg-black border-t border-gray-300 p-4">
       {/* Theatre Header */}
-      <View className="flex-row items-start mb-2 justify-between ">
-        <View className="flex-row">
-          <Image
-            className="h-7 w-7 mr-2"
-            source={icons.favouriteOff}
-            resizeMode="contain"
-          />
-          <View>
+      <View className="flex-col ">
+        <View className="flex-row items-start mb-2 justify-between items-end">
+          <View className="flex-row justify-end">
+            <Image
+              className="h-7 w-7 mr-2"
+              source={icons.favouriteOff}
+              resizeMode="contain"
+            />
+
             <Text className="text-white font-gordita-bold text-xl">
               {theatreData.name}
             </Text>
-            {address.length > 0 && (
-              <>
-                <Text className="text-blue-100 font-gordita-regular">
-                  {address[0]}
-                </Text>
-                <Text className="text-blue-100 font-gordita-regular">
-                  {address[1]}
-                </Text>
-              </>
-            )}
           </View>
+          <Text className="text-gray-100 font-gordita-regular">
+            Distance mi
+          </Text>
         </View>
-        <Text className="text-gray-100 font-gordita-regular">Distance mi</Text>
+        <View className="ml-[30] pb-6">
+          {address.length > 0 && (
+            <>
+              <Text className="text-blue-100 font-gordita-regular">
+                {address[0]}
+              </Text>
+              <Text className="text-blue-100 font-gordita-regular">
+                {address[1]}
+              </Text>
+            </>
+          )}
+        </View>
       </View>
 
       {/* Screen type */}
@@ -60,11 +67,11 @@ const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
           <View>
             <View className="flex-row justify-between image-center">
               <View className="flex-col">
-                <View className="flex-row">
-                  <Text className="text-white font-gordita-regular">
+                <View className="flex-row items-center mb-0.5">
+                  <Text className="text-white font-gordita-bold pr-2">
                     {screen.type.projector}
                   </Text>
-                  <Pressable className="h-5 w-5">
+                  <Pressable className="h-5 w-5 mb-1">
                     <Image
                       source={icons.info}
                       resizeMode="contain"
@@ -73,7 +80,7 @@ const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
                   </Pressable>
                 </View>
 
-                <Text className="text-white font-gordita-regular">
+                <Text className="text-white font-gordita-regular capital mb-3">
                   {screen.type.tagline}
                 </Text>
               </View>
@@ -81,13 +88,26 @@ const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
               <Image
                 source={screen.type.logo}
                 resizeMode="contain"
-                className="h-12 w-full"
+                className="h-12 w-24"
               />
             </View>
 
-            <Text className="text-gray-100 font-gordita-regular">
-              {screen.features.join(" • ")}
-            </Text>
+            <View className="flex-row flex-wrap mb-4 items-center">
+              <Text className="text-gray-100 font-gordita-regular">
+                {screen.features[0]}
+              </Text>
+
+              {screen.features.slice(1).map((feature, i) => (
+                <View key={i + 1} className="flex-row items-center">
+                  <Text className="text-gray-100 font-gordita-bold mx-1 pt-1">
+                    •
+                  </Text>
+                  <Text className="text-gray-100 font-gordita-regular">
+                    {feature}
+                  </Text>
+                </View>
+              ))}
+            </View>
           </View>
 
           <View className="flex-row flex-wrap gap-2">
@@ -95,9 +115,20 @@ const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
               <CustomButton
                 key={i}
                 variant="black"
-                onPress={() =>
-                  console.log(`Pressed ${screen.movie.title} at ${time}`)
-                }
+                onPress={() => {
+                  console.log(`Pressed ${screen.movie.title} at ${time}`);
+                  router.push({
+                    pathname: "../movies/SeatSelection",
+                    params: {
+                      movieTitle: screen.movie.title,
+                      theatreName: theatreData.name,
+                      showtime: time,
+                      projector: screen.type.projector,
+                      seatCount: screen.type.seatCount,
+                      screenFeatures: screen.features.join(",")
+                    }
+                  });
+                }}
                 title={time}
               />
             ))}
