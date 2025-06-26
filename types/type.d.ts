@@ -51,14 +51,6 @@ declare interface SlidingLayoutProps {
   children: React.ReactNode[];
 }
 
-declare interface MovieCardProps {
-  id: string;
-  poster_path: ImageSourcePropType;
-  title: string;
-  release_date: string;
-  onPress: () => void;
-}
-
 declare interface HorizontalScrollContainerProps {
   sectionNames: string[];
   scrollViewRef: React.RefObject<ScrollView>;

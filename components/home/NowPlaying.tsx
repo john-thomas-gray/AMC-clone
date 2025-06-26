@@ -15,7 +15,7 @@ const NowPlaying = () => {
     ...new Map(
       theatres
         .flatMap(theatre => theatre.screens.map(screen => screen.movie))
-        .map(movie => [movie.id, movie]) // key by movie.id
+        .map(movie => [movie.id, movie])
     ).values()
   ];
 
@@ -27,8 +27,6 @@ const NowPlaying = () => {
           color={tailwindColors.blue?.[100]}
           className="mt-10 self-center"
         />
-      ) : error ? (
-        <Text>Error: {error?.message}</Text>
       ) : (
         <View className="flex-1">
           <>

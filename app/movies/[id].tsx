@@ -117,11 +117,7 @@ const MovieDetail = () => {
 
         <View className="flex bg-black border-bottom border-gray-300 h-full w-full">
           <SlidingLayout buttonNames={slideButtonNames}>
-            <Showtimes
-              movieId={movie.id}
-              theatres={theatres}
-              // onReady={() => setContentReady(true)}
-            />
+            <Showtimes movieId={movie.id} theatres={theatres} />
             <Details />
             <Videos />
           </SlidingLayout>
