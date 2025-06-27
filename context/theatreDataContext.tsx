@@ -47,8 +47,8 @@ const getRandomShowtimes = () => {
   for (let i = 0; i < count; i++) {
     const hour = Math.floor(Math.random() * 12) + 1;
     const minute = Math.random() < 0.5 ? "00" : "30";
-    const period = Math.random() < 0.5 ? "AM" : "PM";
-    showtimes.push(`${hour}:${minute} ${period}`);
+    const period = Math.random() < 0.5 ? "am" : "pm";
+    showtimes.push(`${hour}:${minute}${period}`);
   }
   return showtimes;
 };

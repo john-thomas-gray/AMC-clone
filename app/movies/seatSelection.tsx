@@ -5,7 +5,11 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
 
-const SeatSelection = ({ children }: React.ReactNode) => {
+type SeatSelectionProps = {
+  children: React.ReactNode;
+};
+
+const SeatSelection = ({ children }: SeatSelectionProps) => {
   const router = useRouter();
 
   const {
@@ -24,9 +28,10 @@ const SeatSelection = ({ children }: React.ReactNode) => {
 
   return (
     <View className="flex-1 bg-black">
-      <View className="bg-red-500 w-full h-[18.5%] flex-row items-center px-4 pt-8">
-        <BackButton className="border border-black" />
-        <View className="w-[80%]">
+      <View className="bg-red-500 h-[18%] flex-row justify-between px-4 pt-[90]">
+        <BackButton className="" />
+
+        <View className="w-[265] px-2">
           <Text className="text-white font-gordita-bold text-2xl">
             {movieTitle}
           </Text>
@@ -34,6 +39,7 @@ const SeatSelection = ({ children }: React.ReactNode) => {
             <Text className="text-white font-gordita-reguler">{details}</Text>
           </View>
         </View>
+
         <XButton
           onPress={() =>
             router.push({

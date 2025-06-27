@@ -1,4 +1,3 @@
-import RightSheet from "@/components/sheets/RightSheet";
 import { Tabs } from "expo-router";
 import React from "react";
 import { Image, ImageSourcePropType, Text, View } from "react-native";
@@ -50,7 +49,7 @@ export default function TabsLayout() {
 function InnerTabsLayout() {
   const { bottomSheetRef } = useBottomSheet();
   return (
-    <RightSheet>
+    <>
       <Tabs
         initialRouteName="home"
         screenOptions={{
@@ -149,6 +148,6 @@ function InnerTabsLayout() {
         bottomSheetRef={bottomSheetRef}
         onPressX={() => bottomSheetRef.current?.close()}
       />
-    </RightSheet>
+    </>
   );
 }
