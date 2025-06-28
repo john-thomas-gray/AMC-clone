@@ -115,6 +115,7 @@ const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
               <CustomButton
                 key={i}
                 variant="black"
+                bold={true}
                 onPress={() => {
                   console.log(`Pressed ${screen.movie.title} at ${time}`);
                   router.push({

@@ -10,6 +10,8 @@ declare interface ButtonProps extends PressableProps {
     | "transparent-black"
     | string;
   height?: number;
+  bold?: boolean;
+  textStyle?: string;
   onPress: () => void;
   IconRight?: React.ComponentType<any>;
   IconLeft?: React.ComponentType<any>;
@@ -61,7 +63,7 @@ declare interface HorizontalScrollContainerProps {
 
 declare interface IconButtonProps {
   icon: ImageSourcePropType;
-  title: string;
+  title?: string;
   width?: string;
   textProps?: string;
   iconStyle?: string;

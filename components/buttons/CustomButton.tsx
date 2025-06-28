@@ -38,8 +38,10 @@ const CustomButton = ({
   title,
   onPress,
   variant,
+  bold,
   IconLeft = undefined,
   IconRight = undefined,
+  textStyle = "",
   className = "",
   ...props
 }: ButtonProps) => {
@@ -54,9 +56,9 @@ const CustomButton = ({
       {IconLeft && <View className="mr-2">{<IconLeft />}</View>}
 
       <Text
-        className={`flex-grow text-center font-gordita-bold ${
-          getVariant(variant).text
-        }`}
+        className={`flex-grow text-center  ${getVariant(variant).text} ${
+          bold ? "font-gordita-bold" : "font-gordita-regular"
+        } ${textStyle ? { textStyle } : ""}`}
       >
         {title}
       </Text>

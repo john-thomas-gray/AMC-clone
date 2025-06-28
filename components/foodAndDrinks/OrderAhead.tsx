@@ -1,11 +1,10 @@
-import React from 'react'
-import { Image, ImageBackground, Text, View } from 'react-native'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { backgrounds, banners } from '../../constants/index'
-import { useBottomSheet } from '../../context/BottomSheetContext'
-import BottomSheetButton from '../buttons/BottomSheetButton'
-import CustomButton from '../buttons/CustomButton'
-
+import React from "react";
+import { Image, ImageBackground, Text, View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { backgrounds, banners } from "../../constants/index";
+import { useBottomSheet } from "../../context/BottomSheetContext";
+import BottomSheetButton from "../buttons/BottomSheetButton";
+import CustomButton from "../buttons/CustomButton";
 
 const OrderAhead = () => {
   const { bottomSheetRef: bottomSheetRef } = useBottomSheet();
@@ -21,7 +20,12 @@ const OrderAhead = () => {
       >
         <View className="flex-1 items-center">
           <View className="flex w-full h-56">
-            <Image source={!isTheatreSelected ? banners.orderAhead : banners.orderAhead2} className="w-full h-full" />
+            <Image
+              source={
+                !isTheatreSelected ? banners.orderAhead : banners.orderAhead2
+              }
+              className="w-full h-full"
+            />
           </View>
 
           <View className="flex-1 p-3">
@@ -29,12 +33,18 @@ const OrderAhead = () => {
               Order Ahead
             </Text>
             <Text className="text-white font-gordita-regular text-lg mt-1 mb-2">
-              Select your theatre to order your favorite food & drinks ahead of time.
+              Select your theatre to order your favorite food & drinks ahead of
+              time.
             </Text>
 
             <BottomSheetButton
-              title={selectedTheatre.length > 0 ? selectedTheatre :"Select a Participating Theatre"}
-              onPress={() => {bottomSheetRef.current?.snapToIndex(1)
+              title={
+                selectedTheatre.length > 0
+                  ? selectedTheatre
+                  : "Select a Participating Theatre"
+              }
+              onPress={() => {
+                bottomSheetRef.current?.snapToIndex(1);
               }}
             />
           </View>
@@ -42,23 +52,28 @@ const OrderAhead = () => {
           {!isTheatreSelected ? (
             <>
               <View
-                  className="flex-row justify-end items-center bg-black mt-4
-                  h-[15.5%] w-full border-t border-gray-300"/>
+                className="flex-row justify-end items-center bg-black mt-4
+                  h-[15.5%] w-full border-t border-gray-300"
+              />
             </>
-          ) :
-          (
+          ) : (
             <>
               <View
-                  className="px-3 pt-0 pb-1 rounded-lg w-[95%] mb-4"
-                  style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}
-                >
-                <Text className="uppercase font-gordita-regular text-md text-gray-100 mt-2">AT THIS THEATRE</Text>
+                className="px-3 pt-0 pb-1 rounded-lg w-[95%] mb-4"
+                style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
+              >
+                <Text className="uppercase font-gordita-regular text-md text-gray-100 mt-2">
+                  AT THIS THEATRE
+                </Text>
                 <View className="flex-row mt-1">
-                  <Text className="text-white text-3xl font-gordita-bold">Express Pickup</Text>
+                  <Text className="text-white text-3xl font-gordita-bold">
+                    Express Pickup
+                  </Text>
                 </View>
                 <Text className="text-white font-gordita-regular text-[16px] leading-snug mt-2 mb-1">
-                  When you arrive, look for our Express Pick-Up kiosk located near concessions.
-                  We&apos;ll have your order ready at the time you choose.
+                  When you arrive, look for our Express Pick-Up kiosk located
+                  near concessions. We&apos;ll have your order ready at the time
+                  you choose.
                 </Text>
               </View>
 
@@ -69,18 +84,19 @@ const OrderAhead = () => {
                 <CustomButton
                   title="Order Now"
                   variant="white"
-                  onPress={() => {console.log("Order Now pressed.")}}
+                  bold={true}
+                  onPress={() => {
+                    console.log("Order Now pressed.");
+                  }}
                   className="items-end w-[28%]"
                 />
               </View>
             </>
-          )
-          }
-          </View>
-
+          )}
+        </View>
       </ImageBackground>
     </GestureHandlerRootView>
-  )
-}
+  );
+};
 
-export default OrderAhead
+export default OrderAhead;

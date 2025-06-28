@@ -130,6 +130,7 @@ const OurTheatresBottomSheet = ({
                     <CustomButton
                       title="Theatre Info"
                       variant="black"
+                      bold={true}
                       onPress={() => {
                         console.log("Theatre info pressed");
                       }}
@@ -138,6 +139,7 @@ const OurTheatresBottomSheet = ({
                     <CustomButton
                       title="Showtimes"
                       variant="white"
+                      bold={true}
                       onPress={() => {
                         console.log("Showtimes pressed");
                       }}
