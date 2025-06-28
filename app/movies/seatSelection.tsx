@@ -7,8 +7,13 @@ import { getCurrentDate } from "@/utils/date";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
+import Auditorium from "./seatSelection/auditorium";
 
-const SeatSelection = () => {
+type SeatSelectionProps = {
+  children: React.ReactNode;
+};
+
+const SeatSelection = ({ children }: SeatSelectionProps) => {
   const router = useRouter();
 
   const {
@@ -27,15 +32,18 @@ const SeatSelection = () => {
 
   return (
     <View className="flex-1 bg-black">
-      {/* HEADER */}
-      <View className="flex-row justify-between items-center px-4 pt-[90] pb-4">
-        <BackButton />
+      <View className="bg-black h-[18%] flex-row justify-between items-center px-4 pt-[90]">
+        <BackButton className="" />
+
         <View className="w-[265] px-2">
           <Text className="text-white font-gordita-bold text-3xl">
             {movieTitle}
           </Text>
-          <Text className="text-white font-gordita-reguler">{details}</Text>
+          <View>
+            <Text className="text-white font-gordita-reguler">{details}</Text>
+          </View>
         </View>
+
         <XButton
           onPress={() =>
             router.push({
@@ -45,10 +53,8 @@ const SeatSelection = () => {
           }
         />
       </View>
-
-      {/* STUBS BANNER */}
       <View className="flex-row w-full items-center justify-between pl-3 pr-5 pt-2 pb-3 bg-purple-100">
-        <Text className="flex-1 text-white font-gordita-reguler text-sm text-left pr-4 leading-tight">
+        <Text className="flex-1 text-white font-gordita-reguler text-lg text-left pr-4 leading-tight">
           Sign in to take advantage of AMC Stubs benefits, including waived fees
           as applicable.
         </Text>
@@ -60,15 +66,16 @@ const SeatSelection = () => {
           onPress={() => console.log("Sign In button pressed")}
         />
       </View>
-
-      {/* MAIN CONTENT AREA */}
+      <Auditorium />
+      {children}
       <View className="flex-1 justify-end">
-        {/* FOOTER */}
-        <View className="flex-row items-center justify-between px-4 pt-4 pb-8 border-t border-gray-300">
+        <View className="justify-between items-center px-4 pt-4 pb-8 flex-row border-t border-gray-300">
           <View className="h-5 w-5">
             <IconButton
               icon={icons.upload}
-              onPress={() => console.log("upload pressed")}
+              onPress={() => {
+                console.log("upload pressed");
+              }}
               iconStyle="h-4 w-4"
             />
           </View>
