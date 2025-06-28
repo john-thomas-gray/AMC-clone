@@ -58,6 +58,8 @@ import favicon from "../assets/images/favicon.png";
 
 import icon from "../assets/images/icon.png";
 
+import screen from "../assets/images/screen.png";
+
 import splashIcon from "../assets/images/splash-icon.png";
 
 import stubsLogo from "../assets/images/stubsLogo.jpg";
@@ -130,6 +132,7 @@ export const images = {
   fandangoLogo,
   favicon,
   icon,
+  screen,
   splashIcon,
   stubsLogo,
   stubsLogoAllWhite,

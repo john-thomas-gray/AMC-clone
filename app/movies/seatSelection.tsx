@@ -1,4 +1,5 @@
 import BackButton from "@/components/buttons/BackButton";
+import CustomButton from "@/components/buttons/CustomButton";
 import XButton from "@/components/buttons/XButton";
 import { getCurrentDate } from "@/utils/date";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -28,11 +29,11 @@ const SeatSelection = ({ children }: SeatSelectionProps) => {
 
   return (
     <View className="flex-1 bg-black">
-      <View className="bg-red-500 h-[18%] flex-row justify-between px-4 pt-[90]">
+      <View className="bg-black h-[18%] flex-row justify-between items-center px-4 pt-[90]">
         <BackButton className="" />
 
         <View className="w-[265] px-2">
-          <Text className="text-white font-gordita-bold text-2xl">
+          <Text className="text-white font-gordita-bold text-3xl">
             {movieTitle}
           </Text>
           <View>
@@ -47,6 +48,17 @@ const SeatSelection = ({ children }: SeatSelectionProps) => {
               params: { id: id.toString() }
             })
           }
+        />
+      </View>
+      <View className="flex-row w-full items-center justify-between px-4 py-3 bg-purple-100">
+        <Text className="flex-1 text-white font-gordita-reguler text-xl text-left pr-4">
+          Sign in to take advantage of AMC Stubs benefits, including waived fees
+          as applicable.
+        </Text>
+        <CustomButton
+          title="Sign In"
+          variant="transparent"
+          onPress={() => console.log("Sign In button pressed")}
         />
       </View>
       {children}
