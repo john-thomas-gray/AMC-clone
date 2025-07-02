@@ -50,7 +50,7 @@ export const fetchComingSoon = async ({ query }: { query: string }) => {
   return data.results;
 };
 
-export const fetchMovieById = async (id: string | string[]) => {
+export const fetchMovieById = async (id: string) => {
   const response = await fetch(
     `${TMDB_CONFIG.BASE_URL}/movie/${id}?language=en-US`,
     {

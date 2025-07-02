@@ -39,26 +39,36 @@ const CustomButton = ({
   onPress,
   variant,
   bold,
+  disabled = false,
   IconLeft = undefined,
   IconRight = undefined,
   textStyle = "",
   className = "",
   ...props
 }: ButtonProps) => {
+  const variantStyles = getVariant(variant);
+
+  const disabledStyles = {
+    container: "bg-gray-300 border-gray-300",
+    text: "text-gray-500"
+  };
+
   return (
     <Pressable
-      onPress={onPress}
+      onPress={disabled ? undefined : onPress}
+      disabled={disabled}
       style={{ height: 38 }}
-      className={`flex flex-row items-center border rounded-full
-        ${getVariant(variant).container} px-4 ${className}`}
+      className={`flex flex-row items-center border rounded-full px-4 ${className} ${
+        disabled ? disabledStyles.container : variantStyles.container
+      }`}
       {...props}
     >
       {IconLeft && <View className="mr-2">{<IconLeft />}</View>}
 
       <Text
-        className={`flex-grow text-center  ${getVariant(variant).text} ${
-          bold ? "font-gordita-bold" : "font-gordita-regular"
-        } ${textStyle ? { textStyle } : ""}`}
+        className={`flex-grow text-center ${
+          disabled ? disabledStyles.text : variantStyles.text
+        } ${bold ? "font-gordita-bold" : "font-gordita-regular"} ${textStyle}`}
       >
         {title}
       </Text>

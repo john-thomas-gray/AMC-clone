@@ -1,18 +1,13 @@
-import CustomButton from "@/components/buttons/CustomButton";
-import { IconButton } from "@/components/buttons/IconButton";
+import PurchaseTicketsFooter from "@/components/purchaseTickets/PurchaseTicketsFooter";
 import PurchaseTicketsHeader from "@/components/purchaseTickets/PurchaseTicketsHeader";
-import { icons } from "@/constants";
+import SignInBanner from "@/components/purchaseTickets/SignInBanner";
 import { getCurrentDate } from "@/utils/date";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Text, View } from "react-native";
-import Auditorium from "./seatSelection/auditorium";
+import { View } from "react-native";
+import Auditorium from "../../components/purchaseTickets/Auditorium";
 
-type SeatSelectionProps = {
-  children: React.ReactNode;
-};
-
-const SeatSelection = ({ children }: SeatSelectionProps) => {
+const SeatSelection = () => {
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
 
   const handleSeatToggle = (seatID: string) => {
@@ -49,44 +44,28 @@ const SeatSelection = ({ children }: SeatSelectionProps) => {
         movieTitle={movieTitle}
         details={details}
         id={[id]}
-      ></PurchaseTicketsHeader>
-      <View className="flex-row w-full items-center justify-between pl-3 pr-5 pt-2 pb-3 bg-purple-100">
-        <Text className="flex-1 text-white font-gordita-reguler text-lg text-left pr-4 leading-tight">
-          Sign in to take advantage of AMC Stubs benefits, including waived fees
-          as applicable.
-        </Text>
-        <CustomButton
-          title="Sign In"
-          variant="transparent"
-          bold={true}
-          textStyle="text-sm"
-          onPress={() => console.log("Sign In button pressed")}
-        />
-      </View>
-
-      <View className="flex-1">
+      />
+      <SignInBanner />
+      <View className="flex-1 pt-4">
         <Auditorium seatNum={seatNum} onSeatToggle={handleSeatToggle} />
-        {children}
       </View>
-      <View>
-        <View className="border-t border-gray-300 px-4 pt-4 pb-8 flex-row justify-between items-center">
-          <View className="h-5 w-5">
-            <IconButton
-              icon={icons.upload}
-              onPress={() => {
-                console.log("upload pressed");
-              }}
-              iconStyle="h-4 w-4"
-            />
-          </View>
-          <CustomButton
-            variant="white"
-            title="Continue"
-            bold={true}
-            onPress={() => console.log("continue")}
-          />
-        </View>
-      </View>
+      <PurchaseTicketsFooter
+        disabled={selectedSeats.length === 0}
+        onPress={() => {
+          router.push({
+            pathname: "/movies/chooseTickets",
+            params: {
+              id,
+              movieTitle,
+              theatreName,
+              showtime,
+              projector,
+              details,
+              selectedSeats
+            }
+          });
+        }}
+      />
     </View>
   );
 };

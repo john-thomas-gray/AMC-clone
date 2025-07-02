@@ -117,7 +117,6 @@ const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
                 variant="black"
                 bold={true}
                 onPress={() => {
-                  console.log(`Pressed ${screen.movie.title} at ${time}`);
                   router.push({
                     pathname: "/movies/seatSelection",
                     params: {
