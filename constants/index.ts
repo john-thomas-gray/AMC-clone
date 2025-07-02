@@ -40,6 +40,14 @@ import search from "../assets/icons/search.png";
 
 import seat from "../assets/icons/seat.png";
 
+import seatOccupied from "../assets/icons/seatOccupied.png";
+
+import seatSelected from "../assets/icons/seatSelected.png";
+
+import seatWheelchair from "../assets/icons/seatWheelchair.png";
+
+import seatWheelchairSelected from "../assets/icons/seatWheelchairSelected.png";
+
 import selected from "../assets/icons/selected.png";
 
 import settings from "../assets/icons/settings.png";
@@ -134,6 +142,10 @@ export const icons = {
   profile,
   search,
   seat,
+  seatOccupied,
+  seatSelected,
+  seatWheelchair,
+  seatWheelchairSelected,
   selected,
   settings,
   settingsGreyedOut,

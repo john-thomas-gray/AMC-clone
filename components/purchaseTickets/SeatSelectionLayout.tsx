@@ -1,12 +1,12 @@
+import BackButton from "@/components/buttons/BackButton";
 import CustomButton from "@/components/buttons/CustomButton";
 import { IconButton } from "@/components/buttons/IconButton";
-import PurchaseTicketsHeader from "@/components/purchaseTickets/PurchaseTicketsHeader";
+import XButton from "@/components/buttons/XButton";
 import { icons } from "@/constants";
 import { getCurrentDate } from "@/utils/date";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Text, View } from "react-native";
-import Auditorium from "./seatSelection/auditorium";
 
 type SeatSelectionProps = {
   children: React.ReactNode;
@@ -45,11 +45,27 @@ const SeatSelection = ({ children }: SeatSelectionProps) => {
 
   return (
     <View className="flex-1 bg-black">
-      <PurchaseTicketsHeader
-        movieTitle={movieTitle}
-        details={details}
-        id={[id]}
-      ></PurchaseTicketsHeader>
+      <View className="bg-black h-[18%] flex-row justify-between items-center px-4 pt-[90]">
+        <BackButton className="" />
+
+        <View className="w-[265] px-2">
+          <Text className="text-white font-gordita-bold text-3xl">
+            {movieTitle}
+          </Text>
+          <View>
+            <Text className="text-white font-gordita-reguler">{details}</Text>
+          </View>
+        </View>
+
+        <XButton
+          onPress={() => {
+            router.push({
+              pathname: "/movies/[id]",
+              params: { id: id.toString() }
+            });
+          }}
+        />
+      </View>
       <View className="flex-row w-full items-center justify-between pl-3 pr-5 pt-2 pb-3 bg-purple-100">
         <Text className="flex-1 text-white font-gordita-reguler text-lg text-left pr-4 leading-tight">
           Sign in to take advantage of AMC Stubs benefits, including waived fees
@@ -64,10 +80,7 @@ const SeatSelection = ({ children }: SeatSelectionProps) => {
         />
       </View>
 
-      <View className="flex-1">
-        <Auditorium seatNum={seatNum} onSeatToggle={handleSeatToggle} />
-        {children}
-      </View>
+      <View className="flex-1">{children}</View>
       <View>
         <View className="border-t border-gray-300 px-4 pt-4 pb-8 flex-row justify-between items-center">
           <View className="h-5 w-5">

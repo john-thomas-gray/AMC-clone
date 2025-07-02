@@ -1,8 +1,15 @@
+import Seat from "@/components/purchaseTickets/Seat";
 import { icons, images } from "@/constants";
-import React from "react";
+import React, { JSX, useState } from "react";
 import { Image, Text, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
-const Auditorium = () => {
+type AuditoriumProps = {
+  seatNum: number;
+  onSeatToggle: (seatID: string) => void;
+};
+
+const Auditorium = ({ seatNum, onSeatToggle }: AuditoriumProps) => {
   const pairs = [
     {
       icon: icons.seat,
@@ -30,6 +37,10 @@ const Auditorium = () => {
     }
   ];
 
+  const handleSeatToggle = (seatID: string) => {
+    onSeatToggle(seatID);
+  };
+
   const seatTypes = pairs.map((pair, index) => (
     <View key={index} className="flex-row items-center">
       <View className="h-5 w-5">
@@ -42,24 +53,110 @@ const Auditorium = () => {
   const firstRow = seatTypes.slice(0, 3);
   const secondRow = seatTypes.slice(3, 6);
 
-  return (
-    <View className="flex-1 bg-red">
-      <View className="items-center">
-        <Image
-          source={images.screen}
-          resizeMode="contain"
-          className="w-[90%]"
-        />
+  const renderSeatRow = (rowLetter: string, seatsInRow: number) => {
+    return (
+      <View
+        key={rowLetter}
+        className="flex-row-reverse justify-center flex-wrap mb-1"
+      >
+        {Array.from({ length: seatsInRow }, (_, i) => {
+          const num = i + 1;
+          return (
+            <View key={`${rowLetter}${num}`} className="mx-[2px]">
+              <Seat
+                state="Available"
+                row={rowLetter}
+                num={num}
+                onToggle={handleSeatToggle}
+              />
+            </View>
+          );
+        })}
       </View>
-      <View className="flex-1 justify-end">
-        <View className="items-center mx-4">
-          <View className="w-full bg-black border-t border-gray-300">
-            <View className="flex-row justify-between px-4 pb-4 pt-4">
-              {firstRow}
+    );
+  };
+
+  const renderAuditorium = (seatNum: number) => {
+    const seatsPerRow = 19;
+    const rows: JSX.Element[] = [];
+    const totalRows = Math.ceil(seatNum / seatsPerRow);
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    let seatsLeft = seatNum;
+
+    for (let i = 0; i < totalRows; i++) {
+      const rowLetter = alphabet[i] || `Row${i + 1}`;
+      const seatsInThisRow = Math.min(seatsLeft, seatsPerRow);
+
+      rows.push(renderSeatRow(rowLetter, seatsInThisRow));
+
+      seatsLeft -= seatsInThisRow;
+    }
+
+    return <View>{rows}</View>;
+  };
+  const [auditoriumWidth, setAuditoriumWidth] = useState(0);
+  return (
+    <View className="flex-1">
+      <ScrollView
+        horizontal
+        zoomScale={0.9}
+        minimumZoomScale={0.9}
+        maximumZoomScale={3}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{
+          justifyContent: "center",
+          alignItems: "flex-start"
+        }}
+      >
+        <ScrollView
+          zoomScale={0.9}
+          minimumZoomScale={0.9}
+          maximumZoomScale={3}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            alignItems: "center"
+          }}
+        >
+          <View
+            style={{
+              minWidth: "100%",
+              alignItems: "center",
+              paddingHorizontal: 16
+            }}
+          >
+            {auditoriumWidth > 0 && (
+              <Image
+                source={images.screen}
+                resizeMode="contain"
+                style={{
+                  width: auditoriumWidth * 0.95,
+                  marginVertical: 24
+                }}
+              />
+            )}
+
+            <View
+              onLayout={event => {
+                const width = event.nativeEvent.layout.width;
+                setAuditoriumWidth(width);
+              }}
+            >
+              <View className="border border-red-500">
+                {renderAuditorium(seatNum)}
+              </View>
             </View>
-            <View className="flex-row justify-between px-8 pb-4">
-              {secondRow}
-            </View>
+          </View>
+        </ScrollView>
+      </ScrollView>
+
+      <View className="items-center mx-4">
+        <View className="w-full bg-black border-t border-gray-300">
+          <View className="flex-row justify-between px-4 pb-4 pt-4">
+            {firstRow}
+          </View>
+          <View className="flex-row justify-between px-8 pb-4">
+            {secondRow}
           </View>
         </View>
       </View>
