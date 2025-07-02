@@ -1,37 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import { Text, View } from "react-native";
-import MinusButton from "../buttons/MinusButton";
-import PlusButton from "../buttons/PlusButton";
+import TicketCounter from "./TicketCounter";
 
 type TicketSelectorProps = {
   age: string;
   cost: number;
   fee: number;
   remainingTickets: number;
+  setRemainingTickets: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const TicketSelector = ({
   age,
   cost,
   fee,
-  remainingTickets
+  remainingTickets,
+  setRemainingTickets
 }: TicketSelectorProps) => {
-  const [localRemaining, setLocalRemaining] = useState(remainingTickets);
-
-  const updateRemainingTickets = (operation: "Plus" | "Minus") => {
-    if (operation === "Plus") {
-      setLocalRemaining(prev => prev + 1);
-    } else if (operation === "Minus") {
-      setLocalRemaining(prev => Math.max(0, prev - 1));
-    } else {
-      throw new Error("Invalid operation");
-    }
-  };
-
   return (
-    <View className="flex-row h-80 items-center justify-between px-4">
+    <View className="flex-row h-80 border border-red-500 items-start justify-between">
       <View>
-        <Text className="text-white text-xl">{age}</Text>
+        <Text className="text-white text-3xl font-gordita-bold pb-2">
+          {age}
+        </Text>
         {age === "Child" ? (
           <Text className="text-white font-gordita-regular">Age 2–12</Text>
         ) : age === "Senior" ? (
@@ -39,18 +30,19 @@ const TicketSelector = ({
         ) : null}
       </View>
 
-      <View>
-        <Text className="text-white text-xl">${(cost + fee).toFixed(2)}</Text>
-        <Text className="text-white text-sm">
+      <View className="items-center">
+        <Text className="text-white text-3xl font-gordita-bold pb-2">
+          ${(cost + fee).toFixed(2)}
+        </Text>
+        <Text className="text-white text-sm font-gordita-regular">
           ${cost.toFixed(2)} + ${fee.toFixed(2)} fee*
         </Text>
       </View>
 
-      <View className="flex-row items-center space-x-2">
-        <MinusButton onPress={() => updateRemainingTickets("Minus")} />
-        <Text className="text-white text-lg">{localRemaining}</Text>
-        <PlusButton onPress={() => updateRemainingTickets("Plus")} />
-      </View>
+      <TicketCounter
+        remainingTickets={remainingTickets}
+        setRemainingTickets={setRemainingTickets}
+      />
     </View>
   );
 };

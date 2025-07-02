@@ -6,7 +6,7 @@ import { IconButton } from "../buttons/IconButton";
 
 type Props = {
   onPress: () => void;
-  disabled: boolean;
+  disabled?: boolean;
 };
 
 const PurchaseTicketsFooter = ({ onPress }: Props) => {

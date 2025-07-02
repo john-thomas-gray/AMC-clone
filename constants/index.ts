@@ -32,7 +32,15 @@ import locationTabFocused from "../assets/icons/locationTabFocused.png";
 
 import mail from "../assets/icons/mail.png";
 
+import minus from "../assets/icons/minus.png";
+
+import minusDisabled from "../assets/icons/minusDisabled.png";
+
 import occupied from "../assets/icons/occupied.png";
+
+import plus from "../assets/icons/plus.png";
+
+import plusDisabled from "../assets/icons/plusDisabled.png";
 
 import profile from "../assets/icons/profile.png";
 
@@ -138,7 +146,11 @@ export const icons = {
   locationTab,
   locationTabFocused,
   mail,
+  minus,
+  minusDisabled,
   occupied,
+  plus,
+  plusDisabled,
   profile,
   search,
   seat,

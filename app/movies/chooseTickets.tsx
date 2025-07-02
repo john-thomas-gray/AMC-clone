@@ -1,6 +1,7 @@
 import PurchaseTicketsFooter from "@/components/purchaseTickets/PurchaseTicketsFooter";
 import PurchaseTicketsHeader from "@/components/purchaseTickets/PurchaseTicketsHeader";
 import SignInBanner from "@/components/purchaseTickets/SignInBanner";
+import TicketSelector from "@/components/purchaseTickets/TicketSelector";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
@@ -37,19 +38,47 @@ const ChooseTickets = () => {
       />
       <ScrollView className="flex">
         <SignInBanner />
-        <View className="flex-1">
-          {remainingTickets > 0 ? (
+        <View className="flex-1 px-2">
+          {new Date().getDay() === 2 ? (
+            <View className="w-full h-[80] border border-red-500 items-center justify-center">
+              <Text className="text-white font-gordita-bold text-lg text-center leading-tight">
+                Discount Tuesdays savings will be shown on your order summary,
+                if applicable.
+              </Text>
+            </View>
+          ) : null}
+
+          {remainingTickets === 1 ? (
             <View className="w-full h-[40] items-center justify-center">
-              <Text className="text-white font-gordita-regular items-center justify-center">
+              <Text className="text-white font-gordita-regular text-center">
                 Select your remaining ticket
               </Text>
             </View>
+          ) : remainingTickets > 1 ? (
+            <View className="w-full h-[40] items-center justify-center">
+              <Text className="text-white font-gordita-regular text-center">
+                Select your {remainingTickets} remaining tickets
+              </Text>
+            </View>
           ) : (
-            <View />
+            <></>
           )}
+          <TicketSelector
+            age="Child"
+            cost={15.6}
+            fee={2.3}
+            remainingTickets={remainingTickets}
+            setRemainingTickets={setRemainingTickets}
+          />
+          <View className="bg-gray-300 w-full p-2 rounded">
+            <Text className="text-white font-gordita-regular text-lg">
+              *This Conveience Fee is waived for AMC Stubs A-List and Premiere
+              members, and for Premiere GO! members purchasing 4+ tickets.
+            </Text>
+          </View>
         </View>
-        <PurchaseTicketsFooter onPress={() => {}} />
       </ScrollView>
+      <PurchaseTicketsFooter onPress={() => {}} />
     </View>
   );
 };

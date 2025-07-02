@@ -9,8 +9,12 @@ type MinusButtonProps = {
 
 const MinusButton = ({ onPress, disabled }: MinusButtonProps) => {
   return (
-    <Pressable>
-      <Image source={!disabled ? icons.minus : icons.minusDisabled} />
+    <Pressable className="h-10 w-10">
+      <Image
+        className="h-10 w-10"
+        resizeMode="contain"
+        source={!disabled ? icons.minus : icons.minusDisabled}
+      />
     </Pressable>
   );
 };

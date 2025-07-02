@@ -9,8 +9,12 @@ type PlusButtonProps = {
 
 const PlusButton = ({ onPress, disabled }: PlusButtonProps) => {
   return (
-    <Pressable>
-      <Image source={!disabled ? icons.plus : icons.plusDisabled} />
+    <Pressable className="h-10 w-10">
+      <Image
+        className="h-10 w-10"
+        resizeMode="contain"
+        source={!disabled ? icons.plus : icons.plusDisabled}
+      />
     </Pressable>
   );
 };
