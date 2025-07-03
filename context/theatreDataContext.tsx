@@ -41,16 +41,40 @@ const getScreenNum = (theatre: string): number => {
   return match ? Number(match[1]) : 1;
 };
 
+const toMinutes = (time: string): number => {
+  const match = time.match(/^(\d{1,2}):(\d{2})(am|pm)$/);
+  if (!match) return 0;
+
+  let [_, hour, minute, period] = match;
+  let h = parseInt(hour);
+  const m = parseInt(minute);
+
+  if (period === "pm" && h !== 12) h += 12;
+  if (period === "am" && h === 12) h = 0;
+
+  return h * 60 + m;
+};
+
 const getRandomShowtimes = () => {
-  const showtimes = [];
-  const count = Math.floor(Math.random() * 8) + 1;
-  for (let i = 0; i < count; i++) {
-    const hour = Math.floor(Math.random() * 12) + 1;
-    const minute = Math.random() < 0.5 ? "00" : "30";
-    const period = Math.random() < 0.5 ? "am" : "pm";
-    showtimes.push(`${hour}:${minute}${period}`);
+  const validTimes = [];
+
+  const periods = ["am", "pm"];
+  for (let hour = 1; hour <= 12; hour++) {
+    for (let minute of ["00", "30"]) {
+      for (let period of periods) {
+        const timeInMinutes = toMinutes(`${hour}:${minute}${period}`);
+        if (timeInMinutes >= 480 || timeInMinutes <= 30) {
+          validTimes.push(`${hour}:${minute}${period}`);
+        }
+      }
+    }
   }
-  return showtimes;
+
+  const shuffled = validTimes.sort(() => 0.5 - Math.random());
+  const count = Math.floor(Math.random() * 8) + 1;
+  const showtimes = shuffled.slice(0, count);
+
+  return showtimes.sort((a, b) => toMinutes(a) - toMinutes(b));
 };
 
 const getFeatures = (screenType: string, seatCount: number): string[] => {
@@ -218,10 +242,8 @@ export const TheatreDataContextProvider = ({
       setError(undefined);
       console.log("generating theatre data context");
       try {
-        // 2. Get nearby theatres
         const nearby = await getNearbyTheatres(apiKey);
 
-        // 3. Generate detailed theatre data
         const detailedTheatres = await generateTheatres(nearby);
         setTheatres(detailedTheatres);
       } catch (err) {

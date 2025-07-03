@@ -27,6 +27,8 @@ const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
     getAddress();
   }, [theatreData]);
 
+  console.log(screenData);
+
   return (
     <View className="flex-1 bg-black border-b border-gray-300 p-4">
       {/* Theatre Header */}
