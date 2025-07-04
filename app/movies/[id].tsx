@@ -1,3 +1,4 @@
+import BackButton from "@/components/buttons/BackButton";
 import SlidingLayout from "@/components/layouts/SlidingLayout";
 import Details from "@/components/movies/Details";
 import Showtimes from "@/components/movies/Showtimes";
@@ -35,6 +36,9 @@ const MovieDetail = () => {
 
   return (
     <View className="flex-1 flex-col bg-black">
+      <View className="absolute top-5 left-5 z-10">
+        <BackButton global to="/(tabs)/home" />
+      </View>
       <View style={{ height: 275 }}>
         <ImageBackground
           source={{ uri: formatBackdrop(movie.backdropPath || "") }}

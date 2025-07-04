@@ -1,13 +1,23 @@
+import ExpressPickupFooter from "@/components/purchaseTickets/ExpressPickupFooter";
+import ExpressPickupHeader from "@/components/purchaseTickets/ExpressPickupHeader";
+import { useLocalSearchParams } from "expo-router";
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 const ExpressPickup = () => {
+  useLocalSearchParams(
+    id,
+    movieTitle,
+    theatreName,
+    showtime,
+    projector,
+    details,
+    selectedSeats
+  );
   return (
-    <View>
-      <Text>ExpressPickup</Text>
-      <Text className="text-white text-3xl font-gordita-bold pb-2">
-        GLOBAL CART
-      </Text>
+    <View className="flex-1 bg-black">
+      <ExpressPickupHeader to="/movies/ticketSelection" />
+      <ExpressPickupFooter />
     </View>
   );
 };

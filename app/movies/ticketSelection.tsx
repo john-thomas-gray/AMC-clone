@@ -4,7 +4,7 @@ import SignInBanner from "@/components/purchaseTickets/SignInBanner";
 import TicketSelectionFooter from "@/components/purchaseTickets/TicketSelectionFooter";
 import TicketSelector from "@/components/purchaseTickets/TicketSelector";
 import { images } from "@/constants";
-import { movieTicketPrice } from "@/constants/PriceConstants";
+import { concessionPrice, movieTicketPrice } from "@/constants/PriceConstants";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
@@ -91,6 +91,7 @@ const TicketSelection = () => {
         movieTitle={normalizedMovieTitle}
         details={normalizedDetails}
         id={normalizedId}
+        to="/movies/seatSelection"
       />
       <ScrollView className="flex">
         <SignInBanner />
@@ -143,7 +144,7 @@ const TicketSelection = () => {
             </Text>
           </View>
           <ConcessionSelector
-            cost={27.37}
+            cost={concessionPrice.comboPopcornTwoDrinks}
             item="Large Popcorn + 2 Large Drinks"
             image={images.comboPopcornTwoDrinks}
             count={concessionCount}

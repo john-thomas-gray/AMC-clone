@@ -19,6 +19,8 @@ const NowPlaying = () => {
     ).values()
   ];
 
+  console.log(movies);
+
   return (
     <View className="flex-1 bg-black">
       {loading ? (

@@ -10,6 +10,8 @@ import backArrowWhite from "../assets/icons/backArrowWhite.png";
 
 import calendar from "../assets/icons/calendar.png";
 
+import cart from "../assets/icons/cart.png";
+
 import checkmark from "../assets/icons/checkmark.png";
 
 import companion from "../assets/icons/companion.png";
@@ -139,6 +141,7 @@ export const icons = {
   backArrow,
   backArrowWhite,
   calendar,
+  cart,
   checkmark,
   companion,
   dropdownIconBlack,

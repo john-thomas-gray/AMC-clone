@@ -1,7 +1,7 @@
 import PurchaseTicketsFooter from "@/components/purchaseTickets/PurchaseTicketsFooter";
 import PurchaseTicketsHeader from "@/components/purchaseTickets/PurchaseTicketsHeader";
 import SignInBanner from "@/components/purchaseTickets/SignInBanner";
-import { getCurrentDate } from "@/utils/date";
+import { getCurrentDate } from "@/utils/dateAndTime";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { View } from "react-native";

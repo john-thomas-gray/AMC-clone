@@ -62,8 +62,7 @@ const CustomButton = ({
     <Pressable
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
-      style={{ height: 38 }}
-      className={`flex flex-row items-center border rounded-full px-4 ${className} ${
+      className={`h-[38px] flex flex-row items-center border rounded-full px-4 ${className} ${
         disabled ? disabledStyles.container : variantStyles.container
       }`}
       {...props}

@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { ExternalPathString, RelativePathString, useRouter } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
 import BackButton from "../buttons/BackButton";
@@ -8,17 +8,20 @@ type PurchaseTicketsHeaderProps = {
   movieTitle: string;
   details: string;
   id: string;
+  to?: RelativePathString | ExternalPathString;
 };
 
 const PurchaseTicketsHeader = ({
   movieTitle,
   details,
-  id
+  id,
+  to
 }: PurchaseTicketsHeaderProps) => {
+  console.log([id]);
   const router = useRouter();
   return (
     <View className="bg-black h-[18%] flex-row justify-between items-center px-4 pt-[67] border border-red pb-[12]">
-      <BackButton className="" />
+      <BackButton className="" to={`/movies/${id}`} />
 
       <View className="w-[265] px-2">
         <Text className="text-white font-gordita-bold text-3xl">
