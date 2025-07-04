@@ -2,7 +2,7 @@ import { TheatreDataContext } from "@/context/theatreDataContext";
 import { tailwindColors } from "@/utils/tailwindColors";
 import React, { useContext } from "react";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
-import MovieCard from "../MovieCard";
+import MovieCard from "../cards/MovieCard";
 
 const NowPlaying = () => {
   const { theatres, loading, error } = useContext(TheatreDataContext);

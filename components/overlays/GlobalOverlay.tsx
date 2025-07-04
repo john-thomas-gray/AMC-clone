@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Pressable, StyleSheet } from 'react-native';
-import { useBottomSheet } from '../context/BottomSheetContext';
+import React, { useEffect, useRef, useState } from "react";
+import { Animated, Pressable, StyleSheet } from "react-native";
+import { useBottomSheet } from "../../context/BottomSheetContext";
 
 const GlobalOverlay = () => {
   const { isSheetOpen, setIsSheetOpen, bottomSheetRef } = useBottomSheet();
@@ -13,13 +13,13 @@ const GlobalOverlay = () => {
       Animated.timing(opacity, {
         toValue: 1,
         duration: 100,
-        useNativeDriver: true,
+        useNativeDriver: true
       }).start();
     } else {
       Animated.timing(opacity, {
         toValue: 0,
         duration: 100,
-        useNativeDriver: true,
+        useNativeDriver: true
       }).start(() => {
         setShouldRender(false);
       });
@@ -43,8 +43,8 @@ const GlobalOverlay = () => {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
+    backgroundColor: "rgba(0, 0, 0, 0.5)"
+  }
 });
 
 export default GlobalOverlay;

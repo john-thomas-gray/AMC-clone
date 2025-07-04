@@ -149,7 +149,7 @@ const screenTypes: ScreenTypesMap = {
     seatCount: getSeatCount("dolby")
   },
   imax: {
-    projector: "IMAX",
+    projector: "IMax",
     logo: logos.imax,
     tagline: "EXPERIENCE THE EXTRAORDINARY",
     seatCount: getSeatCount("imax")

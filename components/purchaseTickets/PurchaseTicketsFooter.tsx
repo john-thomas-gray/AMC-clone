@@ -9,7 +9,7 @@ type Props = {
   disabled?: boolean;
 };
 
-const PurchaseTicketsFooter = ({ onPress }: Props) => {
+const PurchaseTicketsFooter = ({ onPress, disabled }: Props) => {
   return (
     <View>
       <View className="border-t border-gray-300 px-4 pt-4 pb-8 flex-row justify-between items-center">
@@ -22,12 +22,21 @@ const PurchaseTicketsFooter = ({ onPress }: Props) => {
             iconStyle="h-4 w-4"
           />
         </View>
-        <CustomButton
-          variant="white"
-          title="Continue"
-          bold={true}
-          onPress={() => onPress()}
-        />
+        {disabled ? (
+          <CustomButton
+            variant="inactive"
+            title="Continue"
+            bold={true}
+            onPress={() => {}}
+          />
+        ) : (
+          <CustomButton
+            variant="white"
+            title="Continue"
+            bold={true}
+            onPress={() => onPress()}
+          />
+        )}
       </View>
     </View>
   );

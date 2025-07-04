@@ -1,9 +1,9 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import { Image, ImageSourcePropType, Text, View } from "react-native";
-import CustomHeader from "../../components/CustomHeader";
 import SelectTheatreBottomSheet from "../../components/foodAndDrinks/SelectTheatreBottomSheet";
-import GlobalOverlay from "../../components/GlobalOverlay";
+import CustomHeader from "../../components/headers/CustomHeader";
+import GlobalOverlay from "../../components/overlays/GlobalOverlay";
 import { icons } from "../../constants";
 import {
   BottomSheetProvider,

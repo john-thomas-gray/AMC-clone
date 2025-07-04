@@ -29,6 +29,11 @@ const getVariant = (variant: ButtonProps["variant"]) => {
         container: "bg-transparent border-black",
         text: "text-black"
       };
+    case "inactive":
+      return {
+        container: "bg-gray-200 border-gray-200",
+        text: "text-black"
+      };
     default:
       throw new Error("Illegal variant.");
   }

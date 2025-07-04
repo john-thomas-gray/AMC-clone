@@ -7,7 +7,8 @@ export default function MoviesLayout() {
   const rawSegments = useSegments();
   const segments = rawSegments as string[];
 
-  const hideGlobalBack = segments.includes("seatSelection");
+  const hideGlobalBack =
+    segments.includes("seatSelection") || segments.includes("chooseTickets");
 
   return (
     <View style={{ flex: 1, backgroundColor: "black" }}>

@@ -1,5 +1,5 @@
 import CustomButton from "@/components/buttons/CustomButton";
-import StubsCard from "@/components/StubsCard";
+import StubsCard from "@/components/cards/StubsCard";
 import { backgrounds } from "@/constants";
 import { stubsCardData } from "@/constants/stubsCardContent";
 import { Link } from "expo-router";

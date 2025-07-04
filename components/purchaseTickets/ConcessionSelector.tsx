@@ -2,21 +2,21 @@ import React from "react";
 import { Text, View } from "react-native";
 import Counter from "./Counter";
 
-type TicketSelectorProps = {
+type ConcessionSelectorProps = {
   age: string;
   cost: number;
   fee: number;
-  remainingTickets: number;
-  setRemainingTickets: React.Dispatch<React.SetStateAction<number>>;
+  remainingConcessions: number;
+  setRemainingConcessions: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const TicketSelector = ({
+const ConcessionSelector = ({
   age,
   cost,
   fee,
-  remainingTickets,
-  setRemainingTickets
-}: TicketSelectorProps) => {
+  remainingConcessions,
+  setRemainingConcessions
+}: ConcessionSelectorProps) => {
   return (
     <View className="flex-row h-20  items-start justify-between mb-6">
       <View>
@@ -40,12 +40,12 @@ const TicketSelector = ({
           </Text>
         </View>
         <Counter
-          remaining={remainingTickets}
-          setRemaining={setRemainingTickets}
+          remaining={remainingConcessions}
+          setRemaining={setRemainingConcessions}
         />
       </View>
     </View>
   );
 };
 
-export default TicketSelector;
+export default ConcessionSelector;

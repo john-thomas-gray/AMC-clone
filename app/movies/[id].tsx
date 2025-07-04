@@ -1,4 +1,4 @@
-import SlidingLayout from "@/components/SlidingLayout";
+import SlidingLayout from "@/components/layouts/SlidingLayout";
 import Details from "@/components/movies/Details";
 import Showtimes from "@/components/movies/Showtimes";
 import Videos from "@/components/movies/Videos";

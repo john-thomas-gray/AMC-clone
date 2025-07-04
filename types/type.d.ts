@@ -53,14 +53,6 @@ declare interface SlidingLayoutProps {
   children: React.ReactNode[];
 }
 
-declare interface HorizontalScrollContainerProps {
-  sectionNames: string[];
-  scrollViewRef: React.RefObject<ScrollView>;
-  scrollX: Animated.Value;
-  screenWidth: number;
-  onScrollIndexChange: (index: number) => void;
-}
-
 declare interface IconButtonProps {
   icon: ImageSourcePropType;
   title?: string;

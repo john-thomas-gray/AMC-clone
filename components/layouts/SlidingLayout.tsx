@@ -1,3 +1,4 @@
+import { IconButton } from "@/components/buttons/IconButton";
 import { icons } from "@/constants";
 import { SlidingLayoutProps } from "@/types/type";
 import { formatCalendarDate } from "@/utils/formatMovieData";
@@ -11,7 +12,6 @@ import {
   ScrollView,
   View
 } from "react-native";
-import { IconButton } from "./buttons/IconButton";
 
 const { width: screenWidth } = Dimensions.get("window");
 

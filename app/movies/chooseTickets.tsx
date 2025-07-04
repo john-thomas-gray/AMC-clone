@@ -1,4 +1,4 @@
-import PurchaseTicketsFooter from "@/components/purchaseTickets/PurchaseTicketsFooter";
+import ChooseTicketsFooter from "@/components/purchaseTickets/ChooseTicketsFooter";
 import PurchaseTicketsHeader from "@/components/purchaseTickets/PurchaseTicketsHeader";
 import SignInBanner from "@/components/purchaseTickets/SignInBanner";
 import TicketSelector from "@/components/purchaseTickets/TicketSelector";
@@ -22,12 +22,25 @@ const ChooseTickets = () => {
   const parsedSelectedSeats = Array.isArray(rawSelected)
     ? rawSelected
     : typeof rawSelected === "string"
-    ? rawSelected.split(",") // assuming they were joined like "A1,B2,C3"
+    ? rawSelected.split(",")
     : [];
 
   const [remainingTickets, setRemainingTickets] = useState(
     parsedSelectedSeats.length
   );
+
+  const ticketSkews =
+    projector !== "IMax"
+      ? [
+          { age: "Adult", cost: 19.68, fee: 2.19 },
+          { age: "Child", cost: 16.68, fee: 2.19 },
+          { age: "Senior", cost: 18.18, fee: 2.19 }
+        ]
+      : [
+          { age: "Adult", cost: 30.68, fee: 2.69 },
+          { age: "Child", cost: 27.68, fee: 2.69 },
+          { age: "Senior", cost: 29.18, fee: 2.69 }
+        ];
 
   return (
     <View className="flex-1 bg-black">
@@ -48,37 +61,38 @@ const ChooseTickets = () => {
             </View>
           ) : null}
 
-          {remainingTickets === 1 ? (
-            <View className="w-full h-[40] items-center justify-center">
+          <View className="w-full h-[40] items-center justify-center my-4">
+            {remainingTickets === 1 ? (
               <Text className="text-white font-gordita-regular text-center">
                 Select your remaining ticket
               </Text>
-            </View>
-          ) : remainingTickets > 1 ? (
-            <View className="w-full h-[40] items-center justify-center">
+            ) : remainingTickets > 1 ? (
               <Text className="text-white font-gordita-regular text-center">
                 Select your {remainingTickets} remaining tickets
               </Text>
-            </View>
-          ) : (
-            <></>
-          )}
-          <TicketSelector
-            age="Child"
-            cost={15.6}
-            fee={2.3}
-            remainingTickets={remainingTickets}
-            setRemainingTickets={setRemainingTickets}
-          />
-          <View className="bg-gray-300 w-full p-2 rounded">
-            <Text className="text-white font-gordita-regular text-lg">
+            ) : (
+              <></>
+            )}
+          </View>
+          {ticketSkews.map((ticket, index) => (
+            <TicketSelector
+              key={index}
+              age={ticket.age}
+              cost={ticket.cost}
+              fee={ticket.fee}
+              remainingTickets={remainingTickets}
+              setRemainingTickets={setRemainingTickets}
+            />
+          ))}
+          <View className="bg-gray-300 w-full px-3 rounded-lg pt-2 pb-3">
+            <Text className="text-white font-gordita-regular text-lg pr-4">
               *This Conveience Fee is waived for AMC Stubs A-List and Premiere
               members, and for Premiere GO! members purchasing 4+ tickets.
             </Text>
           </View>
         </View>
       </ScrollView>
-      <PurchaseTicketsFooter onPress={() => {}} />
+      <ChooseTicketsFooter remaining={remainingTickets} onPress={() => {}} />
     </View>
   );
 };
