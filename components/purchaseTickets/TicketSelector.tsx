@@ -8,6 +8,8 @@ type TicketSelectorProps = {
   fee: number;
   remainingTickets: number;
   setRemainingTickets: React.Dispatch<React.SetStateAction<number>>;
+  ticketCount: number;
+  setTicketCount: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const TicketSelector = ({
@@ -15,7 +17,9 @@ const TicketSelector = ({
   cost,
   fee,
   remainingTickets,
-  setRemainingTickets
+  setRemainingTickets,
+  ticketCount,
+  setTicketCount
 }: TicketSelectorProps) => {
   return (
     <View className="flex-row h-20  items-start justify-between mb-6">
@@ -42,6 +46,9 @@ const TicketSelector = ({
         <Counter
           remaining={remainingTickets}
           setRemaining={setRemainingTickets}
+          count={ticketCount}
+          setCount={setTicketCount}
+          limit={9}
         />
       </View>
     </View>

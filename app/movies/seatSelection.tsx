@@ -38,12 +38,19 @@ const SeatSelection = () => {
     .filter(Boolean)
     .join(" | ");
 
+  const rawMovieTitle = movieTitle;
+  const normalizedMovieTitle = Array.isArray(rawMovieTitle)
+    ? rawMovieTitle[0]
+    : rawMovieTitle ?? "Untitled";
+  const rawId = id;
+  const normalizedId = Array.isArray(rawId) ? rawId[0] : rawId ?? "Untitled";
+
   return (
     <View className="flex-1 bg-black">
       <PurchaseTicketsHeader
-        movieTitle={movieTitle}
+        movieTitle={normalizedMovieTitle}
         details={details}
-        id={[id]}
+        id={normalizedId}
       />
       <SignInBanner />
       <View className="flex-1 pt-4">
@@ -53,7 +60,7 @@ const SeatSelection = () => {
         disabled={selectedSeats.length === 0}
         onPress={() => {
           router.push({
-            pathname: "/movies/chooseTickets",
+            pathname: "/movies/ticketSelection",
             params: {
               id,
               movieTitle,

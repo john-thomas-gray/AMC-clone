@@ -18,6 +18,35 @@ function toCamelCase(fileName: string): string {
     .replace(/^[^a-zA-Z]+/, ""); // remove invalid starting characters
 }
 
+/**
+ * Recursively read files from directory and return all asset files found
+ * ignoring folder structure.
+ */
+function readAssetFilesRecursively(dir: string): string[] {
+  let results: string[] = [];
+
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+
+  for (const entry of entries) {
+    if (entry.name.startsWith(".")) continue; // skip hidden files/folders
+
+    const fullPath = path.join(dir, entry.name);
+
+    if (entry.isDirectory()) {
+      // Recurse into subfolder
+      results = results.concat(readAssetFilesRecursively(fullPath));
+    } else {
+      // Check extension
+      const ext = path.extname(entry.name).toLowerCase();
+      if ([".png", ".jpg", ".jpeg", ".svg"].includes(ext)) {
+        results.push(fullPath);
+      }
+    }
+  }
+
+  return results;
+}
+
 function generateImportsAndExports() {
   const importLines: string[] = [];
   const exportGroups: Record<string, string[]> = {
@@ -30,18 +59,32 @@ function generateImportsAndExports() {
 
   for (const [group, dir] of Object.entries(assetDirs)) {
     const fullDir = path.resolve(dir);
-    const files = fs.readdirSync(fullDir);
+    const assetFiles = readAssetFilesRecursively(fullDir);
 
-    for (const file of files) {
-      const ext = path.extname(file).toLowerCase();
-      if (![".png", ".jpg", ".jpeg", ".svg"].includes(ext)) continue;
-      if (file.startsWith(".")) continue; // skip .DS_Store and hidden files
+    for (const filePath of assetFiles) {
+      const fileName = path.basename(filePath);
+      const varName = toCamelCase(fileName);
+      if (!varName) continue; // skip if no valid name
 
-      const varName = toCamelCase(file);
-      if (!varName) continue; // skip if we somehow end up with an empty name
+      // Create import path relative to outputFilePath location
+      // Assuming outputFilePath is relative to project root
+      let relativeImportPath = path.relative(
+        path.dirname(outputFilePath),
+        filePath
+      );
 
-      const importPath = `.${dir}/${file}`;
-      importLines.push(`import ${varName} from "${importPath}";`);
+      // Normalize path separators to posix style for imports
+      relativeImportPath = relativeImportPath.split(path.sep).join("/");
+
+      // Prepend './' if it does not start with '.' or '/'
+      if (
+        !relativeImportPath.startsWith(".") &&
+        !relativeImportPath.startsWith("/")
+      ) {
+        relativeImportPath = "./" + relativeImportPath;
+      }
+
+      importLines.push(`import ${varName} from "${relativeImportPath}";`);
       exportGroups[group].push(varName);
     }
   }

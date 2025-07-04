@@ -80,6 +80,10 @@ import xIcon from "../assets/icons/xIcon.png";
 
 import adaptiveIcon from "../assets/images/adaptive-icon.png";
 
+import comboPopcornTwoDrinks from "../assets/images/concessions/comboPopcornTwoDrinks.png";
+
+import defaultConcessions from "../assets/images/concessions/defaultConcessions.png";
+
 import fandangoLogo from "../assets/images/fandangoLogo.png";
 
 import favicon from "../assets/images/favicon.png";
@@ -173,6 +177,8 @@ export const icons = {
 
 export const images = {
   adaptiveIcon,
+  comboPopcornTwoDrinks,
+  defaultConcessions,
   fandangoLogo,
   favicon,
   icon,

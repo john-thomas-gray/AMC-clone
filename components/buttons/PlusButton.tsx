@@ -5,13 +5,22 @@ import { Image, Pressable } from "react-native";
 type PlusButtonProps = {
   onPress: () => void;
   disabled?: boolean;
+  size?: "S" | "M" | "L";
 };
 
-const PlusButton = ({ onPress, disabled }: PlusButtonProps) => {
+const sizeStyles = {
+  S: "h-6 w-6",
+  M: "h-10 w-10",
+  L: "h-14 w-14"
+};
+
+const PlusButton = ({ onPress, disabled, size = "M" }: PlusButtonProps) => {
+  const dimensions = sizeStyles[size];
+
   return (
-    <Pressable className="h-10 w-10" onPress={disabled ? undefined : onPress}>
+    <Pressable className={dimensions} onPress={disabled ? undefined : onPress}>
       <Image
-        className="h-10 w-10"
+        className={dimensions}
         resizeMode="contain"
         source={!disabled ? icons.plus : icons.plusDisabled}
       />
