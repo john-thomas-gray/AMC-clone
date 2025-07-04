@@ -1,14 +1,35 @@
 import PurchaseTicketsFooter from "@/components/purchaseTickets/PurchaseTicketsFooter";
 import PurchaseTicketsHeader from "@/components/purchaseTickets/PurchaseTicketsHeader";
 import SignInBanner from "@/components/purchaseTickets/SignInBanner";
+import { PurchasesContext } from "@/context/PurchasesContext";
+import { TheatreDataContext } from "@/context/theatreDataContext";
 import { getCurrentDate } from "@/utils/dateAndTime";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useState } from "react";
+import { useRouter } from "expo-router";
+import React, { useContext } from "react";
 import { View } from "react-native";
 import Auditorium from "../../components/purchaseTickets/Auditorium";
 
 const SeatSelection = () => {
-  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+  const { selectedSession } = useContext(TheatreDataContext);
+  const { selectedSeats, setSelectedSeats } = useContext(PurchasesContext);
+
+  const router = useRouter();
+
+  const { theatre, screen, showtime } = selectedSession;
+
+  const normalizedMovieTitle = screen.movie.title ?? "Untitled";
+  const normalizedId = screen.movie.id.toString();
+
+  const details = [
+    theatre.name,
+    getCurrentDate(),
+    showtime,
+    screen.type.projector
+  ]
+    .filter(Boolean)
+    .join(" | ");
+
+  const seatNum = screen.type.seatCount || 100;
 
   const handleSeatToggle = (seatID: string) => {
     setSelectedSeats(prev =>
@@ -18,39 +39,13 @@ const SeatSelection = () => {
     );
   };
 
-  const router = useRouter();
-
-  const {
-    id,
-    movieTitle,
-    theatreName,
-    showtime,
-    projector,
-    seatCount,
-    screenFeatures
-  } = useLocalSearchParams();
-
-  const seatNum = Array.isArray(seatCount)
-    ? Number(seatCount[0])
-    : Number(seatCount);
-
-  const details = [theatreName, getCurrentDate(), showtime, projector]
-    .filter(Boolean)
-    .join(" | ");
-
-  const rawMovieTitle = movieTitle;
-  const normalizedMovieTitle = Array.isArray(rawMovieTitle)
-    ? rawMovieTitle[0]
-    : rawMovieTitle ?? "Untitled";
-  const rawId = id;
-  const normalizedId = Array.isArray(rawId) ? rawId[0] : rawId ?? "Untitled";
-
   return (
     <View className="flex-1 bg-black">
       <PurchaseTicketsHeader
         movieTitle={normalizedMovieTitle}
         details={details}
         id={normalizedId}
+        to={`/movies/${normalizedId}`}
       />
       <SignInBanner />
       <View className="flex-1 pt-4">
@@ -60,16 +55,7 @@ const SeatSelection = () => {
         disabled={selectedSeats.length === 0}
         onPress={() => {
           router.push({
-            pathname: "/movies/ticketSelection",
-            params: {
-              id,
-              movieTitle,
-              theatreName,
-              showtime,
-              projector,
-              details,
-              selectedSeats
-            }
+            pathname: "/movies/ticketSelection"
           });
         }}
       />

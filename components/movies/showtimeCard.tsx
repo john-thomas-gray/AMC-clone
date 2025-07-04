@@ -1,8 +1,9 @@
 import { icons } from "@/constants";
+import { TheatreDataContext } from "@/context/theatreDataContext";
 import { Screen, Theatre } from "@/types/type";
 import { formatTheatreAddress } from "@/utils/formatMovieData";
 import { useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 import CustomButton from "../buttons/CustomButton";
 
@@ -14,6 +15,7 @@ type ShowtimeCardProps = {
 const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
   const [address, setAddress] = useState<string[]>([]);
   const router = useRouter();
+  const { setSelectedSession } = useContext(TheatreDataContext);
 
   useEffect(() => {
     const getAddress = async () => {
@@ -27,6 +29,9 @@ const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
     getAddress();
   }, [theatreData]);
 
+  if (!setSelectedSession) {
+    return <Text>Error: Theatre data context not initialized properly.</Text>;
+  }
   return (
     <View className="flex-1 bg-black border-b border-gray-300 p-4">
       {/* Theatre Header */}
@@ -117,18 +122,12 @@ const ShowtimeCard = ({ theatreData, screenData }: ShowtimeCardProps) => {
                 variant="black"
                 bold={true}
                 onPress={() => {
-                  router.push({
-                    pathname: "/movies/seatSelection",
-                    params: {
-                      id: screen.movie.id,
-                      movieTitle: screen.movie.title,
-                      theatreName: theatreData.name,
-                      showtime: time,
-                      projector: screen.type.projector,
-                      seatCount: screen.type.seatCount,
-                      screenFeatures: screen.features.join(",")
-                    }
+                  setSelectedSession({
+                    theatre: theatreData,
+                    screen: screen,
+                    showtime: time
                   });
+                  router.push("/movies/seatSelection");
                 }}
                 title={time}
               />

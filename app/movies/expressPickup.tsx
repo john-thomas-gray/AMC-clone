@@ -5,7 +5,7 @@ import React from "react";
 import { View } from "react-native";
 
 const ExpressPickup = () => {
-  useLocalSearchParams(
+  const {
     id,
     movieTitle,
     theatreName,
@@ -13,7 +13,8 @@ const ExpressPickup = () => {
     projector,
     details,
     selectedSeats
-  );
+  } = useLocalSearchParams();
+
   return (
     <View className="flex-1 bg-black">
       <ExpressPickupHeader to="/movies/ticketSelection" />

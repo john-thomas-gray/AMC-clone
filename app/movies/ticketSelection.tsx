@@ -5,38 +5,57 @@ import TicketSelectionFooter from "@/components/purchaseTickets/TicketSelectionF
 import TicketSelector from "@/components/purchaseTickets/TicketSelector";
 import { images } from "@/constants";
 import { concessionPrice, movieTicketPrice } from "@/constants/PriceConstants";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useState } from "react";
+import { PurchasesContext } from "@/context/PurchasesContext";
+import { TheatreDataContext } from "@/context/theatreDataContext";
+import { getCurrentDate } from "@/utils/dateAndTime";
+import { useRouter } from "expo-router";
+import React, { useContext, useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 
 const TicketSelection = () => {
+  const { selectedSession } = useContext(TheatreDataContext);
   const {
-    id,
-    movieTitle,
-    theatreName,
-    showtime,
-    projector,
-    details,
-    selectedSeats
-  } = useLocalSearchParams();
+    selectedSeats,
+    setSelectedSeats,
+    selectedConcessions,
+    setSelectedConcessions,
+    ticketCounts,
+    setTicketCounts
+  } = useContext(PurchasesContext)!;
+  const router = useRouter();
 
-  const rawSelected = selectedSeats;
-
-  const parsedSelectedSeats = Array.isArray(rawSelected)
-    ? rawSelected
-    : typeof rawSelected === "string"
-    ? rawSelected.split(",")
-    : [];
-
-  const [remainingTickets, setRemainingTickets] = useState(
-    parsedSelectedSeats.length
-  );
+  const [remainingTickets, setRemainingTickets] = useState(0);
   const [ticketCount, setTicketCount] = useState(0);
-
   const [concessionCount, setConcessionCount] = useState(0);
 
+  // Safe fallback until selectedSession loads
+  if (!selectedSession) {
+    return (
+      <View className="flex-1 bg-black">
+        <SignInBanner />
+        <PurchaseTicketsHeader
+          movieTitle="No Session Selected"
+          details=""
+          id=""
+        />
+      </View>
+    );
+  }
+
+  const { theatre, screen, showtime } = selectedSession;
+
+  const parsedSelectedSeats = Array.isArray(selectedSeats)
+    ? selectedSeats
+    : typeof selectedSeats === "string"
+    ? selectedSeats.split(",")
+    : [];
+
+  useEffect(() => {
+    setRemainingTickets(parsedSelectedSeats.length);
+  }, [parsedSelectedSeats]);
+
   const ticketSkews =
-    projector !== "IMax"
+    screen.type.projector !== "IMax"
       ? [
           {
             age: "Adult",
@@ -72,26 +91,30 @@ const TicketSelection = () => {
           }
         ];
 
-  const rawMovieTitle = movieTitle;
-  const normalizedMovieTitle = Array.isArray(rawMovieTitle)
-    ? rawMovieTitle[0]
-    : rawMovieTitle ?? "Untitled";
-  const rawId = id;
-  const normalizedId = Array.isArray(rawId) ? rawId[0] : rawId ?? "Untitled";
+  const movieTitle = screen.movie.title;
+  const id = screen.movie.id;
+
+  const details = [
+    theatre.name,
+    getCurrentDate(),
+    showtime,
+    screen.type.projector
+  ]
+    .filter(Boolean)
+    .join(" | ");
+
   const rawDetails = details;
   const normalizedDetails = Array.isArray(rawDetails)
     ? rawDetails[0]
     : rawDetails ?? "No details available";
 
-  const router = useRouter();
-
   return (
     <View className="flex-1 bg-black">
       <PurchaseTicketsHeader
-        movieTitle={normalizedMovieTitle}
+        movieTitle={movieTitle}
         details={normalizedDetails}
-        id={normalizedId}
-        to="/movies/seatSelection"
+        id={id}
+        to={`/movies/seatSelection`}
       />
       <ScrollView className="flex">
         <SignInBanner />

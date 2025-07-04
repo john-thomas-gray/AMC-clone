@@ -10,10 +10,20 @@ import { getNearbyTheatres } from "@/utils/location";
 import { fetchMovies } from "@/utils/TMDBapi";
 import React, { createContext, useEffect, useState } from "react";
 
+export interface SelectedSession {
+  theatre: Theatre;
+  screen: Screen;
+  showtime: string;
+}
+
 interface TheatreDataContextValue {
   theatres: Theatre[];
   loading: boolean;
   error?: Error;
+  selectedSession?: SelectedSession;
+  setSelectedSession?: React.Dispatch<
+    React.SetStateAction<SelectedSession | undefined>
+  >;
 }
 
 export const TheatreDataContext = createContext<TheatreDataContextValue>({
@@ -235,12 +245,15 @@ export const TheatreDataContextProvider = ({
   const [theatres, setTheatres] = useState<Theatre[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | undefined>(undefined);
+  const [selectedSession, setSelectedSession] = useState<
+    SelectedSession | undefined
+  >(undefined);
 
   useEffect(() => {
     async function fetchTheatreData() {
       setLoading(true);
       setError(undefined);
-      console.log("generating theatre data context");
+
       try {
         const nearby = await getNearbyTheatres(apiKey);
 
@@ -255,7 +268,9 @@ export const TheatreDataContextProvider = ({
     fetchTheatreData();
   }, [apiKey]);
   return (
-    <TheatreDataContext.Provider value={{ theatres, loading, error }}>
+    <TheatreDataContext.Provider
+      value={{ theatres, loading, error, selectedSession, setSelectedSession }}
+    >
       {children}
     </TheatreDataContext.Provider>
   );

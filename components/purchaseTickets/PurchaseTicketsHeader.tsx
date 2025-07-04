@@ -17,11 +17,10 @@ const PurchaseTicketsHeader = ({
   id,
   to
 }: PurchaseTicketsHeaderProps) => {
-  console.log([id]);
   const router = useRouter();
   return (
     <View className="bg-black h-[18%] flex-row justify-between items-center px-4 pt-[67] border border-red pb-[12]">
-      <BackButton className="" to={`/movies/${id}`} />
+      <BackButton className="" to={to} />
 
       <View className="w-[265] px-2">
         <Text className="text-white font-gordita-bold text-3xl">
