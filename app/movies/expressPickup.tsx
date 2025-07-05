@@ -1,9 +1,10 @@
 import ExpressPickupFooter from "@/components/purchaseTickets/ExpressPickupFooter";
 import ExpressPickupHeader from "@/components/purchaseTickets/ExpressPickupHeader";
+import SignInBanner from "@/components/purchaseTickets/SignInBanner";
 import { TheatreDataContext } from "@/context/theatreDataContext";
 import { RelativePathString, useRouter } from "expo-router";
 import React, { useContext } from "react";
-import { View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 const ExpressPickup = () => {
   const { selectedSession } = useContext(TheatreDataContext);
@@ -13,6 +14,18 @@ const ExpressPickup = () => {
       <ExpressPickupHeader
         to={"/movies/ticketSelection" as RelativePathString}
       />
+      <View className="flex-1">
+        <ScrollView>
+          <SignInBanner />
+          <View className="flex-row w-full items-center justify-between pl-3 pr-5 pt-2 pb-3 bg-black">
+            <Text className="flex-1 text-white font-gordita-reguler text-lg text-left pr-4 leading-snug ">
+              Getting your favorite movie treats is now easier than ever. Just
+              order them online, and we&apos;ll have them ready when you get
+              here.
+            </Text>
+          </View>
+        </ScrollView>
+      </View>
       <ExpressPickupFooter onPress={() => router.push("/movies/payment")} />
     </View>
   );

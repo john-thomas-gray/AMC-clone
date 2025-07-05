@@ -1,11 +1,7 @@
+import { TheatreDataContext } from "@/context/theatreDataContext";
 import { formatTime } from "@/utils/dateAndTime";
-import {
-  ExternalPathString,
-  RelativePathString,
-  useLocalSearchParams,
-  useRouter
-} from "expo-router";
-import React, { useEffect, useState } from "react";
+import { ExternalPathString, RelativePathString, useRouter } from "expo-router";
+import React, { useContext, useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import BackButton from "../buttons/BackButton";
 
@@ -14,19 +10,19 @@ type ExpressPickupHeaderProps = {
 };
 
 const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
-  const { id, movieTitle, theatreName, showtime, projector, details } =
-    useLocalSearchParams();
+  const { selectedSession } = useContext(TheatreDataContext);
 
   const router = useRouter();
 
-  const [timerCount, setTimerCount] = useState(420);
+  const [timerCount, setTimerCount] = useState(1);
+  const theatreName = selectedSession?.theatre?.name ?? "Theatre";
+  const id = selectedSession?.screen.movie.id ?? "Ghostbusters";
 
   useEffect(() => {
     const interval = setInterval(() => {
       setTimerCount(prevCount => {
         if (prevCount <= 1) {
           clearInterval(interval);
-          console.log(id);
           return 0;
         }
         return prevCount - 1;
@@ -38,15 +34,7 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
   useEffect(() => {
     if (timerCount === 0) {
       router.push({
-        pathname: "/movies/[id]",
-        params: {
-          id: Array.isArray(id) ? id[0] : id?.toString(),
-          movieTitle,
-          theatreName,
-          showtime,
-          projector,
-          details
-        }
+        pathname: `/movies/${id}`
       });
     }
   }, [timerCount]);

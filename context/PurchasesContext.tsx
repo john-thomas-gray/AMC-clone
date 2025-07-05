@@ -1,25 +1,41 @@
-import React, { createContext, ReactNode, useState } from "react";
+import { movieTicketPrice } from "@/constants/PriceConstants";
+import React, { createContext, ReactNode, useEffect, useState } from "react";
 
-export interface TicketCounts {
-  adult: number;
-  child: number;
-  senior: number;
-  adultImax: number;
-  childImax: number;
-  seniorImax: number;
+export interface Ticket {
+  projector: string;
+  age: string;
+  cost: number;
+  count: number;
+}
+
+export interface ConcessionItem {
+  title: string;
+  description: string;
+  cost: number;
+  image?: string;
+  count: number;
 }
 
 export interface PurchasesContextValue {
   selectedSeats: string[];
   setSelectedSeats: React.Dispatch<React.SetStateAction<string[]>>;
 
-  selectedConcessions: { [key: string]: number };
+  selectedConcessions: ConcessionItem[];
   setSelectedConcessions: React.Dispatch<
-    React.SetStateAction<{ [key: string]: number }>
+    React.SetStateAction<ConcessionItem[]>
   >;
 
-  ticketCounts: TicketCounts;
-  setTicketCounts: React.Dispatch<React.SetStateAction<TicketCounts>>;
+  selectedTickets: Ticket[];
+  setSelectedTickets: React.Dispatch<React.SetStateAction<Ticket[]>>;
+
+  cartItemCount: number;
+  setCartItemCount: React.Dispatch<React.SetStateAction<number>>;
+
+  cartCostTotal: number;
+  setCartCostTotal: React.Dispatch<React.SetStateAction<number>>;
+
+  resetSelectedTickets: () => void;
+  resetSelectedSeats: () => void;
 }
 
 export const PurchasesContext = createContext<
@@ -28,17 +44,68 @@ export const PurchasesContext = createContext<
 
 export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
-  const [selectedConcessions, setSelectedConcessions] = useState<{
-    [key: string]: number;
-  }>({});
-  const [ticketCounts, setTicketCounts] = useState<TicketCounts>({
-    adult: 0,
-    child: 0,
-    senior: 0,
-    adultImax: 0,
-    childImax: 0,
-    seniorImax: 0
-  });
+  const [selectedConcessions, setSelectedConcessions] = useState<
+    ConcessionItem[]
+  >([]);
+  const [selectedTickets, setSelectedTickets] = useState<Ticket[]>([
+    {
+      projector: "Standard",
+      age: "Adult",
+      cost: movieTicketPrice.adult + movieTicketPrice.fee,
+      count: 0
+    },
+    {
+      projector: "Standard",
+      age: "Child",
+      cost: movieTicketPrice.child + movieTicketPrice.fee,
+      count: 0
+    },
+    {
+      projector: "Standard",
+      age: "Senior",
+      cost: movieTicketPrice.senior + movieTicketPrice.fee,
+      count: 0
+    },
+    {
+      projector: "IMax",
+      age: "Adult",
+      cost: movieTicketPrice.adultImax + movieTicketPrice.feeImax,
+      count: 0
+    },
+    {
+      projector: "IMax",
+      age: "Child",
+      cost: movieTicketPrice.childImax + movieTicketPrice.feeImax,
+      count: 0
+    },
+    {
+      projector: "IMax",
+      age: "Senior",
+      cost: movieTicketPrice.seniorImax + movieTicketPrice.feeImax,
+      count: 0
+    }
+  ]);
+  const [cartItemCount, setCartItemCount] = useState(0);
+  const [cartCostTotal, setCartCostTotal] = useState(0);
+
+  useEffect(() => {
+    const ticketCount = Object.values(selectedTickets).reduce(
+      (sum, { count }) => sum + count,
+      0
+    );
+
+    const concessionCount = selectedConcessions.length;
+
+    setCartItemCount(ticketCount + concessionCount);
+  }, [selectedTickets, selectedConcessions]);
+
+  const resetSelectedTickets = () => {
+    setSelectedTickets([]);
+  };
+
+  const resetSelectedSeats = () => {
+    setSelectedSeats([]);
+  };
 
   return (
     <PurchasesContext.Provider
@@ -47,8 +114,14 @@ export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
         setSelectedSeats,
         selectedConcessions,
         setSelectedConcessions,
-        ticketCounts,
-        setTicketCounts
+        selectedTickets,
+        setSelectedTickets,
+        cartItemCount,
+        setCartItemCount,
+        cartCostTotal,
+        setCartCostTotal,
+        resetSelectedTickets,
+        resetSelectedSeats
       }}
     >
       {children}

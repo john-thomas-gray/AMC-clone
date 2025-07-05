@@ -9,7 +9,7 @@ import { PurchasesContext } from "@/context/PurchasesContext";
 import { TheatreDataContext } from "@/context/theatreDataContext";
 import { getCurrentDate } from "@/utils/dateAndTime";
 import { RelativePathString, useRouter } from "expo-router";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 
 const TicketSelection = () => {
@@ -25,17 +25,20 @@ const TicketSelection = () => {
     setSelectedSeats,
     selectedConcessions,
     setSelectedConcessions,
-    ticketCounts,
-    setTicketCounts
+    selectedTickets,
+    setSelectedTickets,
+    cartItemCount,
+    setCartItemCount,
+    cartCostTotal,
+    setCartCostTotal,
+    resetSelectedTickets
   } = purchasesContext;
 
-  const [remainingTickets, setRemainingTickets] = useState(0);
   const [ticketCount, setTicketCount] = useState(0);
   const [concessionCount, setConcessionCount] = useState(0);
 
-  useEffect(() => {
-    setRemainingTickets(selectedSeats.length);
-  }, [selectedSeats.length]);
+  const totalTicketCount = selectedTickets.reduce((sum, t) => sum + t.count, 0);
+  const remainingTickets = selectedSeats.length - totalTicketCount;
 
   if (!selectedSession) {
     return (
@@ -75,34 +78,40 @@ const TicketSelection = () => {
           {
             age: "Adult",
             cost: movieTicketPrice.adult,
-            fee: movieTicketPrice.fee
+            fee: movieTicketPrice.fee,
+            totalPrice: movieTicketPrice.adult + movieTicketPrice.fee
           },
           {
             age: "Child",
             cost: movieTicketPrice.child,
-            fee: movieTicketPrice.fee
+            fee: movieTicketPrice.fee,
+            totalPrice: movieTicketPrice.child + movieTicketPrice.fee
           },
           {
             age: "Senior",
             cost: movieTicketPrice.senior,
-            fee: movieTicketPrice.fee
+            fee: movieTicketPrice.fee,
+            totalPrice: movieTicketPrice.senior + movieTicketPrice.fee
           }
         ]
       : [
           {
             age: "Adult",
             cost: movieTicketPrice.adultImax,
-            fee: movieTicketPrice.feeImax
+            fee: movieTicketPrice.feeImax,
+            totalPrice: movieTicketPrice.adultImax + movieTicketPrice.feeImax
           },
           {
             age: "Child",
             cost: movieTicketPrice.childImax,
-            fee: movieTicketPrice.feeImax
+            fee: movieTicketPrice.feeImax,
+            totalPrice: movieTicketPrice.childImax + movieTicketPrice.feeImax
           },
           {
             age: "Senior",
             cost: movieTicketPrice.seniorImax,
-            fee: movieTicketPrice.feeImax
+            fee: movieTicketPrice.feeImax,
+            totalPrice: movieTicketPrice.seniorImax + movieTicketPrice.feeImax
           }
         ];
 
@@ -138,18 +147,57 @@ const TicketSelection = () => {
             ) : null}
           </View>
 
-          {ticketSkews.map((ticket, index) => (
-            <TicketSelector
-              key={index}
-              age={ticket.age}
-              cost={ticket.cost}
-              fee={ticket.fee}
-              remainingTickets={remainingTickets}
-              setRemainingTickets={setRemainingTickets}
-              ticketCount={ticketCount}
-              setTicketCount={setTicketCount}
-            />
-          ))}
+          {ticketSkews.map((ticket, index) => {
+            const existingTicket = selectedTickets.find(
+              t => t.age === ticket.age && t.projector === screen.type.projector
+            );
+
+            const ticketCount = existingTicket?.count ?? 0;
+
+            const setTicketCount = (value: React.SetStateAction<number>) => {
+              setSelectedTickets(prev => {
+                const updated = [...prev];
+                const ticketIndex = updated.findIndex(
+                  t =>
+                    t.age === ticket.age &&
+                    t.projector === screen.type.projector
+                );
+
+                const newCount =
+                  typeof value === "function"
+                    ? value(updated[ticketIndex]?.count ?? 0)
+                    : value;
+
+                if (ticketIndex !== -1) {
+                  updated[ticketIndex] = {
+                    ...updated[ticketIndex],
+                    count: newCount
+                  };
+                } else {
+                  updated.push({
+                    projector: screen.type.projector,
+                    age: ticket.age,
+                    cost: ticket.cost,
+                    count: newCount
+                  });
+                }
+
+                return updated;
+              });
+            };
+
+            return (
+              <TicketSelector
+                key={index}
+                age={ticket.age}
+                cost={ticket.cost}
+                fee={ticket.fee}
+                remainingTickets={remainingTickets}
+                ticketCount={ticketCount}
+                setTicketCount={setTicketCount}
+              />
+            );
+          })}
 
           <View className="bg-gray-300 w-full px-3 rounded-lg pt-2 pb-3 mb-12">
             <Text className="text-white font-gordita-regular text-lg pr-4">
@@ -166,11 +214,12 @@ const TicketSelection = () => {
             </Text>
           </View>
           <ConcessionSelector
-            cost={concessionPrice.comboPopcornTwoDrinks}
-            item="Large Popcorn + 2 Large Drinks"
+            price={concessionPrice.comboPopcornTwoDrinks}
+            title="Large Popcorn + 2 Large Drinks"
+            description="Popcorn. 2 Large Drinks."
             image={images.comboPopcornTwoDrinks}
-            count={concessionCount}
-            setConcessionCount={setConcessionCount}
+            selectedConcessions={selectedConcessions}
+            setSelectedConcessions={setSelectedConcessions}
           />
         </View>
       </ScrollView>
@@ -179,6 +228,7 @@ const TicketSelection = () => {
         comboCount={concessionCount}
         ticketCount={ticketCount}
         onPress={() => {
+          resetSelectedTickets();
           router.push({ pathname: "/movies/expressPickup" });
         }}
       />

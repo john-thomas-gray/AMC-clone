@@ -11,7 +11,8 @@ import Auditorium from "../../components/purchaseTickets/Auditorium";
 
 const SeatSelection = () => {
   const { selectedSession } = useContext(TheatreDataContext);
-  const { selectedSeats, setSelectedSeats } = useContext(PurchasesContext)!;
+  const { selectedSeats, setSelectedSeats, resetSelectedSeats } =
+    useContext(PurchasesContext)!;
 
   const router = useRouter();
 

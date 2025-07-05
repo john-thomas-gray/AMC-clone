@@ -13,11 +13,21 @@ import {
   formatRuntime
 } from "@/utils/formatMovieData";
 import { LinearGradient } from "expo-linear-gradient";
-import { useLocalSearchParams } from "expo-router";
+import { RelativePathString, useLocalSearchParams } from "expo-router";
 import React, { useContext } from "react";
 import { Image, ImageBackground, Pressable, Text, View } from "react-native";
 
+import { PurchasesContext } from "@/context/PurchasesContext";
+import { useFocusEffect } from "@react-navigation/native";
+
 const MovieDetail = () => {
+  const { resetSelectedSeats } = useContext(PurchasesContext)!;
+
+  useFocusEffect(
+    React.useCallback(() => {
+      resetSelectedSeats();
+    }, [])
+  );
   const { id } = useLocalSearchParams();
 
   const slideButtonNames = ["SHOWTIMES", "DETAILS", "VIDEOS"];
@@ -37,7 +47,7 @@ const MovieDetail = () => {
   return (
     <View className="flex-1 flex-col bg-black">
       <View className="absolute top-5 left-5 z-10">
-        <BackButton global to="/(tabs)/home" />
+        <BackButton global to={"/(tabs)/home" as RelativePathString} />
       </View>
       <View style={{ height: 275 }}>
         <ImageBackground

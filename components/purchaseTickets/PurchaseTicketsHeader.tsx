@@ -1,5 +1,6 @@
+import { PurchasesContext } from "@/context/PurchasesContext";
 import { ExternalPathString, RelativePathString, useRouter } from "expo-router";
-import React from "react";
+import React, { useContext } from "react";
 import { Text, View } from "react-native";
 import BackButton from "../buttons/BackButton";
 import XButton from "../buttons/XButton";
@@ -17,6 +18,7 @@ const PurchaseTicketsHeader = ({
   id,
   to
 }: PurchaseTicketsHeaderProps) => {
+  const { resetSelectedSeats } = useContext(PurchasesContext)!;
   const router = useRouter();
   return (
     <View className="bg-black h-[18%] flex-row justify-between items-center px-4 pt-[67] border border-red pb-[12]">
@@ -33,6 +35,7 @@ const PurchaseTicketsHeader = ({
 
       <XButton
         onPress={() => {
+          resetSelectedSeats();
           router.push({
             pathname: "/movies/[id]",
             params: { id: id.toString() }
