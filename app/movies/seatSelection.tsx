@@ -4,18 +4,18 @@ import SignInBanner from "@/components/purchaseTickets/SignInBanner";
 import { PurchasesContext } from "@/context/PurchasesContext";
 import { TheatreDataContext } from "@/context/theatreDataContext";
 import { getCurrentDate } from "@/utils/dateAndTime";
-import { useRouter } from "expo-router";
+import { RelativePathString, useRouter } from "expo-router";
 import React, { useContext } from "react";
 import { View } from "react-native";
 import Auditorium from "../../components/purchaseTickets/Auditorium";
 
 const SeatSelection = () => {
   const { selectedSession } = useContext(TheatreDataContext);
-  const { selectedSeats, setSelectedSeats } = useContext(PurchasesContext);
+  const { selectedSeats, setSelectedSeats } = useContext(PurchasesContext)!;
 
   const router = useRouter();
 
-  const { theatre, screen, showtime } = selectedSession;
+  const { theatre, screen, showtime } = selectedSession!;
 
   const normalizedMovieTitle = screen.movie.title ?? "Untitled";
   const normalizedId = screen.movie.id.toString();
@@ -45,11 +45,15 @@ const SeatSelection = () => {
         movieTitle={normalizedMovieTitle}
         details={details}
         id={normalizedId}
-        to={`/movies/${normalizedId}`}
+        to={`/movies/${normalizedId}` as RelativePathString}
       />
       <SignInBanner />
       <View className="flex-1 pt-4">
-        <Auditorium seatNum={seatNum} onSeatToggle={handleSeatToggle} />
+        <Auditorium
+          seatNum={seatNum}
+          onSeatToggle={handleSeatToggle}
+          selectedSeats={selectedSeats}
+        />
       </View>
       <PurchaseTicketsFooter
         disabled={selectedSeats.length === 0}

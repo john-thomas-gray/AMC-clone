@@ -4,6 +4,9 @@ export interface TicketCounts {
   adult: number;
   child: number;
   senior: number;
+  adultImax: number;
+  childImax: number;
+  seniorImax: number;
 }
 
 export interface PurchasesContextValue {
@@ -31,7 +34,10 @@ export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
   const [ticketCounts, setTicketCounts] = useState<TicketCounts>({
     adult: 0,
     child: 0,
-    senior: 0
+    senior: 0,
+    adultImax: 0,
+    childImax: 0,
+    seniorImax: 0
   });
 
   return (

@@ -7,9 +7,14 @@ import { ScrollView } from "react-native-gesture-handler";
 type AuditoriumProps = {
   seatNum: number;
   onSeatToggle: (seatID: string) => void;
+  selectedSeats: string[];
 };
 
-const Auditorium = ({ seatNum, onSeatToggle }: AuditoriumProps) => {
+const Auditorium = ({
+  seatNum,
+  onSeatToggle,
+  selectedSeats
+}: AuditoriumProps) => {
   const pairs = [
     {
       icon: icons.seat,
@@ -53,7 +58,11 @@ const Auditorium = ({ seatNum, onSeatToggle }: AuditoriumProps) => {
   const firstRow = seatTypes.slice(0, 3);
   const secondRow = seatTypes.slice(3, 6);
 
-  const renderSeatRow = (rowLetter: string, seatsInRow: number) => {
+  const renderSeatRow = (
+    rowLetter: string,
+    seatsInRow: number,
+    selectedSeats: string[]
+  ) => {
     return (
       <View
         key={rowLetter}
@@ -61,10 +70,13 @@ const Auditorium = ({ seatNum, onSeatToggle }: AuditoriumProps) => {
       >
         {Array.from({ length: seatsInRow }, (_, i) => {
           const num = i + 1;
+          const seatID = `${rowLetter}${num}`;
+          const isSelected = selectedSeats.includes(seatID);
+
           return (
-            <View key={`${rowLetter}${num}`} className="mx-[2px]">
+            <View key={seatID} className="mx-[2px]">
               <Seat
-                state="Available"
+                state={isSelected ? "Selected" : "Available"} // set state dynamically
                 row={rowLetter}
                 num={num}
                 onToggle={handleSeatToggle}
@@ -76,7 +88,7 @@ const Auditorium = ({ seatNum, onSeatToggle }: AuditoriumProps) => {
     );
   };
 
-  const renderAuditorium = (seatNum: number) => {
+  const renderAuditorium = (seatNum: number, selectedSeats: string[]) => {
     const seatsPerRow = 19;
     const rows: JSX.Element[] = [];
     const totalRows = Math.ceil(seatNum / seatsPerRow);
@@ -88,7 +100,7 @@ const Auditorium = ({ seatNum, onSeatToggle }: AuditoriumProps) => {
       const rowLetter = alphabet[i] || `Row${i + 1}`;
       const seatsInThisRow = Math.min(seatsLeft, seatsPerRow);
 
-      rows.push(renderSeatRow(rowLetter, seatsInThisRow));
+      rows.push(renderSeatRow(rowLetter, seatsInThisRow, selectedSeats));
 
       seatsLeft -= seatsInThisRow;
     }
@@ -143,7 +155,7 @@ const Auditorium = ({ seatNum, onSeatToggle }: AuditoriumProps) => {
               }}
             >
               <View className="border border-red-500">
-                {renderAuditorium(seatNum)}
+                {renderAuditorium(seatNum, selectedSeats)}
               </View>
             </View>
           </View>

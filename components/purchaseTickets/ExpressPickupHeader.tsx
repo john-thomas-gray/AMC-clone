@@ -10,7 +10,7 @@ import { Text, View } from "react-native";
 import BackButton from "../buttons/BackButton";
 
 type ExpressPickupHeaderProps = {
-  to?: RelativePathString | ExternalPathString;
+  to?: RelativePathString | ExternalPathString | undefined;
 };
 
 const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
@@ -19,7 +19,7 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
 
   const router = useRouter();
 
-  const [timerCount, setTimerCount] = useState(4200);
+  const [timerCount, setTimerCount] = useState(420);
 
   useEffect(() => {
     const interval = setInterval(() => {

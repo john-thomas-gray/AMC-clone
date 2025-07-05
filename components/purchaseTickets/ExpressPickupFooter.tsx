@@ -22,7 +22,7 @@ const ExpressPickupFooter = ({
         <View className="h-5 w-5">
           <CartButton />
         </View>
-        <CustomButton title={buttonText} variant="white" onPress={() => {}} />
+        <CustomButton title={buttonText} variant="white" onPress={onPress} />
       </View>
     </View>
   );

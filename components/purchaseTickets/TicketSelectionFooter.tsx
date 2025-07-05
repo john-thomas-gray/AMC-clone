@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { Text, View } from "react-native";
 import CustomButton from "../buttons/CustomButton";
 
@@ -6,18 +6,15 @@ type Props = {
   onPress: () => void;
   remaining: number;
   comboCount: number;
+  ticketCount: number; // add ticketCount here
 };
 
-const ChooseTicketsFooter = ({ onPress, remaining, comboCount = 0 }: Props) => {
-  const [ticketCount, setTicketCount] = useState(0);
-  const totalTickets = useRef(remaining);
-
-  useEffect(() => {
-    setTicketCount(prevCount => {
-      return totalTickets.current - remaining;
-    });
-  }, [remaining]);
-
+const SelectTicketsFooter = ({
+  onPress,
+  remaining,
+  comboCount = 0,
+  ticketCount
+}: Props) => {
   return (
     <View>
       <View className="border-t border-gray-300 px-4 pt-2 pb-8 flex-row justify-between items-center">
@@ -48,15 +45,15 @@ const ChooseTicketsFooter = ({ onPress, remaining, comboCount = 0 }: Props) => {
           <CustomButton
             variant="white"
             title="Continue"
-            bold={true}
-            onPress={() => onPress()}
+            bold
+            onPress={onPress}
           />
         ) : (
           <CustomButton
             variant="inactive"
             title="Continue"
-            bold={true}
-            onPress={() => onPress()}
+            bold
+            onPress={onPress}
           />
         )}
       </View>
@@ -64,4 +61,4 @@ const ChooseTicketsFooter = ({ onPress, remaining, comboCount = 0 }: Props) => {
   );
 };
 
-export default ChooseTicketsFooter;
+export default SelectTicketsFooter;
