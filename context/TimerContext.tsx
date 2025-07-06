@@ -12,6 +12,7 @@ interface TimerContextValue {
   startTimer: (seconds: number) => void;
   stopTimer: () => void;
   resetTimer: () => void;
+  onTimeReached: (seconds: number, callback: () => void) => void;
 }
 
 const defaultValue: TimerContextValue = {
@@ -19,7 +20,8 @@ const defaultValue: TimerContextValue = {
   isRunning: false,
   startTimer: () => {},
   stopTimer: () => {},
-  resetTimer: () => {}
+  resetTimer: () => {},
+  onTimeReached: () => {}
 };
 
 export const TimerContext = createContext<TimerContextValue>(defaultValue);
@@ -56,8 +58,27 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [isRunning, timerSeconds]);
 
+  useEffect(() => {
+    const callbacks = callbacksRef.current.get(timerSeconds);
+    if (callbacks?.length) {
+      callbacksRef.current.delete(timerSeconds);
+      callbacks.forEach(cb => cb());
+    }
+  }, [timerSeconds]);
+
+  const callbacksRef = useRef<Map<number, (() => void)[]>>(new Map());
+
+  const onTimeReached = (seconds: number, callback: () => void) => {
+    const existing = callbacksRef.current.get(seconds) ?? [];
+    if (existing.length > 0) {
+      console.log(callbacksRef.current);
+    }
+    callbacksRef.current.set(seconds, [...existing, callback]);
+  };
+
   const startTimer = (seconds: number) => {
     if (seconds > 0) {
+      callbacksRef.current.clear();
       setTimerSeconds(seconds);
       setIsRunning(true);
     }
@@ -74,7 +95,14 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <TimerContext.Provider
-      value={{ timerSeconds, isRunning, startTimer, stopTimer, resetTimer }}
+      value={{
+        timerSeconds,
+        isRunning,
+        startTimer,
+        stopTimer,
+        resetTimer,
+        onTimeReached
+      }}
     >
       {children}
     </TimerContext.Provider>

@@ -27,7 +27,7 @@ const CountdownTimer = ({ initialSeconds, onFinish }: CountdownTimerProps) => {
 
   useEffect(() => {
     if (timerSeconds > 0) {
-      startedRef.current = true; // timer is running or has started
+      startedRef.current = true;
     }
 
     if (
