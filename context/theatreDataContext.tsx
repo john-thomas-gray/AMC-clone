@@ -47,7 +47,7 @@ const getSeatCount = (screenType: string): number => {
 };
 
 const getScreenNum = (theatre: string): number => {
-  const match = theatre.match(/(\d+)(?!.*\d)/); // find the last number in the string
+  const match = theatre.match(/(\d+)(?!.*\d)/);
   return match ? Number(match[1]) : 1;
 };
 

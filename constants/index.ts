@@ -26,6 +26,10 @@ import foodTab from "../assets/icons/foodTab.png";
 
 import foodTabFocused from "../assets/icons/foodTabFocused.png";
 
+import forwardArrow from "../assets/icons/forwardArrow.png";
+
+import forwardArrowWhite from "../assets/icons/forwardArrowWhite.png";
+
 import info from "../assets/icons/info.png";
 
 import locationTab from "../assets/icons/locationTab.png";
@@ -82,9 +86,21 @@ import xIcon from "../assets/icons/xIcon.png";
 
 import adaptiveIcon from "../assets/images/adaptive-icon.png";
 
+import MMCombo from "../assets/images/concessions/MMCombo.png";
+
+import beverages from "../assets/images/concessions/beverages.jpg";
+
 import comboPopcornTwoDrinks from "../assets/images/concessions/comboPopcornTwoDrinks.png";
 
+import combos from "../assets/images/concessions/combos.jpeg";
+
 import defaultConcessions from "../assets/images/concessions/defaultConcessions.png";
+
+import popcorn from "../assets/images/concessions/popcorn.jpg";
+
+import slushieCombo from "../assets/images/concessions/slushieCombo.png";
+
+import teensTastyDeal from "../assets/images/concessions/teensTastyDeal.png";
 
 import fandangoLogo from "../assets/images/fandangoLogo.png";
 
@@ -149,6 +165,8 @@ export const icons = {
   favouriteOff,
   foodTab,
   foodTabFocused,
+  forwardArrow,
+  forwardArrowWhite,
   info,
   locationTab,
   locationTabFocused,
@@ -180,8 +198,14 @@ export const icons = {
 
 export const images = {
   adaptiveIcon,
+  MMCombo,
+  beverages,
   comboPopcornTwoDrinks,
+  combos,
   defaultConcessions,
+  popcorn,
+  slushieCombo,
+  teensTastyDeal,
   fandangoLogo,
   favicon,
   icon,

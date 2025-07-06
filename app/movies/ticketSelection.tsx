@@ -228,7 +228,6 @@ const TicketSelection = () => {
         comboCount={concessionCount}
         ticketCount={ticketCount}
         onPress={() => {
-          resetSelectedTickets();
           router.push({ pathname: "/movies/expressPickup" });
         }}
       />

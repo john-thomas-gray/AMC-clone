@@ -38,9 +38,24 @@ export interface PurchasesContextValue {
   resetSelectedSeats: () => void;
 }
 
-export const PurchasesContext = createContext<
-  PurchasesContextValue | undefined
->(undefined);
+const defaultPurchasesContextValue: PurchasesContextValue = {
+  selectedSeats: [],
+  setSelectedSeats: () => {},
+  selectedConcessions: [],
+  setSelectedConcessions: () => {},
+  selectedTickets: [],
+  setSelectedTickets: () => {},
+  cartItemCount: 0,
+  setCartItemCount: () => {},
+  cartCostTotal: 0,
+  setCartCostTotal: () => {},
+  resetSelectedTickets: () => {},
+  resetSelectedSeats: () => {}
+};
+
+export const PurchasesContext = createContext<PurchasesContextValue>(
+  defaultPurchasesContextValue
+);
 
 export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
@@ -89,14 +104,30 @@ export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
   const [cartCostTotal, setCartCostTotal] = useState(0);
 
   useEffect(() => {
-    const ticketCount = Object.values(selectedTickets).reduce(
+    const ticketCount = selectedTickets.reduce(
+      (sum, { count }) => sum + count,
+      0
+    );
+    const concessionCount = selectedConcessions.reduce(
       (sum, { count }) => sum + count,
       0
     );
 
-    const concessionCount = selectedConcessions.length;
-
     setCartItemCount(ticketCount + concessionCount);
+
+    const ticketTotal = selectedTickets.reduce(
+      (sum, ticket) => sum + ticket.cost * ticket.count,
+      0
+    );
+
+    const concessionTotal = selectedConcessions.reduce(
+      (sum, item) => sum + item.cost * item.count,
+      0
+    );
+
+    const total = ticketTotal + concessionTotal;
+
+    setCartCostTotal(Number(total.toFixed(2)));
   }, [selectedTickets, selectedConcessions]);
 
   const resetSelectedTickets = () => {

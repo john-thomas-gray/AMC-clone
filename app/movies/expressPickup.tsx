@@ -1,6 +1,8 @@
+import ConcessionsCard from "@/components/cards/ConcessionsCard";
 import ExpressPickupFooter from "@/components/purchaseTickets/ExpressPickupFooter";
 import ExpressPickupHeader from "@/components/purchaseTickets/ExpressPickupHeader";
 import SignInBanner from "@/components/purchaseTickets/SignInBanner";
+import { concessionsCards } from "@/constants/ConcessionsData";
 import { TheatreDataContext } from "@/context/theatreDataContext";
 import { RelativePathString, useRouter } from "expo-router";
 import React, { useContext } from "react";
@@ -24,6 +26,18 @@ const ExpressPickup = () => {
               here.
             </Text>
           </View>
+          {concessionsCards.map((card, index) => (
+            <View key={index} className="bg-black my-3">
+              <ConcessionsCard
+                key={index}
+                title={card.title}
+                imagePath={card.imagePath}
+                onPress={() => {
+                  console.log(`${card.title} pressed`);
+                }}
+              />
+            </View>
+          ))}
         </ScrollView>
       </View>
       <ExpressPickupFooter onPress={() => router.push("/movies/payment")} />

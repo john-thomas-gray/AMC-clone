@@ -8,7 +8,7 @@ import { FlatList, ImageBackground, Text, View } from "react-native";
 
 const stubCards = [
   stubsCardData.aList,
-  stubsCardData.premiere,
+  stubsCardData.premiere.myAMC,
   stubsCardData.insider
 ];
 

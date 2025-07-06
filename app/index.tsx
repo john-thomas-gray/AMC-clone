@@ -44,20 +44,20 @@ export default function Home() {
   if (!fontsLoaded) return <View />;
 
   return (
-    <Redirect href="/(tabs)/home" />
-    // <Redirect
-    //   href={{
-    //     pathname: "/movies/expressPickup",
-    //     params: {
-    //       id: "574475",
-    //       movieTitle: "Example Movie",
-    //       theatreName: "Example Theatre",
-    //       showtime: "8:00 PM",
-    //       projector: "IMAX",
-    //       details: "Some details",
-    //       selectedSeats: "A1,A2"
-    //     }
-    //   }}
-    // />
+    // <Redirect href="/(tabs)/home" />
+    <Redirect
+      href={{
+        pathname: "/movies/expressPickup",
+        params: {
+          id: "574475",
+          movieTitle: "Example Movie",
+          theatreName: "Example Theatre",
+          showtime: "8:00 PM",
+          projector: "IMAX",
+          details: "Some details",
+          selectedSeats: "A1,A2"
+        }
+      }}
+    />
   );
 }

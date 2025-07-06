@@ -2,7 +2,14 @@ import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { ButtonProps } from "../../types/type";
 
-const getVariant = (variant: ButtonProps["variant"]) => {
+const getVariant = (
+  variant: ButtonProps["variant"],
+  disabled?: boolean | null
+) => {
+  if (disabled) {
+    variant = "inactive";
+  }
+
   switch (variant?.toLowerCase()) {
     case "red":
       return {
@@ -31,8 +38,8 @@ const getVariant = (variant: ButtonProps["variant"]) => {
       };
     case "inactive":
       return {
-        container: "bg-gray-200 border-gray-200",
-        text: "text-black"
+        container: "bg-gray-200 border-gray-100",
+        text: "text-red"
       };
     default:
       throw new Error("Illegal variant.");
@@ -51,28 +58,21 @@ const CustomButton = ({
   className = "",
   ...props
 }: ButtonProps) => {
-  const variantStyles = getVariant(variant);
-
-  const disabledStyles = {
-    container: "bg-gray-300 border-gray-300",
-    text: "text-gray-500"
-  };
+  const variantStyles = getVariant(variant, disabled);
 
   return (
     <Pressable
       onPress={disabled ? undefined : onPress}
       disabled={disabled}
-      className={`h-[38px] flex flex-row items-center border rounded-full px-4 ${className} ${
-        disabled ? disabledStyles.container : variantStyles.container
-      }`}
+      className={`h-[38px] flex flex-row items-center border rounded-full px-4 ${variantStyles.container} ${className}`}
       {...props}
     >
       {IconLeft && <View className="mr-2">{<IconLeft />}</View>}
 
       <Text
-        className={`flex-grow text-center ${
-          disabled ? disabledStyles.text : variantStyles.text
-        } ${bold ? "font-gordita-bold" : "font-gordita-regular"} ${textStyle}`}
+        className={`flex-grow text-center ${variantStyles.text} ${
+          bold ? "font-gordita-bold" : "font-gordita-regular"
+        } ${textStyle}`}
       >
         {title}
       </Text>
