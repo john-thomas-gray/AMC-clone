@@ -70,10 +70,9 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
 
   const onTimeReached = (seconds: number, callback: () => void) => {
     const existing = callbacksRef.current.get(seconds) ?? [];
-    if (existing.length > 0) {
-      console.log(callbacksRef.current);
+    if (!existing.includes(callback)) {
+      callbacksRef.current.set(seconds, [...existing, callback]);
     }
-    callbacksRef.current.set(seconds, [...existing, callback]);
   };
 
   const startTimer = (seconds: number) => {

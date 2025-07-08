@@ -48,13 +48,21 @@ export const ModalContext = createContext<ModalContextType | undefined>(
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [modals, setModals] = useState<ModalEntry[]>([]);
 
-  // Generate unique IDs (simple example, you can use uuid or nanoid)
   const generateId = () => Math.random().toString(36).substr(2, 9);
 
   const showModal = useCallback(
-    (type: ModalType, props: AlertModalProps | YesNoModalProps) => {
-      const id = generateId();
-      setModals(current => [...current, { id, type, props }]);
+    (type: ModalType, props: AlertModalProps | YesNoModalProps): string => {
+      let id = "";
+      setModals(current => {
+        if (current.length > 0) {
+          console.warn("A modal is already open. Ignoring showModal call.");
+          return current;
+        }
+
+        id = generateId();
+        return [...current, { id, type, props }];
+      });
+
       return id;
     },
     []
@@ -68,12 +76,9 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
     <ModalContext.Provider value={{ modals, showModal, hideModal }}>
       {children}
 
-      {/* Render all modals */}
       {modals.map(({ id, type, props }) => {
         if (type === "alert") {
-          // Type assertion for AlertModalProps
           const alertProps = props as AlertModalProps;
-
           return (
             <AlertModal
               key={id}
@@ -88,9 +93,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         }
 
         if (type === "yesno") {
-          // Type assertion for YesNoModalProps
           const yesNoProps = props as YesNoModalProps;
-
           return (
             <YesNoModal
               key={id}

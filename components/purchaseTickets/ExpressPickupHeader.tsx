@@ -19,14 +19,24 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
   const router = useRouter();
   const alertModalId = useRef<string | null>(null);
   const yesNoModalId = useRef<string | null>(null);
+  const cancelModalId = useRef<string | null>(null);
   const { showModal, hideModal } = useContext(ModalContext);
 
   const theatreName = selectedSession?.theatre?.name ?? "Theatre";
   const id = selectedSession?.screen.movie.id ?? "123";
   const { onTimeReached } = useContext(TimerContext);
 
+  const handleCancel = () => {
+    cancelModalId.current = showModal("yesno", {
+      title: "Cancel Order",
+      body: "Are you sure you want to cancel your order?",
+      onYes: () => selectedYes(true, "cancel"),
+      onNo: () => selectedYes(false, "cancel")
+    });
+  };
+
   const handleClose = () => {
-    hideModal();
+    hideModal(alertModalId.current);
     resetSelectedSeats();
     resetSelectedTickets();
     router.push({
@@ -35,26 +45,33 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
     });
   };
 
-  // const handleTimerFinish = () => {
-  //   stopTimer();
-  //   resetTimer();
+  const selectedYes = (yes: boolean, source: "yesNo" | "cancel") => {
+    const clearModal = (ref: React.RefObject<string | null>) => {
+      if (ref.current) {
+        hideModal(ref.current);
+        ref.current = null;
+      }
+    };
 
-  //   alertModalId.current = showModal("alert", {
-  //     title: "Oops! Time is up.",
-  //     body: "We had to release any reserved tickets or food & beverage items because the allotted time has expired.",
-  //     onClose: () => handleClose()
-  //   });
-  // };
-
-  const selectedYes = (yes: boolean) => {
-    if (yesNoModalId.current) {
-      hideModal(yesNoModalId.current);
-      yesNoModalId.current = null;
-    }
+    clearModal(cancelModalId);
+    clearModal(yesNoModalId);
 
     if (yes) {
-      resetTimer();
-      startTimer(420);
+      if (source === "yesNo") {
+        resetTimer();
+        startTimer(420);
+        resetSelectedSeats();
+        resetSelectedTickets();
+      }
+
+      if (source === "cancel") {
+        router.push({
+          pathname: "/movies/[id]",
+          params: {
+            id: selectedSession?.screen.movie.id.toString() ?? ""
+          }
+        });
+      }
     }
   };
 
@@ -67,8 +84,8 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
       showModal("yesno", {
         title: "Need More Time?",
         body: "We had to release any reserved tickets or food & beverage items because the allotted time has expired.",
-        onYes: () => selectedYes(true),
-        onNo: () => selectedYes(false)
+        onYes: () => selectedYes(true, "yesNo"),
+        onNo: () => selectedYes(false, "yesNo")
       });
     });
 
@@ -79,7 +96,7 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
 
   return (
     <View className="bg-black h-[18%] flex-row justify-between items-center px-4 pt-[67] border border-red pb-[12]">
-      <BackButton className="" to={to} />
+      <BackButton className="" to={to} onPress={handleCancel} />
 
       <View className="w-[265] px-2">
         <Text className="text-white font-gordita-bold text-3xl">
@@ -92,7 +109,7 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
 
       <View className="w-[34] items-end">
         <CountdownTimer
-          initialSeconds={35}
+          initialSeconds={420}
           onFinish={() =>
             onTimeReached(0, () => {
               showModal("alert", {

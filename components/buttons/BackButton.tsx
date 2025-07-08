@@ -8,24 +8,30 @@ type BackButtonProps = {
   className?: string;
   global?: boolean;
   to?: RelativePathString | ExternalPathString | undefined;
+  onPress?: () => void;
 };
 
 const BackButton = ({
   className = "",
   global = false,
-  to
+  to,
+  onPress
 }: BackButtonProps) => {
   const router = useRouter();
 
+  const handlePress = () => {
+    if (onPress) {
+      onPress();
+    } else if (to) {
+      router.push(to);
+    } else {
+      router.back();
+    }
+  };
+
   const content = (
     <Pressable
-      onPress={() => {
-        if (to !== undefined) {
-          router.push(to);
-        } else {
-          router.back();
-        }
-      }}
+      onPress={handlePress}
       className={`h-6 w-6 ${className}`}
       accessibilityLabel="Back"
     >
