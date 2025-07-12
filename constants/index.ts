@@ -1,3 +1,11 @@
+import ApplePay from "../assets/icons/ApplePay.png";
+
+import BitPay from "../assets/icons/BitPay.png";
+
+import PayPal from "../assets/icons/PayPal.png";
+
+import Venmo from "../assets/icons/Venmo.png";
+
 import amcTab from "../assets/icons/amcTab.png";
 
 import amcTabFocused from "../assets/icons/amcTabFocused.png";
@@ -22,6 +30,8 @@ import dropdownIconWhite from "../assets/icons/dropdownIconWhite.png";
 
 import favouriteOff from "../assets/icons/favouriteOff.png";
 
+import film from "../assets/icons/film.png";
+
 import foodTab from "../assets/icons/foodTab.png";
 
 import foodTabFocused from "../assets/icons/foodTabFocused.png";
@@ -43,6 +53,8 @@ import minus from "../assets/icons/minus.png";
 import minusDisabled from "../assets/icons/minusDisabled.png";
 
 import occupied from "../assets/icons/occupied.png";
+
+import plusBlue from "../assets/icons/plus-blue.png";
 
 import plus from "../assets/icons/plus.png";
 
@@ -151,6 +163,10 @@ import reald from "../assets/logos/reald.png";
 
 
 export const icons = {
+  ApplePay,
+  BitPay,
+  PayPal,
+  Venmo,
   amcTab,
   amcTabFocused,
   available,
@@ -163,6 +179,7 @@ export const icons = {
   dropdownIconBlack,
   dropdownIconWhite,
   favouriteOff,
+  film,
   foodTab,
   foodTabFocused,
   forwardArrow,
@@ -174,6 +191,7 @@ export const icons = {
   minus,
   minusDisabled,
   occupied,
+  plusBlue,
   plus,
   plusDisabled,
   profile,

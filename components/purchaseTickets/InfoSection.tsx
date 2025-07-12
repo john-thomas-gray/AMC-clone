@@ -1,10 +1,10 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 const InfoSection = () => {
   return (
     <View>
-      <Text className=""></Text>
+      <View className="h-5 w-5 bg-white"></View>
     </View>
   );
 };
