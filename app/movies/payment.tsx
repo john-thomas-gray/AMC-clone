@@ -1,7 +1,7 @@
 import PaymentButton from "@/components/buttons/PaymentButton";
 import StubsCard from "@/components/cards/StubsCard";
 import GorditaText from "@/components/GorditaText";
-import ExpressPickupFooter from "@/components/purchaseTickets/ExpressPickupFooter";
+import PaymentFooter from "@/components/purchaseTickets/PaymentFooter";
 import PaymentHeader from "@/components/purchaseTickets/PaymentHeader";
 import SignInBanner from "@/components/purchaseTickets/SignInBanner";
 import ShimmerOverlay from "@/components/ShimmerOverlay";
@@ -310,12 +310,12 @@ const Payment = () => {
           )}
         </View>
       </ScrollView>
-      <ExpressPickupFooter
+      <PaymentFooter
         buttonText="Purchase"
         onPress={() => {
           console.log("purchased");
         }}
-        disabled={true}
+        disabled={!selectedPaymentMethod}
       />
     </View>
   );
