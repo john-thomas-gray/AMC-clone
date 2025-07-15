@@ -3,14 +3,14 @@ import PurchaseTicketsHeader from "@/components/purchaseTickets/PurchaseTicketsH
 import SignInBanner from "@/components/purchaseTickets/SignInBanner";
 import TicketSelectionFooter from "@/components/purchaseTickets/TicketSelectionFooter";
 import TicketSelector from "@/components/purchaseTickets/TicketSelector";
-import { images } from "@/constants";
+import { icons, images } from "@/constants";
 import { concessionPrice, movieTicketPrice } from "@/constants/PriceConstants";
 import { PurchasesContext } from "@/context/PurchasesContext";
 import { TheatreDataContext } from "@/context/theatreDataContext";
 import { getCurrentDate } from "@/utils/dateAndTime";
 import { RelativePathString, useRouter } from "expo-router";
 import React, { useContext, useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { Image, ScrollView, Text, View } from "react-native";
 
 const TicketSelection = () => {
   const router = useRouter();
@@ -19,6 +19,7 @@ const TicketSelection = () => {
   if (!purchasesContext) {
     throw new Error("PurchasesContext must be used within a PurchasesProvider");
   }
+  const rRated = selectedSession?.screen?.movie?.genres?.[0]?.name === "Horror";
 
   const {
     selectedSeats,
@@ -207,12 +208,26 @@ const TicketSelection = () => {
           </View>
         </View>
 
+        {rRated ? (
+          <View className="items-center justify-center pb-10">
+            <View className="flex-row">
+              <Text className="text-blue-100 font-gordita-regular">
+                ID Required for R-Rated Movies{"  "}
+              </Text>
+              <Image source={icons.info} className="h-5 w-5" />
+            </View>
+          </View>
+        ) : (
+          <View />
+        )}
+
         <View className="border-gray-300 border-y mx-2 mb-6">
           <View className="items-center justify-center h-[70px]">
             <Text className="text-white font-gordita-bold text-xl">
               Would you like to add a combo?
             </Text>
           </View>
+
           <ConcessionSelector
             price={concessionPrice.comboPopcornTwoDrinks}
             title="Large Popcorn + 2 Large Drinks"

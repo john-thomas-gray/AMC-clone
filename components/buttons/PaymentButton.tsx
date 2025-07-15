@@ -1,9 +1,15 @@
 import React from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import {
+  Image,
+  ImageSourcePropType,
+  Pressable,
+  Text,
+  View
+} from "react-native";
 
 type PaymentButtonProps = {
   text: string;
-  image: Image;
+  image: ImageSourcePropType;
   className?: string;
 };
 

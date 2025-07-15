@@ -1,10 +1,10 @@
-import ApplePay from "../assets/icons/ApplePay.png";
+import applePay from "../assets/icons/applePay.png";
 
-import BitPay from "../assets/icons/BitPay.png";
+import bitPay from "../assets/icons/bitPay.png";
 
-import PayPal from "../assets/icons/PayPal.png";
+import payPal from "../assets/icons/payPal.png";
 
-import Venmo from "../assets/icons/Venmo.png";
+import venmo from "../assets/icons/venmo.png";
 
 import amcTab from "../assets/icons/amcTab.png";
 
@@ -23,6 +23,8 @@ import cart from "../assets/icons/cart.png";
 import checkmark from "../assets/icons/checkmark.png";
 
 import companion from "../assets/icons/companion.png";
+
+import downArrowWhite from "../assets/icons/downArrowWhite.png";
 
 import dropdownIconBlack from "../assets/icons/dropdownIconBlack.png";
 
@@ -87,6 +89,8 @@ import targetWhite from "../assets/icons/targetWhite.png";
 import ticketTab from "../assets/icons/ticketTab.png";
 
 import ticketTabFocused from "../assets/icons/ticketTabFocused.png";
+
+import upArrowWhite from "../assets/icons/upArrowWhite.png";
 
 import upload from "../assets/icons/upload.png";
 
@@ -160,13 +164,11 @@ import laser from "../assets/logos/laser.png";
 
 import reald from "../assets/logos/reald.png";
 
-
-
 export const icons = {
-  ApplePay,
-  BitPay,
-  PayPal,
-  Venmo,
+  applePay,
+  bitPay,
+  payPal,
+  venmo,
   amcTab,
   amcTabFocused,
   available,
@@ -176,6 +178,7 @@ export const icons = {
   cart,
   checkmark,
   companion,
+  downArrowWhite,
   dropdownIconBlack,
   dropdownIconWhite,
   favouriteOff,
@@ -208,10 +211,11 @@ export const icons = {
   targetWhite,
   ticketTab,
   ticketTabFocused,
+  upArrowWhite,
   upload,
   uploadBlack,
   wheelchair,
-  xIcon,
+  xIcon
 };
 
 export const images = {
@@ -233,7 +237,7 @@ export const images = {
   stubsLogo,
   stubsLogoAllWhite,
   stubsLogoBlack,
-  stubsLogoWhite,
+  stubsLogoWhite
 };
 
 export const backgrounds = {
@@ -242,18 +246,18 @@ export const backgrounds = {
   purpleGradient2,
   redOrangeGradient,
   redTriangleGeo,
-  yellowGradient,
+  yellowGradient
 };
 
 export const banners = {
   macguffins,
   orderAhead,
-  orderAhead2,
+  orderAhead2
 };
 
 export const logos = {
   dolby,
   imax,
   laser,
-  reald,
+  reald
 };

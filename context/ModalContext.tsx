@@ -37,7 +37,7 @@ type ModalContextType = {
   showModal: (
     type: ModalType,
     props: AlertModalProps | YesNoModalProps
-  ) => string; // returns modal id
+  ) => string;
   hideModal: (id: string) => void;
 };
 
@@ -55,7 +55,6 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
       let id = "";
       setModals(current => {
         if (current.length > 0) {
-          console.warn("A modal is already open. Ignoring showModal call.");
           return current;
         }
 

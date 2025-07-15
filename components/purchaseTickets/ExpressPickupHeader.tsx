@@ -21,7 +21,7 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
   const yesNoModalId = useRef<string | null>(null);
   const cancelModalId = useRef<string | null>(null);
   const { showModal, hideModal } = useContext(ModalContext);
-
+  const { startTimer, stopTimer, resetTimer } = useContext(TimerContext);
   const theatreName = selectedSession?.theatre?.name ?? "Theatre";
   const id = selectedSession?.screen.movie.id ?? "123";
   const { onTimeReached } = useContext(TimerContext);
@@ -91,8 +91,6 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
 
     hasRegistered.current = true;
   }, []);
-
-  const { startTimer, stopTimer, resetTimer } = useContext(TimerContext);
 
   return (
     <View className="bg-black h-[18%] flex-row justify-between items-center px-4 pt-[67] border border-red pb-[12]">

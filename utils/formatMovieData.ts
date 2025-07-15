@@ -69,40 +69,6 @@ export const formatReleaseDate = (releaseDate?: string) => {
   return `${label} ${formatted}`;
 };
 
-// export const formatTheatreAddress = async (
-//   vicinity: string,
-//   compound_code: string,
-//   location: { lat: number; lng: number },
-
-// ): Promise<string[]> => {
-//   const { lat, lng } = location;
-//   const street = vicinity.split(",")[0];
-//   const cityState = compound_code.split(", ")[1]
-//   const zipCode
-
-//   const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}`;
-
-//   try {
-//     const res = await fetch(url);
-//     const data = await res.json();
-
-//     if (!data.results || data.results.length === 0) {
-//       throw new Error("No results from geocoding API");
-//     }
-
-//     const fullAddress = data.results[0].formatted_address; // e.g., "1998 Bozo St, San Francisco, CA 94115, USA"
-//     const parts = fullAddress.split(",");
-
-//     const street = parts[0].trim(); // "1998 Bozo St"
-//     const cityStateZip = parts.slice(1, 3).join(",").trim(); // "San Francisco, CA 94115"
-
-//     return [street, cityStateZip];
-//   } catch (error) {
-//     console.error("Error formatting theatre address:", error);
-//     return ["Unknown Address", ""];
-//   }
-// };
-
 export const formatTheatreAddress = async (
   vicinity: string,
   compound_code: string,

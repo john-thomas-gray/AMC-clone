@@ -26,6 +26,7 @@ const ExpressPickup = () => {
               here.
             </Text>
           </View>
+
           {concessionsCards.map((card, index) => (
             <View key={index} className="bg-black my-3">
               <ConcessionsCard
