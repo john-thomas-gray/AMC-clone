@@ -1,20 +1,16 @@
-import applePay from "../assets/icons/applePay.png";
-
-import bitPay from "../assets/icons/bitPay.png";
-
-import payPal from "../assets/icons/payPal.png";
-
-import venmo from "../assets/icons/venmo.png";
-
 import amcTab from "../assets/icons/amcTab.png";
 
 import amcTabFocused from "../assets/icons/amcTabFocused.png";
+
+import applePay from "../assets/icons/applePay.png";
 
 import available from "../assets/icons/available.png";
 
 import backArrow from "../assets/icons/backArrow.png";
 
 import backArrowWhite from "../assets/icons/backArrowWhite.png";
+
+import bitPay from "../assets/icons/bitPay.png";
 
 import calendar from "../assets/icons/calendar.png";
 
@@ -56,6 +52,8 @@ import minusDisabled from "../assets/icons/minusDisabled.png";
 
 import occupied from "../assets/icons/occupied.png";
 
+import payPal from "../assets/icons/payPal.png";
+
 import plusBlue from "../assets/icons/plus-blue.png";
 
 import plus from "../assets/icons/plus.png";
@@ -96,6 +94,8 @@ import upload from "../assets/icons/upload.png";
 
 import uploadBlack from "../assets/icons/uploadBlack.png";
 
+import venmo from "../assets/icons/venmo.png";
+
 import wheelchair from "../assets/icons/wheelchair.png";
 
 import xIcon from "../assets/icons/xIcon.png";
@@ -123,6 +123,10 @@ import fandangoLogo from "../assets/images/fandangoLogo.png";
 import favicon from "../assets/images/favicon.png";
 
 import icon from "../assets/images/icon.png";
+
+import loadingOne from "../assets/images/loadingOne.png";
+
+import loadingOneShimmer from "../assets/images/loadingOneShimmer.png";
 
 import screen from "../assets/images/screen.png";
 
@@ -164,16 +168,16 @@ import laser from "../assets/logos/laser.png";
 
 import reald from "../assets/logos/reald.png";
 
+
+
 export const icons = {
-  applePay,
-  bitPay,
-  payPal,
-  venmo,
   amcTab,
   amcTabFocused,
+  applePay,
   available,
   backArrow,
   backArrowWhite,
+  bitPay,
   calendar,
   cart,
   checkmark,
@@ -194,6 +198,7 @@ export const icons = {
   minus,
   minusDisabled,
   occupied,
+  payPal,
   plusBlue,
   plus,
   plusDisabled,
@@ -214,8 +219,9 @@ export const icons = {
   upArrowWhite,
   upload,
   uploadBlack,
+  venmo,
   wheelchair,
-  xIcon
+  xIcon,
 };
 
 export const images = {
@@ -231,13 +237,15 @@ export const images = {
   fandangoLogo,
   favicon,
   icon,
+  loadingOne,
+  loadingOneShimmer,
   screen,
   screenImax,
   splashIcon,
   stubsLogo,
   stubsLogoAllWhite,
   stubsLogoBlack,
-  stubsLogoWhite
+  stubsLogoWhite,
 };
 
 export const backgrounds = {
@@ -246,18 +254,18 @@ export const backgrounds = {
   purpleGradient2,
   redOrangeGradient,
   redTriangleGeo,
-  yellowGradient
+  yellowGradient,
 };
 
 export const banners = {
   macguffins,
   orderAhead,
-  orderAhead2
+  orderAhead2,
 };
 
 export const logos = {
   dolby,
   imax,
   laser,
-  reald
+  reald,
 };

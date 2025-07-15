@@ -16,7 +16,7 @@ interface TimerContextValue {
 }
 
 const defaultValue: TimerContextValue = {
-  timerSeconds: 0,
+  timerSeconds: 420,
   isRunning: false,
   startTimer: () => {},
   stopTimer: () => {},
@@ -27,7 +27,7 @@ const defaultValue: TimerContextValue = {
 export const TimerContext = createContext<TimerContextValue>(defaultValue);
 
 export const TimerProvider = ({ children }: { children: ReactNode }) => {
-  const [timerSeconds, setTimerSeconds] = useState(0);
+  const [timerSeconds, setTimerSeconds] = useState(420);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -88,7 +88,7 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const resetTimer = () => {
-    setTimerSeconds(0);
+    setTimerSeconds(420);
     setIsRunning(false);
   };
 

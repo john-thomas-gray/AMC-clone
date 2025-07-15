@@ -137,7 +137,7 @@ const TicketSelection = () => {
         <SignInBanner />
         <View className="flex-1 px-2">
           {new Date().getDay() === 2 && (
-            <View className="w-full h-[80] border border-red-500 items-center justify-center">
+            <View className="w-full h-[80] items-center justify-center">
               <Text className="text-white font-gordita-bold text-lg text-center leading-tight">
                 Discount Tuesdays savings will be shown on your order summary,
                 if applicable.
@@ -147,7 +147,7 @@ const TicketSelection = () => {
 
           <View className="w-full h-[40] items-center justify-center my-4">
             {remainingTickets === 1 ? (
-              <Text className="text-white font-gordita-regular text-center">
+              <Text className="text-white font-gordita-bold text-lg text-center">
                 Select your remaining ticket
               </Text>
             ) : remainingTickets > 1 ? (

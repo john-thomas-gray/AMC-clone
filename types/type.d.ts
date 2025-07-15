@@ -46,6 +46,7 @@ declare interface StubsCardProps {
     | "transparent"
     | "transparent-black"
     | string;
+  className?: string;
 }
 
 declare interface SlidingLayoutProps {

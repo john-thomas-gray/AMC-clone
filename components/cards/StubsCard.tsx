@@ -14,14 +14,16 @@ const StubsCard = ({
   textColor,
   buttonText,
   buttonLink,
-  buttonVariant
+  buttonVariant,
+  className
 }: StubsCardProps) => {
   return (
-    <View className="mx-3 rounded-xl overflow-hidden mb-3">
+    <View className={`mx-3 rounded-xl overflow-hidden mb-3 ${className}`}>
       <ImageBackground
         source={backgroundImage || backgrounds.purpleGradient}
         resizeMode="cover"
-        className="flex-1 h-full w-full p-3"
+        className="h-[190] w-full p-3"
+        imageStyle={{ borderRadius: 12 }}
       >
         <View className="flex flex-col rounded-xl m-4">
           <View className="flex flex-row items-center justify-between mb-3">

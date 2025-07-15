@@ -1,9 +1,11 @@
 import PaymentButton from "@/components/buttons/PaymentButton";
 import StubsCard from "@/components/cards/StubsCard";
+import GorditaText from "@/components/GorditaText";
 import ExpressPickupFooter from "@/components/purchaseTickets/ExpressPickupFooter";
 import PaymentHeader from "@/components/purchaseTickets/PaymentHeader";
 import SignInBanner from "@/components/purchaseTickets/SignInBanner";
-import { icons } from "@/constants";
+import ShimmerOverlay from "@/components/ShimmerOverlay";
+import { icons, images } from "@/constants";
 import { stubsCardData } from "@/constants/stubsCardContent";
 import { useModal } from "@/context/ModalContext";
 import { PurchasesContext } from "@/context/PurchasesContext";
@@ -12,14 +14,9 @@ import { TimerContext } from "@/context/TimerContext";
 import { showMatinee } from "@/utils/dateAndTime";
 import { useRouter } from "expo-router";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import {
-  Animated,
-  Image,
-  Pressable,
-  ScrollView,
-  Text,
-  View
-} from "react-native";
+import { Animated, Image, Pressable, Text, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Payment = () => {
   const alertModalId = useRef<string | null>(null);
@@ -32,7 +29,7 @@ const Payment = () => {
   const { showModal, hideModal } = useModal();
   const { resetSelectedSeats, resetSelectedTickets } =
     useContext(PurchasesContext);
-  const { selectedSession } = useContext(TheatreDataContext);
+  const { selectedSession, loading } = useContext(TheatreDataContext);
   const router = useRouter();
   const { resetTimer, startTimer, onTimeReached } = useContext(TimerContext);
 
@@ -125,13 +122,23 @@ const Payment = () => {
       return () => clearTimeout(hideTimeout);
     }
   }, [showRewards]);
-
+  if (!selectedSession || loading) {
+    return (
+      <SafeAreaView className="flex-1 bg-black">
+        <ShimmerOverlay
+          source={images.loadingOneShimmer}
+          imageSource={images.loadingOne}
+          className="h-[100%] w-[100%]"
+        />
+      </SafeAreaView>
+    );
+  }
   return (
     <View className="flex-1 bg-black">
       <PaymentHeader />
       <ScrollView>
         <SignInBanner />
-        <StubsCard {...stubsCardData.premiere.payment} />
+        <StubsCard {...stubsCardData.premiere.payment} className="pt-5" />
         <View className="w-full border-b border-gray-300 p-4">
           <View>
             <Text className="text-white font-gordita-bold text-xl">
@@ -152,7 +159,7 @@ const Payment = () => {
             address.
           </Text>
         </View>
-        <View className="w-full border-b border-gray-300 p-4">
+        <View className="w-full pt-4">
           {selectedSession?.screen?.movie?.genres?.[0]?.name === "Horror" ? (
             <View>
               <Text className="text-white font-gordita-bold text-xl">
@@ -172,7 +179,7 @@ const Payment = () => {
         <View className="w-full border-b border-gray-300 p-4">
           <View>
             <View className="flex-row items-center">
-              <Image source={icons.film} className="h-6 w-6 mr-2 my-6" />
+              <Image source={icons.film} className="h-6 w-6 mr-2" />
               <Text className="text-white font-gordita-bold text-xl">
                 Movie Start Time
               </Text>
@@ -197,22 +204,10 @@ const Payment = () => {
             </Pressable>
           </View>
           <View>
-            <PaymentButton
-              text="Apple Pay"
-              image={icons.applePay}
-              className="my-2"
-            />
-            <PaymentButton
-              text="bitPay"
-              image={icons.bitPay}
-              className="my-2"
-            />
-            <PaymentButton
-              text="payPal"
-              image={icons.payPal}
-              className="my-2"
-            />
-            <PaymentButton text="venmo" image={icons.venmo} className="my-2" />
+            <PaymentButton text="Apple Pay" image={icons.applePay} />
+            <PaymentButton text="BitPay" image={icons.bitPay} />
+            <PaymentButton text="PayPal" image={icons.payPal} />
+            <PaymentButton text="Venmo" image={icons.venmo} />
             <Animated.View
               style={{
                 height: rewardsHeight,
@@ -226,9 +221,9 @@ const Payment = () => {
                   setShowRewards(!showRewards);
                 }}
               >
-                <Text className="text-white font-gordita-regular mr-2">
+                <GorditaText className="text-white font-gordita-regular mr-2">
                   Use Rewards, Gift Cards, Promo Code, or Voucher
-                </Text>
+                </GorditaText>
                 <Image
                   source={
                     showRewards ? icons.upArrowWhite : icons.downArrowWhite

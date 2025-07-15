@@ -13,7 +13,7 @@ export const formatTime = (timeInSeconds: number): string => {
   return `${minutes.toString()}:${seconds.toString().padStart(2, "0")}`;
 };
 
-export const showMatinee = (showtime: string | undefined) => {
+export const showMatinee = (showtime: string = "10:00pm") => {
   if (!showtime) throw new Error("Showtime is required for showMatinee check");
   const meridiem = showtime.slice(-2).toLowerCase();
   const timePart = showtime.slice(0, -2);

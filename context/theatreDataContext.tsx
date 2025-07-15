@@ -259,6 +259,17 @@ export const TheatreDataContextProvider = ({
 
         const detailedTheatres = await generateTheatres(nearby);
         setTheatres(detailedTheatres);
+
+        if (
+          detailedTheatres.length > 0 &&
+          detailedTheatres[0].screens.length > 0
+        ) {
+          setSelectedSession({
+            theatre: detailedTheatres[0],
+            screen: detailedTheatres[0].screens[0],
+            showtime: detailedTheatres[0].screens[0].showtimes[0] || ""
+          });
+        }
       } catch (err) {
         setError(err as Error);
       } finally {
