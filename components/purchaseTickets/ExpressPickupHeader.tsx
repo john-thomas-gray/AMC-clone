@@ -1,4 +1,4 @@
-import { ModalContext } from "@/context/ModalContext";
+import { useModal } from "@/context/ModalContext";
 import { PurchasesContext } from "@/context/PurchasesContext";
 import { TheatreDataContext } from "@/context/theatreDataContext";
 import { TimerContext } from "@/context/TimerContext";
@@ -17,11 +17,11 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
     useContext(PurchasesContext);
   const { selectedSession } = useContext(TheatreDataContext);
   const router = useRouter();
+  const { showModal, hideModal } = useModal();
   const alertModalId = useRef<string | null>(null);
   const yesNoModalId = useRef<string | null>(null);
   const cancelModalId = useRef<string | null>(null);
-  const { showModal, hideModal } = useContext(ModalContext);
-  const { startTimer, stopTimer, resetTimer } = useContext(TimerContext);
+
   const theatreName = selectedSession?.theatre?.name ?? "Theatre";
   const id = selectedSession?.screen.movie.id ?? "123";
   const { onTimeReached } = useContext(TimerContext);
@@ -36,7 +36,7 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
   };
 
   const handleClose = () => {
-    hideModal(alertModalId.current);
+    hideModal(alertModalId.current!);
     resetSelectedSeats();
     resetSelectedTickets();
     router.push({
@@ -91,6 +91,8 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
 
     hasRegistered.current = true;
   }, []);
+
+  const { startTimer, stopTimer, resetTimer } = useContext(TimerContext);
 
   return (
     <View className="bg-black h-[18%] flex-row justify-between items-center px-4 pt-[67] border border-red pb-[12]">

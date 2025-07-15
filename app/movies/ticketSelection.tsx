@@ -49,6 +49,11 @@ const TicketSelection = () => {
           movieTitle="No Session Selected"
           details=""
           id=""
+          to={`/movies/seatSelection` as RelativePathString}
+          onPress={() => {
+            setTicketCount(0);
+            setConcessionCount(0);
+          }}
         />
       </View>
     );
@@ -123,6 +128,10 @@ const TicketSelection = () => {
         details={normalizedDetails}
         id={normalizedId}
         to={`/movies/seatSelection` as RelativePathString}
+        onPress={() => {
+          setTicketCount(0);
+          setConcessionCount(0);
+        }}
       />
       <ScrollView className="flex">
         <SignInBanner />

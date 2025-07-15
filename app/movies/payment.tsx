@@ -5,7 +5,7 @@ import PaymentHeader from "@/components/purchaseTickets/PaymentHeader";
 import SignInBanner from "@/components/purchaseTickets/SignInBanner";
 import { icons } from "@/constants";
 import { stubsCardData } from "@/constants/stubsCardContent";
-import { ModalContext } from "@/context/ModalContext";
+import { useModal } from "@/context/ModalContext";
 import { PurchasesContext } from "@/context/PurchasesContext";
 import { TheatreDataContext } from "@/context/theatreDataContext";
 import { TimerContext } from "@/context/TimerContext";
@@ -29,7 +29,7 @@ const Payment = () => {
   const cancelModalId = useRef<string | null>(null);
   const rewardsHeight = useRef(new Animated.Value(40)).current;
 
-  const { showModal, hideModal } = useContext(ModalContext);
+  const { showModal, hideModal } = useModal();
   const { resetSelectedSeats, resetSelectedTickets } =
     useContext(PurchasesContext);
   const { selectedSession } = useContext(TheatreDataContext);
@@ -255,7 +255,7 @@ const Payment = () => {
                   <View className="flex-row items-center ">
                     <Image
                       source={icons.plusBlue}
-                      className="h-4 w-4 mx-2 my-4"
+                      className="h-5 w-5 mx-2 my-4"
                     />
                     <Text className="text-blue-100 font-gordita-bold">
                       Add Promo Code

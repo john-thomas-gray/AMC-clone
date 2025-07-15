@@ -154,7 +154,7 @@ const Auditorium = ({
                 setAuditoriumWidth(width);
               }}
             >
-              <View className="border border-red-500">
+              <View className="">
                 {renderAuditorium(seatNum, selectedSeats)}
               </View>
             </View>

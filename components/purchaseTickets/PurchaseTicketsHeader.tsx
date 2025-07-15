@@ -10,13 +10,15 @@ type PurchaseTicketsHeaderProps = {
   details: string;
   id: string;
   to?: RelativePathString | ExternalPathString;
+  onPress?: () => void;
 };
 
 const PurchaseTicketsHeader = ({
   movieTitle,
   details,
   id,
-  to
+  to,
+  onPress
 }: PurchaseTicketsHeaderProps) => {
   const { resetSelectedSeats } = useContext(PurchasesContext)!;
   const router = useRouter();
@@ -36,6 +38,9 @@ const PurchaseTicketsHeader = ({
       <XButton
         onPress={() => {
           resetSelectedSeats();
+          if (onPress) {
+            onPress();
+          }
           router.push({
             pathname: "/movies/[id]",
             params: { id: id.toString() }

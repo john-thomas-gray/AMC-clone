@@ -53,7 +53,7 @@ const SelectTicketsFooter = ({
             variant="inactive"
             title="Continue"
             bold
-            onPress={onPress}
+            onPress={() => {}}
           />
         )}
       </View>
