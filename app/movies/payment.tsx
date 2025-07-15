@@ -26,7 +26,9 @@ const Payment = () => {
   const cancelModalId = useRef<string | null>(null);
   const rewardsHeight = useRef(new Animated.Value(40)).current;
 
-  const [applePaySelected, setApplePaySelected] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
+    string | null
+  >(null);
 
   const { showModal, hideModal } = useModal();
   const { resetSelectedSeats, resetSelectedTickets } =
@@ -35,15 +37,7 @@ const Payment = () => {
   const router = useRouter();
   const { resetTimer, startTimer, onTimeReached } = useContext(TimerContext);
   const handlePaymentSelected = (type: string) => {
-    setApplePaySelected(false);
-    switch (type) {
-      case "applePay":
-        setApplePaySelected(true);
-        break;
-
-      default:
-        break;
-    }
+    setSelectedPaymentMethod(type);
   };
   const handleClose = () => {
     if (alertModalId.current) {
@@ -142,7 +136,7 @@ const Payment = () => {
       <ScrollView>
         <SignInBanner />
         <StubsCard {...stubsCardData.premiere.payment} className="pt-5" />
-        <View className="w-full border-b border-gray-300 p-4">
+        <View className="border-b border-gray-300 mx-4 py-4 max-w-[92%] self-center">
           <View>
             <Text className="text-white font-gordita-bold text-xl">
               Contact Info
@@ -162,24 +156,23 @@ const Payment = () => {
             address.
           </Text>
         </View>
-        <View className="w-full pt-4">
-          {selectedSession?.screen?.movie?.genres?.[0]?.name === "Horror" ? (
-            <View>
-              <Text className="text-white font-gordita-bold text-xl">
-                ID Required for R-Rated Movies
-              </Text>
-              <Text className="text-white font-gordita-regular text-lg">
-                Guests under 17 must be accompanied by a guardian who is 21 or
-                older. Please be prepared to show ID at the theatre. Children
-                under 6 are not allowed at R-rated movies after 6pm at this
-                theatre.{" "}
-              </Text>
-            </View>
-          ) : (
-            <View />
-          )}
-        </View>
-        <View className="w-full border-b border-gray-300 p-4">
+
+        {selectedSession?.screen?.movie?.genres?.[0]?.name === "Horror" ? (
+          <View className="border-b border-gray-300 mx-4 py-4 max-w-[92%] self-center">
+            <Text className="text-white font-gordita-bold text-xl">
+              ID Required for R-Rated Movies
+            </Text>
+            <Text className="text-white font-gordita-regular text-lg">
+              Guests under 17 must be accompanied by a guardian who is 21 or
+              older. Please be prepared to show ID at the theatre. Children
+              under 6 are not allowed at R-rated movies after 6pm at this
+              theatre.{" "}
+            </Text>
+          </View>
+        ) : (
+          <View />
+        )}
+        <View className="border-b border-gray-300 mx-4 py-4 max-w-[92%] self-center">
           <View>
             <View className="flex-row items-center">
               <Image source={icons.film} className="h-6 w-6 mr-2" />
@@ -188,12 +181,12 @@ const Payment = () => {
               </Text>
             </View>
             <Text className="font-gordita-regular text-gray-100  text-sm mb-2">
-              The listed showtime is when trailers and additional context begin.
+              The listed showtime is when trailers and additional content begin.
               The movie will start 25-30 minutes after the listed showtime.
             </Text>
           </View>
         </View>
-        <View className="w-full border-b border-gray-300 p-4">
+        <View className="w-full border-b border-gray-300 py-4 mx-4 max-w-[92%] self-center">
           <View>
             <Text className="text-white font-gordita-bold text-xl">
               Payment
@@ -211,10 +204,27 @@ const Payment = () => {
               text="Apple Pay"
               image={icons.applePay}
               onPressOut={() => handlePaymentSelected("applePay")}
+              selected={selectedPaymentMethod === "applePay"}
             />
-            <PaymentButton text="BitPay" image={icons.bitPay} />
-            <PaymentButton text="PayPal" image={icons.payPal} />
-            <PaymentButton text="Venmo" image={icons.venmo} />
+            <PaymentButton
+              text="BitPay"
+              image={icons.bitPay}
+              onPressOut={() => handlePaymentSelected("bitPay")}
+              selected={selectedPaymentMethod === "bitPay"}
+            />
+            <PaymentButton
+              text="PayPal"
+              image={icons.payPal}
+              onPressOut={() => handlePaymentSelected("paypal")}
+              selected={selectedPaymentMethod === "paypal"}
+            />
+            <PaymentButton
+              text="Venmo"
+              image={icons.venmo}
+              onPressOut={() => handlePaymentSelected("venmo")}
+              selected={selectedPaymentMethod === "venmo"}
+            />
+
             <Animated.View
               style={{
                 height: rewardsHeight,
@@ -235,7 +245,7 @@ const Payment = () => {
                   source={
                     showRewards ? icons.upArrowWhite : icons.downArrowWhite
                   }
-                  className="h-2 w-4"
+                  className="h-3 w-4"
                 />
               </Pressable>
               {rewardsRetracted ? (
@@ -277,8 +287,8 @@ const Payment = () => {
             </Animated.View>
           </View>
         </View>
-        <View className="m-4">
-          <Text className="text-gray-100 font-gordita-regular text-xs pt-2">
+        <View className=" mx-4 py-4 max-w-[92%] self-center">
+          <Text className="text-gray-100 font-gordita-regular text-xs">
             No refunds are provided after the displayed showtime.
           </Text>
           {showMatinee(selectedSession?.showtime) ? (

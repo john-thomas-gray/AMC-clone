@@ -16,6 +16,7 @@ type PaymentButtonProps = {
   text: string;
   image: ImageSourcePropType;
   className?: string;
+  selected?: boolean;
 };
 
 const PaymentButton = ({
@@ -23,7 +24,8 @@ const PaymentButton = ({
   onPressOut,
   text,
   image,
-  className
+  className,
+  selected = false
 }: PaymentButtonProps) => {
   const bgRadius = useRef(new Animated.Value(0)).current;
   const clickPoint = useRef(new Animated.ValueXY()).current;
@@ -31,7 +33,6 @@ const PaymentButton = ({
   const buttonRadiusAnim = useRef(new Animated.Value(0)).current;
   const buttonColorAnim = useRef(new Animated.Value(0)).current;
   const [buttonDown, setButtonDown] = useState(false);
-  const [selected, setSelected] = useState(false);
 
   useEffect(() => {
     Animated.timing(bgRadius, {
@@ -55,7 +56,6 @@ const PaymentButton = ({
 
   const handlePressOut = () => {
     setButtonDown(false);
-    setSelected(true);
     if (onPressOut) {
       onPressOut();
     }
@@ -77,6 +77,22 @@ const PaymentButton = ({
       useNativeDriver: false
     }).start();
   };
+
+  useEffect(() => {
+    if (!selected) {
+      Animated.timing(buttonRadiusAnim, {
+        toValue: 0,
+        duration: 150,
+        useNativeDriver: false
+      }).start();
+
+      Animated.timing(buttonColorAnim, {
+        toValue: 0,
+        duration: 150,
+        useNativeDriver: false
+      }).start();
+    }
+  }, [selected]);
 
   const bgTwoColor = bgTwoOpacity.interpolate({
     inputRange: [0, 1],
