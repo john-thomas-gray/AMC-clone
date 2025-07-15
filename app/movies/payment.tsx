@@ -221,7 +221,7 @@ const Payment = () => {
                   setShowRewards(!showRewards);
                 }}
               >
-                <GorditaText className="text-white font-gordita-regular mr-2">
+                <GorditaText className="mr-2">
                   Use Rewards, Gift Cards, Promo Code, or Voucher
                 </GorditaText>
                 <Image

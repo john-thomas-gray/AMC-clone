@@ -1,19 +1,21 @@
-import React from "react";
-import { StyleSheet, Text } from "react-native";
+import React, { ReactNode } from "react";
+import { Text, TextProps } from "react-native";
 
-const GorditaText = props => {
+type GorditaTextProps = {
+  children: ReactNode;
+  className?: string;
+} & TextProps;
+
+const GorditaText = ({
+  children,
+  className = "",
+  ...props
+}: GorditaTextProps) => {
   return (
-    <Text style={{ ...styles.defaultText, ...props.style }}>
-      {props.children}
+    <Text className={`font-gordita-regular text-white ${className}`} {...props}>
+      {children}
     </Text>
   );
 };
-
-const styles = StyleSheet.create({
-  defaultText: {
-    fontFamily: "gordita-regular",
-    color: "red-100"
-  }
-});
 
 export default GorditaText;
