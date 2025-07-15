@@ -75,7 +75,7 @@ const PaymentHeader = ({ to }: PaymentHeaderProps) => {
   };
 
   return (
-    <View className="bg-black h-[18%] flex-row justify-between items-center px-4 pt-[67] border border-red pb-[12]">
+    <View className="bg-black flex-row justify-between items-start px-4 pt-[67] border border-red pb-[12]">
       <BackButton
         className=""
         onPress={() => {
@@ -89,7 +89,11 @@ const PaymentHeader = ({ to }: PaymentHeaderProps) => {
       />
 
       <View className="w-[265] px-2">
-        <Text className="text-white font-gordita-bold text-3xl">
+        <Text
+          className="text-white font-gordita-bold text-3xl"
+          numberOfLines={2}
+          ellipsizeMode="tail"
+        >
           {movieTitle}
         </Text>
         <View>

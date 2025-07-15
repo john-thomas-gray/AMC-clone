@@ -26,13 +26,25 @@ const Payment = () => {
   const cancelModalId = useRef<string | null>(null);
   const rewardsHeight = useRef(new Animated.Value(40)).current;
 
+  const [applePaySelected, setApplePaySelected] = useState(false);
+
   const { showModal, hideModal } = useModal();
   const { resetSelectedSeats, resetSelectedTickets } =
     useContext(PurchasesContext);
   const { selectedSession, loading } = useContext(TheatreDataContext);
   const router = useRouter();
   const { resetTimer, startTimer, onTimeReached } = useContext(TimerContext);
+  const handlePaymentSelected = (type: string) => {
+    setApplePaySelected(false);
+    switch (type) {
+      case "applePay":
+        setApplePaySelected(true);
+        break;
 
+      default:
+        break;
+    }
+  };
   const handleClose = () => {
     if (alertModalId.current) {
       hideModal(alertModalId.current);
@@ -45,15 +57,6 @@ const Payment = () => {
     router.push({
       pathname: "/movies/[id]",
       params: { id: selectedSession?.screen.movie.id.toString() ?? "" }
-    });
-  };
-
-  const handleCancel = () => {
-    cancelModalId.current = showModal("yesno", {
-      title: "Cancel Order",
-      body: "Are you sure you want to cancel your order?",
-      onYes: () => selectedYes(true, "cancel"),
-      onNo: () => selectedYes(false, "cancel")
     });
   };
 
@@ -204,7 +207,11 @@ const Payment = () => {
             </Pressable>
           </View>
           <View>
-            <PaymentButton text="Apple Pay" image={icons.applePay} />
+            <PaymentButton
+              text="Apple Pay"
+              image={icons.applePay}
+              onPressOut={() => handlePaymentSelected("applePay")}
+            />
             <PaymentButton text="BitPay" image={icons.bitPay} />
             <PaymentButton text="PayPal" image={icons.payPal} />
             <PaymentButton text="Venmo" image={icons.venmo} />
@@ -221,7 +228,7 @@ const Payment = () => {
                   setShowRewards(!showRewards);
                 }}
               >
-                <GorditaText className="mr-2">
+                <GorditaText className="mr-2 pt-2">
                   Use Rewards, Gift Cards, Promo Code, or Voucher
                 </GorditaText>
                 <Image
