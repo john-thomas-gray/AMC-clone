@@ -1,13 +1,13 @@
 import { Link } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
-import CustomButton from "../buttons/CustomButton";
+import PaymentButton from "../buttons/PaymentButton";
 import CartButton from "./CartButton";
 
 type Props = {
   onPress: () => void;
   buttonText?: string;
-  paymentType?: string | null;
+  paymentType?: "default" | "applePay" | "bitPay" | "payPal" | "venmo";
   disabled?: boolean;
 };
 
@@ -15,7 +15,7 @@ const PaymentFooter = ({
   onPress,
   buttonText = "Continue to Purchase",
   disabled = false,
-  paymentType = null
+  paymentType = "default"
 }: Props) => {
   return (
     <View className="border-t border-gray-300 ">
@@ -39,12 +39,11 @@ const PaymentFooter = ({
               }}
             />
           </View>
-          <CustomButton
-            title={buttonText}
-            bold={true}
-            disabled={disabled}
-            variant="white"
-            onPress={onPress}
+          <PaymentButton
+            type={paymentType}
+            onPress={() => {
+              console.log("Payment button pressed");
+            }}
           />
         </View>
       </View>

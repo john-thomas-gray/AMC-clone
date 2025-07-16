@@ -1,8 +1,8 @@
-import PaymentButton from "@/components/buttons/PaymentButton";
 import StubsCard from "@/components/cards/StubsCard";
 import GorditaText from "@/components/GorditaText";
 import PaymentFooter from "@/components/purchaseTickets/PaymentFooter";
 import PaymentHeader from "@/components/purchaseTickets/PaymentHeader";
+import PaymentButton from "@/components/purchaseTickets/PaymentSelector";
 import SignInBanner from "@/components/purchaseTickets/SignInBanner";
 import ShimmerOverlay from "@/components/ShimmerOverlay";
 import { icons, images } from "@/constants";

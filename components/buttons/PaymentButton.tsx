@@ -1,154 +1,72 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-  Animated,
-  GestureResponderEvent,
-  Image,
-  ImageSourcePropType,
-  Pressable,
-  StyleSheet,
-  Text,
-  View
-} from "react-native";
+import { logos } from "@/constants";
+import React, { useEffect } from "react";
+import { Image, Pressable, Text } from "react-native";
 
 type PaymentButtonProps = {
-  onPressIn?: () => void;
-  onPressOut?: () => void;
-  text: string;
-  image: ImageSourcePropType;
-  className?: string;
-  selected?: boolean;
+  type: "default" | "applePay" | "bitPay" | "payPal" | "venmo";
+  disabled?: boolean;
+  onPress: () => void;
+};
+
+const getTypeDetails = (type: string) => {
+  switch (type) {
+    case "default":
+      return {
+        label: "Purchase",
+        container:
+          "h-[38px] flex flex-row items-center border rounded-full px-4 bg-gray-200 border-2 border-gray-100 rounded-full",
+        text: "text-black"
+      };
+    case "applePay":
+      return {
+        label: "Apple Pay",
+        container: "bg-gray-200 border-gray-100",
+        icon: logos.applePayButton
+      };
+    case "bitPay":
+      return {
+        label: "BitPay",
+        container: "bg-gray-200 border-gray-100",
+        icon: logos.bitPayButton
+      };
+    case "payPal":
+      return {
+        label: "PayPal",
+        container: "bg-gray-200 border-gray-100",
+        icon: logos.payPalButton
+      };
+    case "venmo":
+      return {
+        label: "Venmo",
+        container: "bg-gray-200 border-gray-100",
+        icon: logos.venmoButton
+      };
+    default:
+      throw new Error("Invalid payment type");
+  }
 };
 
 const PaymentButton = ({
-  onPressIn,
-  onPressOut,
-  text,
-  image,
-  className,
-  selected = false
+  type,
+  disabled = true,
+  onPress
 }: PaymentButtonProps) => {
-  const bgRadius = useRef(new Animated.Value(0)).current;
-  const clickPoint = useRef(new Animated.ValueXY()).current;
-  const bgTwoOpacity = useRef(new Animated.Value(0)).current;
-  const buttonRadiusAnim = useRef(new Animated.Value(0)).current;
-  const buttonColorAnim = useRef(new Animated.Value(0)).current;
-  const [buttonDown, setButtonDown] = useState(false);
-
   useEffect(() => {
-    Animated.timing(bgRadius, {
-      toValue: buttonDown ? 1000 : 0,
-      duration: 200,
-      useNativeDriver: true
-    }).start();
-  }, [buttonDown]);
-
-  const handlePressIn = (e: GestureResponderEvent) => {
-    const { locationX, locationY } = e.nativeEvent;
-    clickPoint.setValue({ x: locationX, y: locationY });
-    setButtonDown(true);
-
-    Animated.timing(bgTwoOpacity, {
-      toValue: 1,
-      duration: 150,
-      useNativeDriver: false
-    }).start();
-  };
-
-  const handlePressOut = () => {
-    setButtonDown(false);
-    if (onPressOut) {
-      onPressOut();
-    }
-    Animated.timing(bgTwoOpacity, {
-      toValue: 0,
-      duration: 150,
-      useNativeDriver: false
-    }).start();
-
-    Animated.timing(buttonRadiusAnim, {
-      toValue: 1,
-      duration: 150,
-      useNativeDriver: false
-    }).start();
-
-    Animated.timing(buttonColorAnim, {
-      toValue: 1,
-      duration: 150,
-      useNativeDriver: false
-    }).start();
-  };
-
-  useEffect(() => {
-    if (!selected) {
-      Animated.timing(buttonRadiusAnim, {
-        toValue: 0,
-        duration: 150,
-        useNativeDriver: false
-      }).start();
-
-      Animated.timing(buttonColorAnim, {
-        toValue: 0,
-        duration: 150,
-        useNativeDriver: false
-      }).start();
-    }
-  }, [selected]);
-
-  const bgTwoColor = bgTwoOpacity.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["rgba(255,255,255,0.0)", "rgba(255,255,255,0.1)"]
-  });
-
-  const buttonRadius = buttonRadiusAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 8]
-  });
-
-  const buttonColor = buttonColorAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["white", "#00A8E1"]
-  });
-
+    getTypeDetails(type);
+  }, [type]);
+  const { label, container, icon, text } = getTypeDetails(type);
   return (
     <Pressable
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-      className={`${className} py-2 w-full overflow-hidden`}
+      onPress={onPress}
+      disabled={disabled}
+      className={`flex-row items-center justify-center
+       p-2 ${container}`}
     >
-      <Animated.View
-        style={[
-          StyleSheet.absoluteFillObject,
-          {
-            backgroundColor: bgTwoColor
-          }
-        ]}
-        pointerEvents="none"
-      />
-
-      <View className="flex-row items-center px-4">
-        <View
-          className="items-center justify-center mr-6"
-          style={[{ position: "relative" }]}
-        >
-          <Animated.View
-            className="h-5 w-5 rounded-full absolute"
-            style={[{ backgroundColor: buttonColor }]}
-          />
-          <View className="h-3.5 w-3.5 bg-black rounded-full absolute z-10" />
-          <Animated.View
-            className="rounded-full absolute z-10"
-            style={[
-              {
-                height: buttonRadius,
-                width: buttonRadius,
-                backgroundColor: buttonColor
-              }
-            ]}
-          />
-        </View>
-        <Image source={image} className="h-[35px] w-[55px] mr-2" />
-        <Text className="font-gordita-bold text-white">{text}</Text>
-      </View>
+      {label ? (
+        <Text className={`${text}`}>{label}</Text>
+      ) : (
+        icon && <Image source={icon} className="w-4 h-4 mr-2" />
+      )}
     </Pressable>
   );
 };

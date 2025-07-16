@@ -160,13 +160,21 @@ import orderAhead from "../assets/banners/orderAhead.png";
 
 import orderAhead2 from "../assets/banners/orderAhead2.png";
 
+import applePayButton from "../assets/logos/applePayButton.png";
+
+import bitPayButton from "../assets/logos/bitPayButton.png";
+
 import dolby from "../assets/logos/dolby.png";
 
 import imax from "../assets/logos/imax.png";
 
 import laser from "../assets/logos/laser.png";
 
+import payPalButton from "../assets/logos/payPalButton.png";
+
 import reald from "../assets/logos/reald.png";
+
+import venmoButton from "../assets/logos/venmoButton.png";
 
 
 
@@ -264,8 +272,12 @@ export const banners = {
 };
 
 export const logos = {
+  applePayButton,
+  bitPayButton,
   dolby,
   imax,
   laser,
+  payPalButton,
   reald,
+  venmoButton,
 };
