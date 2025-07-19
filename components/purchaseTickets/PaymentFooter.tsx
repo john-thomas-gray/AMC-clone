@@ -7,32 +7,37 @@ import CartButton from "./CartButton";
 type Props = {
   onPress: () => void;
   buttonText?: string;
-  paymentType?: "default" | "applePay" | "bitPay" | "payPal" | "venmo";
   disabled?: boolean;
+  selectedPaymentMethod?:
+    | "default"
+    | "applePay"
+    | "bitPay"
+    | "payPal"
+    | "venmo";
 };
 
 const PaymentFooter = ({
   onPress,
   buttonText = "Continue to Purchase",
   disabled = false,
-  paymentType = "default"
+  selectedPaymentMethod = "default"
 }: Props) => {
   return (
     <View className="border-t border-gray-300 ">
-      <View className="h-[100] mt-3 justify-center">
+      <View className="h-[120] mt-3 justify-center">
         <Text className="text-white text-sm px-4">
           By proceeding to purchase, I agree to the{" "}
           <Link
             href="https://www.amctheatres.com/terms-and-conditions"
             className="text-blue-100 text-sm"
           >
-            AMC Terms of {`\n`} Use
+            AMC Terms of Use
           </Link>
           .
         </Text>
 
-        <View className="px-4 pt-4 pb-8 flex-row justify-between ">
-          <View className="h-5 w-5">
+        <View className=" h-[100] pl-4 pr-8 pt-4 pb-8 flex-row justify-between items-center">
+          <View className="h-5 w-5 mb-5">
             <CartButton
               onPress={() => {
                 console.log("cart button pressed");
@@ -40,7 +45,7 @@ const PaymentFooter = ({
             />
           </View>
           <PaymentButton
-            type={paymentType}
+            selectedPaymentMethod={selectedPaymentMethod}
             onPress={() => {
               console.log("Payment button pressed");
             }}

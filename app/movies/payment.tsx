@@ -2,7 +2,7 @@ import StubsCard from "@/components/cards/StubsCard";
 import GorditaText from "@/components/GorditaText";
 import PaymentFooter from "@/components/purchaseTickets/PaymentFooter";
 import PaymentHeader from "@/components/purchaseTickets/PaymentHeader";
-import PaymentButton from "@/components/purchaseTickets/PaymentSelector";
+import PaymentSelector from "@/components/purchaseTickets/PaymentSelector";
 import SignInBanner from "@/components/purchaseTickets/SignInBanner";
 import ShimmerOverlay from "@/components/ShimmerOverlay";
 import { icons, images } from "@/constants";
@@ -27,8 +27,8 @@ const Payment = () => {
   const rewardsHeight = useRef(new Animated.Value(40)).current;
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
-    string | null
-  >(null);
+    "default" | "applePay" | "bitPay" | "payPal" | "venmo"
+  >("default");
 
   const { showModal, hideModal } = useModal();
   const { resetSelectedSeats, resetSelectedTickets } =
@@ -36,7 +36,9 @@ const Payment = () => {
   const { selectedSession, loading } = useContext(TheatreDataContext);
   const router = useRouter();
   const { resetTimer, startTimer, onTimeReached } = useContext(TimerContext);
-  const handlePaymentSelected = (type: string) => {
+  const handlePaymentSelected = (
+    type: "default" | "applePay" | "bitPay" | "payPal" | "venmo"
+  ) => {
     setSelectedPaymentMethod(type);
   };
   const handleClose = () => {
@@ -200,25 +202,25 @@ const Payment = () => {
             </Pressable>
           </View>
           <View>
-            <PaymentButton
+            <PaymentSelector
               text="Apple Pay"
               image={icons.applePay}
               onPressOut={() => handlePaymentSelected("applePay")}
               selected={selectedPaymentMethod === "applePay"}
             />
-            <PaymentButton
+            <PaymentSelector
               text="BitPay"
               image={icons.bitPay}
               onPressOut={() => handlePaymentSelected("bitPay")}
               selected={selectedPaymentMethod === "bitPay"}
             />
-            <PaymentButton
+            <PaymentSelector
               text="PayPal"
               image={icons.payPal}
-              onPressOut={() => handlePaymentSelected("paypal")}
-              selected={selectedPaymentMethod === "paypal"}
+              onPressOut={() => handlePaymentSelected("payPal")}
+              selected={selectedPaymentMethod === "payPal"}
             />
-            <PaymentButton
+            <PaymentSelector
               text="Venmo"
               image={icons.venmo}
               onPressOut={() => handlePaymentSelected("venmo")}
@@ -316,6 +318,7 @@ const Payment = () => {
           console.log("purchased");
         }}
         disabled={!selectedPaymentMethod}
+        selectedPaymentMethod={selectedPaymentMethod}
       />
     </View>
   );

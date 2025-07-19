@@ -1,73 +1,172 @@
 import { logos } from "@/constants";
-import React, { useEffect } from "react";
-import { Image, Pressable, Text } from "react-native";
+import React, { useEffect, useRef } from "react";
+import {
+  Animated,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View
+} from "react-native";
 
 type PaymentButtonProps = {
-  type: "default" | "applePay" | "bitPay" | "payPal" | "venmo";
+  selectedPaymentMethod:
+    | "default"
+    | "applePay"
+    | "bitPay"
+    | "payPal"
+    | "venmo"
+    | null;
   disabled?: boolean;
   onPress: () => void;
 };
 
-const getTypeDetails = (type: string) => {
-  switch (type) {
+const getTypeDetails = (selectedPaymentMethod: string | null) => {
+  switch (selectedPaymentMethod) {
     case "default":
       return {
         label: "Purchase",
-        container:
-          "h-[38px] flex flex-row items-center border rounded-full px-4 bg-gray-200 border-2 border-gray-100 rounded-full",
-        text: "text-black"
+        containerStyle: {
+          backgroundColor: "#e5e7eb",
+          borderColor: "#d1d5db",
+          borderWidth: 2
+        },
+        text: "text-black",
+        rounded: 50,
+        dimensions: { w: 160, h: 50 }
       };
     case "applePay":
       return {
         label: "Apple Pay",
-        container: "bg-gray-200 border-gray-100",
-        icon: logos.applePayButton
+        icon: logos.applePayButton,
+        containerStyle: { backgroundColor: "#ffffff" },
+        rounded: 3,
+        dimensions: { w: 120, h: 25 },
+        imageStyle: { width: 80, height: 20 }
       };
     case "bitPay":
       return {
         label: "BitPay",
-        container: "bg-gray-200 border-gray-100",
-        icon: logos.bitPayButton
+        icon: logos.bitPayButton,
+        containerStyle: { backgroundColor: "#1A3B8B" },
+        rounded: 5,
+        dimensions: { w: 140, h: 35 },
+        imageStyle: { width: 90, height: 22 }
       };
     case "payPal":
       return {
         label: "PayPal",
-        container: "bg-gray-200 border-gray-100",
-        icon: logos.payPalButton
+        icon: logos.payPalButton,
+        containerStyle: { backgroundColor: "#0070BA" },
+        rounded: 50,
+        dimensions: { w: 150, h: 35 },
+        imageStyle: { width: 110, height: 18 }
       };
     case "venmo":
       return {
         label: "Venmo",
-        container: "bg-gray-200 border-gray-100",
-        icon: logos.venmoButton
+        icon: logos.venmoButton,
+        containerStyle: { backgroundColor: "#3D95CE" },
+        rounded: 5,
+        dimensions: { w: 141, h: 36 },
+        imageStyle: { width: 45, height: 20 }
       };
     default:
-      throw new Error("Invalid payment type");
+      console.warn(`Unknown payment type: ${selectedPaymentMethod}`);
+      return {
+        label: "Purchase",
+        containerStyle: {
+          backgroundColor: "#e5e7eb",
+          borderColor: "#d1d5db",
+          borderWidth: 2
+        },
+        text: "text-black",
+        rounded: 100,
+        dimensions: { w: 160, h: 50 }
+      };
   }
 };
 
 const PaymentButton = ({
-  type,
-  disabled = true,
+  selectedPaymentMethod = "default",
+  disabled = false,
   onPress
 }: PaymentButtonProps) => {
+  const { label, icon, text, containerStyle, rounded, dimensions, imageStyle } =
+    getTypeDetails(selectedPaymentMethod);
+
+  const animatedHeight = useRef(new Animated.Value(dimensions.h)).current;
+  const animatedWidth = useRef(new Animated.Value(dimensions.w)).current;
+  const animatedBorderRadius = useRef(new Animated.Value(rounded)).current;
+
   useEffect(() => {
-    getTypeDetails(type);
-  }, [type]);
-  const { label, container, icon, text } = getTypeDetails(type);
+    const { rounded, dimensions } = getTypeDetails(selectedPaymentMethod);
+
+    Animated.parallel([
+      Animated.timing(animatedHeight, {
+        toValue: dimensions.h,
+        duration: 50,
+        useNativeDriver: false
+      }),
+      Animated.timing(animatedWidth, {
+        toValue: dimensions.w,
+        duration: 50,
+        useNativeDriver: false
+      }),
+      Animated.timing(animatedBorderRadius, {
+        toValue: rounded,
+        duration: 50,
+        useNativeDriver: false
+      })
+    ]).start();
+  }, [selectedPaymentMethod]);
+
   return (
-    <Pressable
-      onPress={onPress}
-      disabled={disabled}
-      className={`flex-row items-center justify-center
-       p-2 ${container}`}
+    <Animated.View
+      style={[
+        {
+          height: animatedHeight,
+          width: animatedWidth,
+          borderRadius: animatedBorderRadius,
+          overflow: "hidden",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingHorizontal: 16,
+          flexDirection: "row",
+          opacity: disabled ? 0.4 : 1
+        },
+        containerStyle
+      ]}
     >
-      {label ? (
-        <Text className={`${text}`}>{label}</Text>
-      ) : (
-        icon && <Image source={icon} className="w-4 h-4 mr-2" />
-      )}
-    </Pressable>
+      <Pressable
+        onPress={onPress}
+        disabled={disabled}
+        style={StyleSheet.absoluteFill}
+      >
+        <View
+          style={{
+            height: "100%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          {icon ? (
+            <Image
+              source={icon}
+              style={imageStyle ?? { width: 80, height: 24 }}
+              resizeMode="contain"
+            />
+          ) : (
+            <Text
+              className={`font-gordita-bold text-base ${text ?? "text-white"}`}
+            >
+              {label}
+            </Text>
+          )}
+        </View>
+      </Pressable>
+    </Animated.View>
   );
 };
 
