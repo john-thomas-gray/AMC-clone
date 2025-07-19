@@ -1,7 +1,7 @@
-import CustomButton from "@/components/buttons/CustomButton";
-import StubsCard from "@/components/cards/StubsCard";
 import { backgrounds } from "@/constants";
 import { stubsCardData } from "@/constants/stubsCardContent";
+import CustomButton from "@/f@/frontend/constantsponents/buttons/CustomButton";
+import StubsCard from "@/fronte@/frontend/constants/stubsCardContentd";
 import { Link } from "expo-router";
 import React from "react";
 import { FlatList, ImageBackground, Text, View } from "react-native";

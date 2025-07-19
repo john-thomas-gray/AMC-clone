@@ -17,7 +17,7 @@ const MacguffinsBar = () => {
       <View className="flex-1 items-center ">
         {/* Top Banner */}
         <View className="flex w-full h-36 ">
-          <Image source={banners.macguffinsBar} className="w-full h-full" />
+          <Image source={banners.macguffins} className="w-full h-full" />
         </View>
 
         {/* Select Theatre Button */}

@@ -2,6 +2,7 @@ import { logos } from "@/constants";
 import React, { useEffect, useRef } from "react";
 import {
   Animated,
+  Easing,
   Image,
   Pressable,
   StyleSheet,
@@ -106,16 +107,19 @@ const PaymentButton = ({
       Animated.timing(animatedHeight, {
         toValue: dimensions.h,
         duration: 50,
+        easing: Easing.inOut(Easing.ease),
         useNativeDriver: false
       }),
       Animated.timing(animatedWidth, {
         toValue: dimensions.w,
         duration: 50,
+        easing: Easing.inOut(Easing.ease),
         useNativeDriver: false
       }),
       Animated.timing(animatedBorderRadius, {
         toValue: rounded,
         duration: 50,
+        easing: Easing.inOut(Easing.ease),
         useNativeDriver: false
       })
     ]).start();
