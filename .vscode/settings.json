@@ -16,5 +16,6 @@
     "less",
     "html",
     "markdown"
-  ]
+  ],
+  "postman.settings.dotenv-detection-notification-visibility": false
 }

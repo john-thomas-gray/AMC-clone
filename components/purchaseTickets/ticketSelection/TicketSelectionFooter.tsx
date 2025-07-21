@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
-import CustomButton from "../buttons/CustomButton";
+import CustomButton from "../../buttons/CustomButton";
 
 type Props = {
   onPress: () => void;

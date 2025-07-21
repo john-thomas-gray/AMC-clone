@@ -1,9 +1,9 @@
+import BackButton from "@/components/buttons/BackButton";
+import XButton from "@/components/buttons/XButton";
 import { PurchasesContext } from "@/context/PurchasesContext";
 import { ExternalPathString, RelativePathString, useRouter } from "expo-router";
 import React, { useContext } from "react";
 import { Text, View } from "react-native";
-import BackButton from "../buttons/BackButton";
-import XButton from "../buttons/XButton";
 
 type YoureAllSetProps = {
   movieTitle: string;

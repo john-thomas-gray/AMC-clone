@@ -1,3 +1,4 @@
+import { amcTheatresdummy } from "@/0reference/amcTheatresGooglePlace";
 import { NearbyTheatre } from "@/types/type";
 
 const getCurrentCoordinates = (): Promise<GeolocationPosition> => {
@@ -112,7 +113,21 @@ export const getNearbyTheatres = async (
 
     return theatres;
   } catch (error) {
-    console.error("Error fetching nearby theatres:", error);
-    throw error;
+    console.log("getNearby using backup. Error:", error);
+    const backup = amcTheatresdummy.map((place: any) => ({
+      place_id: place.place.id,
+      name: place.name,
+      vicinity: place.vicinity,
+      plus_code: {
+        compound_code: place.plus_code.compound_code
+      },
+      geometry: {
+        location: {
+          lat: place.geometry.location.lat,
+          lng: place.geometry.location.lng
+        }
+      }
+    }));
+    return backup;
   }
 };

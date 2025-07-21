@@ -1,4 +1,4 @@
-import YoureAllSetHeader from "@/components/purchaseTickets/YoureAllSetHeader";
+import YoureAllSetHeader from "@/components/purchaseTickets/youreAllSet/YoureAllSetHeader";
 import React from "react";
 import { Text, View } from "react-native";
 

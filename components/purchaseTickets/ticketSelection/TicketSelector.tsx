@@ -1,6 +1,6 @@
+import Counter from "@/components/purchaseTickets/Counter";
 import React from "react";
 import { Text, View } from "react-native";
-import Counter from "./Counter";
 
 type TicketSelectorProps = {
   age: string;

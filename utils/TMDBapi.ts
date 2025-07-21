@@ -9,24 +9,28 @@ export const TMDB_CONFIG = {
 };
 
 export const fetchMovies = async () => {
-  const endpoint =
-    "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1";
+  try {
+    const endpoint =
+      "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1";
 
-  const response = await fetch(endpoint, {
-    method: "GET",
-    headers: TMDB_CONFIG.headers
-  });
+    const response = await fetch(endpoint, {
+      method: "GET",
+      headers: TMDB_CONFIG.headers
+    });
 
-  const data = await response.json();
-  const moviesSummary = data.results;
+    const data = await response.json();
+    const moviesSummary = data.results;
 
-  const detailedMovies = await Promise.all(
-    moviesSummary.map((movie: { id: number }) =>
-      fetchMovieById(movie.id.toString())
-    )
-  );
-
-  return detailedMovies;
+    const detailedMovies = await Promise.all(
+      moviesSummary.map((movie: { id: number }) =>
+        fetchMovieById(movie.id.toString())
+      )
+    );
+    return detailedMovies;
+  } catch (error) {
+    console.log("fetchMovies using backup. Error:", error);
+    // const backup =
+  }
 };
 
 export const fetchComingSoon = async ({ query }: { query: string }) => {

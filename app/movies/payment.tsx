@@ -1,11 +1,10 @@
+import SignInBanner from "@/components/banners/SignInBanner";
 import StubsCard from "@/components/cards/StubsCard";
 import GorditaText from "@/components/GorditaText";
-import PaymentFooter from "@/components/purchaseTickets/PaymentFooter";
-import PaymentHeader from "@/components/purchaseTickets/PaymentHeader";
-import PaymentSelector from "@/components/purchaseTickets/PaymentSelector";
-import SignInBanner from "@/components/purchaseTickets/SignInBanner";
-import ShimmerOverlay from "@/components/ShimmerOverlay";
-import { icons, images } from "@/constants";
+import PaymentFooter from "@/components/purchaseTickets/payment/PaymentFooter";
+import PaymentHeader from "@/components/purchaseTickets/payment/PaymentHeader";
+import PaymentSelector from "@/components/purchaseTickets/payment/PaymentSelector";
+import { icons } from "@/constants";
 import { stubsCardData } from "@/constants/stubsCardContent";
 import { useModal } from "@/context/ModalContext";
 import { PurchasesContext } from "@/context/PurchasesContext";
@@ -16,7 +15,6 @@ import { useRouter } from "expo-router";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Animated, Image, Pressable, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const Payment = () => {
   const alertModalId = useRef<string | null>(null);
@@ -121,17 +119,17 @@ const Payment = () => {
       return () => clearTimeout(hideTimeout);
     }
   }, [showRewards]);
-  if (!selectedSession || loading) {
-    return (
-      <SafeAreaView className="flex-1 bg-black">
-        <ShimmerOverlay
-          source={images.loadingOneShimmer}
-          imageSource={images.loadingOne}
-          className="h-[100%] w-[100%]"
-        />
-      </SafeAreaView>
-    );
-  }
+  // if (!selectedSession || loading) {
+  //   return (
+  //     <SafeAreaView className="flex-1 bg-black">
+  //       <ShimmerOverlay
+  //         source={images.loadingOneShimmer}
+  //         imageSource={images.loadingOne}
+  //         className="h-[100%] w-[100%]"
+  //       />
+  //     </SafeAreaView>
+  //   );
+  // }
   return (
     <View className="flex-1 bg-black">
       <PaymentHeader />
@@ -315,7 +313,9 @@ const Payment = () => {
       <PaymentFooter
         buttonText="Purchase"
         onPress={() => {
-          console.log("purchased");
+          router.push({
+            pathname: "/movies/youreAllSet"
+          });
         }}
         disabled={!selectedPaymentMethod}
         selectedPaymentMethod={selectedPaymentMethod}

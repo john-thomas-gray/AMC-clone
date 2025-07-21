@@ -1,7 +1,7 @@
+import SignInBanner from "@/components/banners/SignInBanner";
 import ConcessionsCard from "@/components/cards/ConcessionsCard";
-import ExpressPickupFooter from "@/components/purchaseTickets/ExpressPickupFooter";
-import ExpressPickupHeader from "@/components/purchaseTickets/ExpressPickupHeader";
-import SignInBanner from "@/components/purchaseTickets/SignInBanner";
+import ExpressPickupFooter from "@/components/purchaseTickets/expressPickup/ExpressPickupFooter";
+import ExpressPickupHeader from "@/components/purchaseTickets/expressPickup/ExpressPickupHeader";
 import { concessionsCards } from "@/constants/ConcessionsData";
 import { TheatreDataContext } from "@/context/theatreDataContext";
 import { RelativePathString, useRouter } from "expo-router";
