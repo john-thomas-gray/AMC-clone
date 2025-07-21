@@ -44,7 +44,7 @@ export default function Home() {
   if (!fontsLoaded) return <View />;
 
   return (
-    <Redirect href="/(tabs)/home" />
+    <Redirect href="/movies/payment" />
     // <Redirect
     //   href={{
     //     pathname: "/movies/payment"
