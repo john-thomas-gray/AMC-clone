@@ -64,6 +64,7 @@ export const getNearbyTheatres = async (
     if (data.status !== "OK") {
       throw new Error(`Google Places API error: ${data.status}`);
     }
+    console.log("Nearby theatres:", data.status);
 
     let filteredResults = data.results.filter((place: any) =>
       place.name.toLowerCase().includes("amc")

@@ -75,30 +75,39 @@ const YoureAllSet = () => {
 
   return (
     <View className="flex-1 bg-black">
-      <YoureAllSetHeader
-        movieTitle="Movie Title"
-        details="Details about the movie"
-        id="12345"
-      />
-      <Text className="flex justify-center items-center text-gray-100">
+      <YoureAllSetHeader id={data.id} />
+      <Text className="flex justify-center items-center text-gray-100 my-4">
         We emailed your receipt. See you at the movies!
       </Text>
       <View>
-        <View>
-          <Image source={data.posterImage} />
+        <View className="flex-row">
+          <Image
+            source={{ uri: data.posterImage }}
+            style={{ width: 150, height: 225 }}
+            className="padding-6 bg-red-500"
+          />
+          r
           <View>
             <Text
-              className="text-white font-gordita-bold text-3xl"
+              className="text-white font-gordita-bold text-2xl"
               numberOfLines={2}
               ellipsizeMode="tail"
             >
               {data.movieTitle}
             </Text>
-            <View>
-              <Text className="text-white font-gordita-reguler">
-                {details.filter(Boolean).join(" | ")}
-              </Text>
+            <Text className="text-white font-gordita-regular">
+              {details.filter(Boolean).join(" | ")}
+            </Text>
+            <Text className="text-white font-gordita-bold">
+              Share & Meet Your Friends at AMC Theatres!
+            </Text>
+            <View className="flex-row items-center">
+              <Image />
+              <Image />
             </View>
+            <Text className="text-gray-100 font-gordita-regular capitalize">
+              TICKET CONFIRMATION #:
+            </Text>
           </View>
         </View>
       </View>

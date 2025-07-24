@@ -36,7 +36,7 @@ const MovieDetail = () => {
   if (loading) return <Text>Loading nearby showtimes...</Text>;
   if (error) return <Text>Error: {error.message}</Text>;
   if (!theatres || theatres.length === 0)
-    return <Text>No theatres found nearby.</Text>;
+    return <Text>{"\n\n\n\n"}No theatres found nearby. ID</Text>;
 
   const movie = theatres
     .flatMap(theatre => theatre.screens.map(screen => screen.movie))
