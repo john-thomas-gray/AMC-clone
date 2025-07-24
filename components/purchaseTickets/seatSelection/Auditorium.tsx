@@ -1,4 +1,4 @@
-import Seat from "@/components/purchaseTickets/Seat";
+import Seat from "@/components/purchaseTickets/seatSelection/Seat";
 import { icons, images } from "@/constants";
 import React, { JSX, useState } from "react";
 import { Image, Text, View } from "react-native";

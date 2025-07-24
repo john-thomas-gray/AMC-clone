@@ -1,8 +1,8 @@
-import ConcessionSelector from "@/components/purchaseTickets/ConcessionSelector";
+import SignInBanner from "@/components/banners/SignInBanner";
 import PurchaseTicketsHeader from "@/components/purchaseTickets/PurchaseTicketsHeader";
-import SignInBanner from "@/components/purchaseTickets/SignInBanner";
-import TicketSelectionFooter from "@/components/purchaseTickets/TicketSelectionFooter";
-import TicketSelector from "@/components/purchaseTickets/TicketSelector";
+import ConcessionSelector from "@/components/purchaseTickets/ticketSelection/ConcessionSelector";
+import TicketSelectionFooter from "@/components/purchaseTickets/ticketSelection/TicketSelectionFooter";
+import TicketSelector from "@/components/purchaseTickets/ticketSelection/TicketSelector";
 import { icons, images } from "@/constants";
 import { concessionPrice, movieTicketPrice } from "@/constants/PriceConstants";
 import { PurchasesContext } from "@/context/PurchasesContext";

@@ -1,11 +1,11 @@
+import SignInBanner from "@/components/banners/SignInBanner";
 import StubsCard from "@/components/cards/StubsCard";
 import GorditaText from "@/components/GorditaText";
-import PaymentFooter from "@/components/purchaseTickets/PaymentFooter";
-import PaymentHeader from "@/components/purchaseTickets/PaymentHeader";
-import PaymentSelector from "@/components/purchaseTickets/PaymentSelector";
-import SignInBanner from "@/components/purchaseTickets/SignInBanner";
+import PaymentFooter from "@/components/purchaseTickets/payment/PaymentFooter";
+import PaymentHeader from "@/components/purchaseTickets/payment/PaymentHeader";
+import PaymentSelector from "@/components/purchaseTickets/payment/PaymentSelector";
 import ShimmerOverlay from "@/components/ShimmerOverlay";
-import { icons, images } from "@/constants";
+import { icons } from "@/constants";
 import { stubsCardData } from "@/constants/stubsCardContent";
 import { useModal } from "@/context/ModalContext";
 import { PurchasesContext } from "@/context/PurchasesContext";
@@ -315,7 +315,9 @@ const Payment = () => {
       <PaymentFooter
         buttonText="Purchase"
         onPress={() => {
-          console.log("purchased");
+          router.push({
+            pathname: "/movies/youreAllSet"
+          });
         }}
         disabled={!selectedPaymentMethod}
         selectedPaymentMethod={selectedPaymentMethod}

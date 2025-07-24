@@ -1,13 +1,13 @@
+import SignInBanner from "@/components/banners/SignInBanner";
 import PurchaseTicketsFooter from "@/components/purchaseTickets/PurchaseTicketsFooter";
 import PurchaseTicketsHeader from "@/components/purchaseTickets/PurchaseTicketsHeader";
-import SignInBanner from "@/components/purchaseTickets/SignInBanner";
 import { PurchasesContext } from "@/context/PurchasesContext";
 import { TheatreDataContext } from "@/context/theatreDataContext";
 import { getCurrentDate } from "@/utils/dateAndTime";
 import { RelativePathString, useRouter } from "expo-router";
 import React, { useContext } from "react";
 import { View } from "react-native";
-import Auditorium from "../../components/purchaseTickets/Auditorium";
+import Auditorium from "../../components/purchaseTickets/seatSelection/Auditorium";
 
 const SeatSelection = () => {
   const { selectedSession } = useContext(TheatreDataContext);

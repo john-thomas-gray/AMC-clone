@@ -217,6 +217,7 @@ const generateScreens = async (screenCount: number): Promise<Screen[]> => {
 const generateTheatres = async (
   nearbyTheatres: NearbyTheatre[]
 ): Promise<Theatre[]> => {
+  // If this fails, load dummy data
   const theatres = await Promise.all(
     nearbyTheatres.map(async theatre => {
       const screens = await generateScreens(getScreenNum(theatre.name));
@@ -258,6 +259,7 @@ export const TheatreDataContextProvider = ({
         const nearby = await getNearbyTheatres(apiKey);
 
         const detailedTheatres = await generateTheatres(nearby);
+
         setTheatres(detailedTheatres);
 
         if (

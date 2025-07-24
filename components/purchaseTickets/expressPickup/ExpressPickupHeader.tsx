@@ -5,8 +5,8 @@ import { TimerContext } from "@/context/TimerContext";
 import { ExternalPathString, RelativePathString, useRouter } from "expo-router";
 import React, { useContext, useEffect, useRef } from "react";
 import { Text, View } from "react-native";
-import BackButton from "../buttons/BackButton";
-import CountdownTimer from "../CountdownTimer";
+import BackButton from "../../buttons/BackButton";
+import CountdownTimer from "../../CountdownTimer";
 
 type ExpressPickupHeaderProps = {
   to?: RelativePathString | ExternalPathString | undefined;

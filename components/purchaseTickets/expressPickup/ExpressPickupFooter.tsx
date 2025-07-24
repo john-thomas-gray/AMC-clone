@@ -1,8 +1,8 @@
 import { Link } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
-import CustomButton from "../buttons/CustomButton";
-import CartButton from "./CartButton";
+import CustomButton from "../../buttons/CustomButton";
+import CartButton from "../CartButton";
 
 type Props = {
   onPress: () => void;

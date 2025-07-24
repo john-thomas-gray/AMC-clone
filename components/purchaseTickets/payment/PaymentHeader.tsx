@@ -6,9 +6,9 @@ import { getCurrentDate } from "@/utils/dateAndTime";
 import { ExternalPathString, RelativePathString, useRouter } from "expo-router";
 import React, { useContext, useRef, useState } from "react";
 import { Text, View } from "react-native";
-import BackButton from "../buttons/BackButton";
-import XButton from "../buttons/XButton";
-import CountdownTimer from "../CountdownTimer";
+import BackButton from "../../buttons/BackButton";
+import XButton from "../../buttons/XButton";
+import CountdownTimer from "../../CountdownTimer";
 
 type PaymentHeaderProps = {
   to?: RelativePathString | ExternalPathString | undefined;

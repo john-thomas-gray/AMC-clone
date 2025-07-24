@@ -1,8 +1,8 @@
+import Counter from "@/components/purchaseTickets/Counter";
 import { images } from "@/constants";
 import { ConcessionItem } from "@/context/PurchasesContext";
 import React from "react";
 import { Image, Text, View } from "react-native";
-import Counter from "./Counter";
 
 type ConcessionSelectorProps = {
   title: string;

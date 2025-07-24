@@ -1,8 +1,8 @@
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
-import PaymentButton from "../buttons/PaymentButton";
-import CartButton from "./CartButton";
+import PaymentButton from "../../buttons/PaymentButton";
+import CartButton from "../CartButton";
 
 type Props = {
   onPress: () => void;
@@ -22,6 +22,7 @@ const PaymentFooter = ({
   disabled = false,
   selectedPaymentMethod = "default"
 }: Props) => {
+  const router = useRouter();
   return (
     <View className="border-t border-gray-300 ">
       <View className="h-[120] mt-3 justify-center">
@@ -47,7 +48,7 @@ const PaymentFooter = ({
           <PaymentButton
             selectedPaymentMethod={selectedPaymentMethod}
             onPress={() => {
-              console.log("Payment button pressed");
+              onPress();
             }}
           />
         </View>
