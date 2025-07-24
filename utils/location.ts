@@ -82,7 +82,7 @@ export const getNearbyTheatres = async (
     const { latitude, longitude } = coords;
 
     // Step 2: Fetch nearby theatres using Google Places API
-    const radiusInMeters = 50000; // Google Places API max radius is 50,000 meters (~31 miles)
+    const radiusInMeters = 500000; // Google Places API max radius is 50,000 meters (~31 miles)
     const response = await fetch(
       `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radiusInMeters}&keyword=AMC+Theatre&type=movie_theater&key=${apiKey}`
     );
