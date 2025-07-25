@@ -167,7 +167,7 @@ const screenTypes: ScreenTypesMap = {
 };
 
 const generateScreens = async (screenCount: number): Promise<Screen[]> => {
-  const movies = await fetchMovies();
+  const movies = (await fetchMovies()) ?? [];
   const moviePool = [...movies];
   const screenTypeKeys = Object.keys(screenTypes) as (keyof ScreenTypesMap)[];
   const imaxLimit = 2;
