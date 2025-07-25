@@ -5,7 +5,7 @@ import PaymentFooter from "@/components/purchaseTickets/payment/PaymentFooter";
 import PaymentHeader from "@/components/purchaseTickets/payment/PaymentHeader";
 import PaymentSelector from "@/components/purchaseTickets/payment/PaymentSelector";
 import ShimmerOverlay from "@/components/ShimmerOverlay";
-import { icons } from "@/constants";
+import { icons, images } from "@/constants";
 import { stubsCardData } from "@/constants/stubsCardContent";
 import { useModal } from "@/context/ModalContext";
 import { PurchasesContext } from "@/context/PurchasesContext";
@@ -121,6 +121,7 @@ const Payment = () => {
       return () => clearTimeout(hideTimeout);
     }
   }, [showRewards]);
+
   if (!selectedSession || loading) {
     return (
       <SafeAreaView className="flex-1 bg-black">
@@ -132,6 +133,7 @@ const Payment = () => {
       </SafeAreaView>
     );
   }
+
   return (
     <View className="flex-1 bg-black">
       <PaymentHeader />

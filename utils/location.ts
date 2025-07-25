@@ -49,12 +49,12 @@ export const getNearbyTheatres = async (
   apiKey: string
 ): Promise<NearbyTheatre[]> => {
   try {
-    // Step 1: Get user's coordinates and address
+    // Get user's coordinates and address
     const { coords } = await getUserLocation(apiKey);
     const { latitude, longitude } = coords;
 
-    // Step 2: Fetch nearby theatres using Google Places API
-    const radiusInMeters = 5; // Google Places API max radius is 50,000 meters (~31 miles)
+    // Fetch nearby theatres using Google Places API
+    const radiusInMeters = 50000;
     const response = await fetch(
       `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radiusInMeters}&keyword=AMC+Theatre&type=movie_theater&key=${apiKey}`
     );
@@ -64,7 +64,6 @@ export const getNearbyTheatres = async (
     if (data.status !== "OK") {
       throw new Error(`Google Places API error: ${data.status}`);
     }
-    console.log("Nearby theatres:", data.status);
 
     let filteredResults = data.results.filter((place: any) =>
       place.name.toLowerCase().includes("amc")

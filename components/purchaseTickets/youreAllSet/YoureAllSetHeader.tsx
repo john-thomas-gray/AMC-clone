@@ -5,7 +5,7 @@ import React, { useContext } from "react";
 import { Text, View } from "react-native";
 
 type YoureAllSetProps = {
-  id: string;
+  id: number;
   onPress?: () => void;
 };
 
@@ -14,8 +14,8 @@ const YoureAllSet = ({ id, onPress }: YoureAllSetProps) => {
 
   const router = useRouter();
   return (
-    <View className="bg-black h-[18%] flex-row justify-between items-center pt-[67] border border-red">
-      <View className="w-[265] px-2">
+    <View className="bg-black h-[16%] flex-row justify-between items-center pt-[67] border border-red">
+      <View className="w-[265]">
         <Text className="text-white font-gordita-bold text-3xl">
           You&apos;re All Set
         </Text>

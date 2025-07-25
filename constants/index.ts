@@ -26,6 +26,8 @@ import dropdownIconBlack from "../assets/icons/dropdownIconBlack.png";
 
 import dropdownIconWhite from "../assets/icons/dropdownIconWhite.png";
 
+import facebookBw from "../assets/icons/facebook_bw.png";
+
 import favouriteOff from "../assets/icons/favouriteOff.png";
 
 import film from "../assets/icons/film.png";
@@ -87,6 +89,8 @@ import targetWhite from "../assets/icons/targetWhite.png";
 import ticketTab from "../assets/icons/ticketTab.png";
 
 import ticketTabFocused from "../assets/icons/ticketTabFocused.png";
+
+import twitterBw from "../assets/icons/twitter_bw.png";
 
 import upArrowWhite from "../assets/icons/upArrowWhite.png";
 
@@ -193,6 +197,7 @@ export const icons = {
   downArrowWhite,
   dropdownIconBlack,
   dropdownIconWhite,
+  facebookBw,
   favouriteOff,
   film,
   foodTab,
@@ -224,6 +229,7 @@ export const icons = {
   targetWhite,
   ticketTab,
   ticketTabFocused,
+  twitterBw,
   upArrowWhite,
   upload,
   uploadBlack,
