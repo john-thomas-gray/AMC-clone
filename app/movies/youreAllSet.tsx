@@ -1,3 +1,4 @@
+import GorditaText from "@/components/GorditaText";
 import YoureAllSetHeader from "@/components/purchaseTickets/youreAllSet/YoureAllSetHeader";
 import ShimmerOverlay from "@/components/ShimmerOverlay";
 import { icons, images } from "@/constants";
@@ -9,7 +10,8 @@ import { formatRuntime } from "@/utils/formatMovieData";
 import { generateTicketConfirmationNumber } from "@/utils/generateTicketConfirmationNumber";
 import { useRouter } from "expo-router";
 import React, { useContext, useRef } from "react";
-import { Image, SafeAreaView, Text, View } from "react-native";
+import { Image, SafeAreaView, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 const YoureAllSet = () => {
   const purchasesContext = useContext(PurchasesContext);
@@ -38,6 +40,7 @@ const YoureAllSet = () => {
   }
   const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
   const { theatre, screen, showtime } = selectedSession;
+  console.log(screen);
   const data = {
     movieTitle: screen?.movie?.title ?? "Theatre",
     posterImage: screen?.movie?.poster_path
@@ -48,7 +51,8 @@ const YoureAllSet = () => {
     id: screen?.movie?.id ?? 1,
     theatreName: theatre?.name ?? "Unknown Theatre",
     runtime: screen?.movie?.runtime ?? 0,
-    genre: screen?.movie?.genres?.[0].name ?? "Unknown Genre"
+    genre: screen?.movie?.genres?.[0].name ?? "Unknown Genre",
+    auditoriumNumber: screen?.number ?? 1
   };
 
   const selectedYes = (yes: boolean, source: "yesNo" | "cancel") => {
@@ -90,70 +94,154 @@ const YoureAllSet = () => {
   return (
     <View className="flex-1 bg-black px-2">
       <YoureAllSetHeader id={data.id} />
-      <Text className="flex justify-center items-center text-gray-100 mb-8">
-        We emailed your receipt. See you at the movies!
-      </Text>
-      <View>
-        <View className="flex-row">
-          <View className="justify-start items-start px-8">
-            <Image
-              source={{ uri: data.posterImage }}
-              style={{ width: 75, height: 100 }}
-              resizeMode="contain"
-            />
-          </View>
-          <View className="flex-1">
-            <Text
+      <ScrollView>
+        <GorditaText className="text-center text-gray-100 mb-8">
+          We emailed your receipt. See you at the movies!
+        </GorditaText>
+
+        {/* Movie Info Row */}
+        <View className="flex-row px-4 mb-4">
+          <Image
+            source={{ uri: data.posterImage }}
+            style={{ width: 75, height: 100 }}
+            resizeMode="contain"
+          />
+
+          <View className="flex-1 ml-4">
+            <GorditaText
               className="text-white font-gordita-bold text-2xl mb-2"
               numberOfLines={2}
               ellipsizeMode="tail"
             >
               {data.movieTitle}
-            </Text>
-            <View className="flex-row mb-4">
-              <Text className="text-gray-100 font-gordita-regular">
-                {formatRuntime(data.runtime)}
-              </Text>
+            </GorditaText>
+
+            <View className="flex-row items-center mb-4">
+              <GorditaText className="text-gray-100 font-gordita-regular">
+                {formatRuntime(data.runtime)}{" "}
+              </GorditaText>
               <Image source={icons.info} className="h-5 w-5" />
-              {data.genre?.toLowerCase() === "horror" ? (
-                <Text className="text-gray-100 font-gordita-regular"> R </Text>
-              ) : (
-                <Text className="text-gray-100 font-gordita-regular">
-                  {" "}
-                  PG-13
-                </Text>
-              )}
-              {data.genre?.toLowerCase() === "horror" ? (
+              <GorditaText className="text-gray-100 font-gordita-regular">
+                {" "}
+                {data.genre?.toLowerCase() === "horror" ? "R" : "PG-13"}{" "}
+              </GorditaText>
+              {data.genre?.toLowerCase() === "horror" && (
                 <Image source={icons.info} className="h-5 w-5" />
-              ) : (
-                ""
               )}
             </View>
 
-            <Text
+            <GorditaText
               className="text-white font-gordita-bold text-lg mb-2"
               style={{ lineHeight: 18 }}
             >
               Share & Meet Your Friends at {"\n"}AMC Theatres!
-            </Text>
+            </GorditaText>
+
             <View className="flex-row items-center mb-6">
               <Image source={icons.facebookBw} className="h-9 w-9 mx-0.5" />
               <Image source={icons.twitterBw} className="h-9 w-9 mx-0.5" />
             </View>
-            <Text className="text-gray-100 font-gordita-regular uppercase">
+
+            <GorditaText className="text-gray-200 font-gordita-regular uppercase">
               TICKET CONFIRMATION #:
-            </Text>
-            <Text className="text-white font-gordita-regular">
+            </GorditaText>
+            <GorditaText className="text-white font-gordita-regular">
               {generateTicketConfirmationNumber()}
-            </Text>
+            </GorditaText>
           </View>
         </View>
-        <View className="w-full flex items-center justify-center mt-20">
+
+        {/* Center Circle */}
+        <View className="w-full items-center justify-center mt-20 mb-8">
           <View className="h-[150px] w-[150px] rounded-full bg-white" />
         </View>
-      </View>
+
+        {/* Info and Icon Columns */}
+        <View className="flex-row items-start">
+          {/* Left Column: Icon */}
+          <View className="mr-4">
+            <Image source={icons.ticketTabFocused} className="h-12 w-12" />
+            <Image source={icons.locationTabFocused} className="h-12 w-12" />
+            <Image source={icons.calendar} className="h-12 w-12" />
+            <Image
+              source={icons.creditCard}
+              className="h-12 w-12"
+              resizeMode="contain"
+            />
+          </View>
+
+          {/* Right Column: GorditaText */}
+          <View className="flex-1">
+            <View className="mb-3">
+              <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
+                TICKETS
+              </GorditaText>
+              {purchasesContext.selectedTickets.some(
+                ticket => ticket.count > 0
+              ) ? (
+                purchasesContext.selectedTickets
+                  .filter(ticket => ticket.count > 0)
+                  .map((ticket, index) => (
+                    <GorditaText
+                      key={index}
+                      className="text-white font-gordita-regular"
+                    >
+                      {ticket.count} {ticket.age}
+                    </GorditaText>
+                  ))
+              ) : (
+                <GorditaText className="text-white font-gordita-regular">
+                  1 Adult
+                </GorditaText>
+              )}
+            </View>
+
+            <View>
+              <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
+                AUDITORIUM
+              </GorditaText>
+              <GorditaText className="text-white font-gordita-regular">
+                {data.auditoriumNumber}
+              </GorditaText>
+            </View>
+
+            <View>
+              <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
+                SEATS
+              </GorditaText>
+              <View className="flex-row">
+                <GorditaText className="text-white font-gordita-regular">
+                  D9{" "}
+                </GorditaText>
+                <GorditaText className="text-blue-100">View</GorditaText>
+              </View>
+            </View>
+            <View>
+              <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
+                THEATRE
+              </GorditaText>
+              <View className="flex-row">
+                <GorditaText className="text-white font-gordita-regular">
+                  {data.theatreName}
+                </GorditaText>
+                <GorditaText className="text-blue-100">View</GorditaText>
+              </View>
+            </View>
+            <View>
+              <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
+                DATE
+              </GorditaText>
+              <View className="flex-row">
+                <GorditaText className="text-white font-gordita-regular">
+                  D9{" "}
+                </GorditaText>
+                <GorditaText className="text-blue-100">View</GorditaText>
+              </View>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
     </View>
   );
 };
-
 export default YoureAllSet;

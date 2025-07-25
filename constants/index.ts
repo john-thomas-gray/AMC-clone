@@ -20,6 +20,8 @@ import checkmark from "../assets/icons/checkmark.png";
 
 import companion from "../assets/icons/companion.png";
 
+import creditCard from "../assets/icons/creditCard.png";
+
 import downArrowWhite from "../assets/icons/downArrowWhite.png";
 
 import dropdownIconBlack from "../assets/icons/dropdownIconBlack.png";
@@ -194,6 +196,7 @@ export const icons = {
   cart,
   checkmark,
   companion,
+  creditCard,
   downArrowWhite,
   dropdownIconBlack,
   dropdownIconWhite,
