@@ -44,11 +44,11 @@ export default function Home() {
   if (!fontsLoaded) return <View />;
 
   return (
-    <Redirect href="/(tabs)/home" />
-    // <Redirect
-    //   href={{
-    //     pathname: "/movies/youreAllSet"
-    //   }}
-    // />
+    // <Redirect href="/(tabs)/home" />
+    <Redirect
+      href={{
+        pathname: "/movies/youreAllSet"
+      }}
+    />
   );
 }

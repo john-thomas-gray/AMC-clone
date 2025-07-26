@@ -6,6 +6,8 @@ export interface Ticket {
   age: string;
   cost: number;
   count: number;
+  date: string;
+  seats: string[];
 }
 
 export interface ConcessionItem {
@@ -59,6 +61,7 @@ export const PurchasesContext = createContext<PurchasesContextValue>(
 
 export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
+  const today = new Date().toISOString().split("T")[0];
   const [selectedConcessions, setSelectedConcessions] = useState<
     ConcessionItem[]
   >([]);
@@ -67,37 +70,49 @@ export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
       projector: "Standard",
       age: "Adult",
       cost: movieTicketPrice.adult + movieTicketPrice.fee,
-      count: 0
+      count: 0,
+      date: today,
+      seats: []
     },
     {
       projector: "Standard",
       age: "Child",
       cost: movieTicketPrice.child + movieTicketPrice.fee,
-      count: 0
+      count: 0,
+      date: today,
+      seats: []
     },
     {
       projector: "Standard",
       age: "Senior",
       cost: movieTicketPrice.senior + movieTicketPrice.fee,
-      count: 0
+      count: 0,
+      date: today,
+      seats: []
     },
     {
       projector: "IMax",
       age: "Adult",
       cost: movieTicketPrice.adultImax + movieTicketPrice.feeImax,
-      count: 0
+      count: 0,
+      date: today,
+      seats: []
     },
     {
       projector: "IMax",
       age: "Child",
       cost: movieTicketPrice.childImax + movieTicketPrice.feeImax,
-      count: 0
+      count: 0,
+      date: today,
+      seats: []
     },
     {
       projector: "IMax",
       age: "Senior",
       cost: movieTicketPrice.seniorImax + movieTicketPrice.feeImax,
-      count: 0
+      count: 0,
+      date: today,
+      seats: []
     }
   ]);
   const [cartItemCount, setCartItemCount] = useState(0);

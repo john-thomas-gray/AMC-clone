@@ -2,23 +2,31 @@ import GorditaText from "@/components/GorditaText";
 import YoureAllSetHeader from "@/components/purchaseTickets/youreAllSet/YoureAllSetHeader";
 import ShimmerOverlay from "@/components/ShimmerOverlay";
 import { icons, images } from "@/constants";
+import { movieTicketPrice } from "@/constants/PriceConstants";
 import { useModal } from "@/context/ModalContext";
 import { PurchasesContext } from "@/context/PurchasesContext";
 import { TheatreDataContext } from "@/context/theatreDataContext";
 import { TimerContext } from "@/context/TimerContext";
+import { getCurrentDate } from "@/utils/dateAndTime";
 import { formatRuntime } from "@/utils/formatMovieData";
 import { generateTicketConfirmationNumber } from "@/utils/generateTicketConfirmationNumber";
 import { useRouter } from "expo-router";
 import React, { useContext, useRef } from "react";
-import { Image, SafeAreaView, View } from "react-native";
+import { Image, SafeAreaView, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-
 const YoureAllSet = () => {
   const purchasesContext = useContext(PurchasesContext);
   if (!purchasesContext) {
     throw new Error("PurchasesContext must be used within PurchasesProvider");
   }
-  const { resetSelectedTickets, resetSelectedSeats } = purchasesContext;
+  const {
+    resetSelectedTickets,
+    resetSelectedSeats,
+    setSelectedTickets,
+    selectedTickets,
+    selectedSeats,
+    setSelectedSeats
+  } = purchasesContext;
 
   const { selectedSession, loading } = useContext(TheatreDataContext);
   const router = useRouter();
@@ -55,7 +63,20 @@ const YoureAllSet = () => {
     auditoriumNumber: screen?.number ?? 1
   };
 
-  const selectedYes = (yes: boolean, source: "yesNo" | "cancel") => {
+  // For development
+  if (selectedSeats.length === 0) {
+    setSelectedSeats(["D9", "D10", "D11"]);
+    setSelectedTickets([
+      {
+        projector: data.projector,
+        age: "Adult",
+        cost: movieTicketPrice.adult,
+        count: 3
+      }
+    ]);
+  }
+
+  function selectedYes(yes: boolean, source: "yesNo" | "cancel") {
     const clearModal = (ref: React.RefObject<string | null>) => {
       if (ref.current) {
         hideModal(ref.current);
@@ -89,7 +110,8 @@ const YoureAllSet = () => {
         });
       }
     }
-  };
+  }
+  console.log("selected", selectedSeats);
 
   return (
     <View className="flex-1 bg-black px-2">
@@ -176,10 +198,8 @@ const YoureAllSet = () => {
               <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
                 TICKETS
               </GorditaText>
-              {purchasesContext.selectedTickets.some(
-                ticket => ticket.count > 0
-              ) ? (
-                purchasesContext.selectedTickets
+              {selectedTickets.some(ticket => ticket.count > 0) ? (
+                selectedTickets
                   .filter(ticket => ticket.count > 0)
                   .map((ticket, index) => (
                     <GorditaText
@@ -211,9 +231,11 @@ const YoureAllSet = () => {
               </GorditaText>
               <View className="flex-row">
                 <GorditaText className="text-white font-gordita-regular">
-                  D9{" "}
+                  {selectedSeats.join(", ")}
                 </GorditaText>
-                <GorditaText className="text-blue-100">View</GorditaText>
+                <TouchableOpacity>
+                  <GorditaText className="text-blue-100"> View</GorditaText>
+                </TouchableOpacity>
               </View>
             </View>
             <View>
@@ -224,7 +246,9 @@ const YoureAllSet = () => {
                 <GorditaText className="text-white font-gordita-regular">
                   {data.theatreName}
                 </GorditaText>
-                <GorditaText className="text-blue-100">View</GorditaText>
+                <TouchableOpacity>
+                  <GorditaText className="text-blue-100"> View</GorditaText>
+                </TouchableOpacity>
               </View>
             </View>
             <View>
@@ -233,9 +257,11 @@ const YoureAllSet = () => {
               </GorditaText>
               <View className="flex-row">
                 <GorditaText className="text-white font-gordita-regular">
-                  D9{" "}
+                  {getCurrentDate()}
                 </GorditaText>
-                <GorditaText className="text-blue-100">View</GorditaText>
+                <TouchableOpacity>
+                  <GorditaText className="text-blue-100"> View</GorditaText>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
