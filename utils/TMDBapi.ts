@@ -26,10 +26,26 @@ export const fetchMovies = async () => {
         fetchMovieById(movie.id.toString())
       )
     );
+
     return detailedMovies;
   } catch (error) {
-    console.log("fetchMovies using backup. Error:", error);
-    // const backup =
+    return [
+      {
+        id: 1,
+        backdropPath: "",
+        genres: {
+          id: 1,
+          name: "Comedy"
+        },
+        title: "Planet of the Apes",
+        release_date: "",
+        runtime: "",
+        tagline: "Too many apes!",
+        status: "Upcoming",
+        vote_average: 10,
+        poster_path: ""
+      }
+    ];
   }
 };
 
