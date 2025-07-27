@@ -1,15 +1,6 @@
 import { movieTicketPrice } from "@/constants/PriceConstants";
 import React, { createContext, ReactNode, useEffect, useState } from "react";
 
-export interface Ticket {
-  projector: string;
-  age: string;
-  cost: number;
-  count: number;
-  date: string;
-  seats: string[];
-}
-
 export interface ConcessionItem {
   title: string;
   description: string;
@@ -18,17 +9,35 @@ export interface ConcessionItem {
   count: number;
 }
 
-export interface PurchasesContextValue {
-  selectedSeats: string[];
-  setSelectedSeats: React.Dispatch<React.SetStateAction<string[]>>;
+interface TicketDetail {
+  cost: number;
+  count: number;
+}
 
+interface TicketGroup {
+  date: string;
+  seats: string[];
+  tickets: {
+    [projectorType: string]: TicketDetail;
+  };
+}
+
+interface SelectedTicketsByAge {
+  adult: TicketGroup;
+  child: TicketGroup;
+  senior: TicketGroup;
+}
+
+export interface PurchasesContextValue {
   selectedConcessions: ConcessionItem[];
   setSelectedConcessions: React.Dispatch<
     React.SetStateAction<ConcessionItem[]>
   >;
 
-  selectedTickets: Ticket[];
-  setSelectedTickets: React.Dispatch<React.SetStateAction<Ticket[]>>;
+  selectedTickets: SelectedTicketsByAge;
+  setSelectedTickets: React.Dispatch<
+    React.SetStateAction<SelectedTicketsByAge>
+  >;
 
   cartItemCount: number;
   setCartItemCount: React.Dispatch<React.SetStateAction<number>>;
@@ -37,22 +46,22 @@ export interface PurchasesContextValue {
   setCartCostTotal: React.Dispatch<React.SetStateAction<number>>;
 
   resetSelectedTickets: () => void;
-  resetSelectedSeats: () => void;
 }
 
 const defaultPurchasesContextValue: PurchasesContextValue = {
-  selectedSeats: [],
-  setSelectedSeats: () => {},
   selectedConcessions: [],
   setSelectedConcessions: () => {},
-  selectedTickets: [],
+  selectedTickets: {
+    adult: { date: "", seats: [], tickets: {} },
+    child: { date: "", seats: [], tickets: {} },
+    senior: { date: "", seats: [], tickets: {} }
+  },
   setSelectedTickets: () => {},
   cartItemCount: 0,
   setCartItemCount: () => {},
   cartCostTotal: 0,
   setCartCostTotal: () => {},
-  resetSelectedTickets: () => {},
-  resetSelectedSeats: () => {}
+  resetSelectedTickets: () => {}
 };
 
 export const PurchasesContext = createContext<PurchasesContextValue>(
@@ -60,69 +69,70 @@ export const PurchasesContext = createContext<PurchasesContextValue>(
 );
 
 export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
-  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const today = new Date().toISOString().split("T")[0];
+
   const [selectedConcessions, setSelectedConcessions] = useState<
     ConcessionItem[]
   >([]);
-  const [selectedTickets, setSelectedTickets] = useState<Ticket[]>([
-    {
-      projector: "Standard",
-      age: "Adult",
-      cost: movieTicketPrice.adult + movieTicketPrice.fee,
-      count: 0,
-      date: today,
-      seats: []
-    },
-    {
-      projector: "Standard",
-      age: "Child",
-      cost: movieTicketPrice.child + movieTicketPrice.fee,
-      count: 0,
-      date: today,
-      seats: []
-    },
-    {
-      projector: "Standard",
-      age: "Senior",
-      cost: movieTicketPrice.senior + movieTicketPrice.fee,
-      count: 0,
-      date: today,
-      seats: []
-    },
-    {
-      projector: "IMax",
-      age: "Adult",
-      cost: movieTicketPrice.adultImax + movieTicketPrice.feeImax,
-      count: 0,
-      date: today,
-      seats: []
-    },
-    {
-      projector: "IMax",
-      age: "Child",
-      cost: movieTicketPrice.childImax + movieTicketPrice.feeImax,
-      count: 0,
-      date: today,
-      seats: []
-    },
-    {
-      projector: "IMax",
-      age: "Senior",
-      cost: movieTicketPrice.seniorImax + movieTicketPrice.feeImax,
-      count: 0,
-      date: today,
-      seats: []
-    }
-  ]);
+
+  const [selectedTickets, setSelectedTickets] =
+    React.useState<SelectedTicketsByAge>({
+      adult: {
+        date: today,
+        seats: [],
+        tickets: {
+          Standard: {
+            cost: movieTicketPrice.adult + movieTicketPrice.fee,
+            count: 0
+          },
+          IMax: {
+            cost: movieTicketPrice.adultImax + movieTicketPrice.feeImax,
+            count: 0
+          }
+        }
+      },
+      child: {
+        date: today,
+        seats: [],
+        tickets: {
+          Standard: {
+            cost: movieTicketPrice.child + movieTicketPrice.fee,
+            count: 0
+          },
+          IMax: {
+            cost: movieTicketPrice.childImax + movieTicketPrice.feeImax,
+            count: 0
+          }
+        }
+      },
+      senior: {
+        date: today,
+        seats: [],
+        tickets: {
+          Standard: {
+            cost: movieTicketPrice.senior + movieTicketPrice.fee,
+            count: 0
+          },
+          IMax: {
+            cost: movieTicketPrice.seniorImax + movieTicketPrice.feeImax,
+            count: 0
+          }
+        }
+      }
+    });
+
   const [cartItemCount, setCartItemCount] = useState(0);
   const [cartCostTotal, setCartCostTotal] = useState(0);
 
   useEffect(() => {
-    const ticketCount = selectedTickets.reduce(
-      (sum, { count }) => sum + count,
-      0
-    );
+    const ticketCount =
+      selectedTickets.adult.tickets.Standard.count +
+      selectedTickets.adult.tickets.IMax.count +
+      selectedTickets.child.tickets.Standard.count +
+      selectedTickets.child.tickets.IMax.count +
+      selectedTickets.senior.tickets.Standard.count +
+      selectedTickets.senior.tickets.IMax.count;
+
     const concessionCount = selectedConcessions.reduce(
       (sum, { count }) => sum + count,
       0
@@ -130,34 +140,78 @@ export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
 
     setCartItemCount(ticketCount + concessionCount);
 
-    const ticketTotal = selectedTickets.reduce(
-      (sum, ticket) => sum + ticket.cost * ticket.count,
-      0
-    );
+    const ticketTotal =
+      selectedTickets.adult.tickets.Standard.cost *
+        selectedTickets.adult.tickets.Standard.count +
+      selectedTickets.adult.tickets.IMax.cost *
+        selectedTickets.adult.tickets.IMax.count +
+      selectedTickets.child.tickets.Standard.cost *
+        selectedTickets.child.tickets.Standard.count +
+      selectedTickets.child.tickets.IMax.cost *
+        selectedTickets.child.tickets.IMax.count +
+      selectedTickets.senior.tickets.Standard.cost *
+        selectedTickets.senior.tickets.Standard.count +
+      selectedTickets.senior.tickets.IMax.cost *
+        selectedTickets.senior.tickets.IMax.count;
 
     const concessionTotal = selectedConcessions.reduce(
       (sum, item) => sum + item.cost * item.count,
       0
     );
 
-    const total = ticketTotal + concessionTotal;
-
-    setCartCostTotal(Number(total.toFixed(2)));
+    setCartCostTotal(Number((ticketTotal + concessionTotal).toFixed(2)));
   }, [selectedTickets, selectedConcessions]);
 
   const resetSelectedTickets = () => {
-    setSelectedTickets([]);
-  };
-
-  const resetSelectedSeats = () => {
-    setSelectedSeats([]);
+    setSelectedTickets({
+      adult: {
+        date: today,
+        seats: [],
+        tickets: {
+          Standard: {
+            cost: movieTicketPrice.adult + movieTicketPrice.fee,
+            count: 0
+          },
+          IMax: {
+            cost: movieTicketPrice.adultImax + movieTicketPrice.feeImax,
+            count: 0
+          }
+        }
+      },
+      child: {
+        date: today,
+        seats: [],
+        tickets: {
+          Standard: {
+            cost: movieTicketPrice.child + movieTicketPrice.fee,
+            count: 0
+          },
+          IMax: {
+            cost: movieTicketPrice.childImax + movieTicketPrice.feeImax,
+            count: 0
+          }
+        }
+      },
+      senior: {
+        date: today,
+        seats: [],
+        tickets: {
+          Standard: {
+            cost: movieTicketPrice.senior + movieTicketPrice.fee,
+            count: 0
+          },
+          IMax: {
+            cost: movieTicketPrice.seniorImax + movieTicketPrice.feeImax,
+            count: 0
+          }
+        }
+      }
+    });
   };
 
   return (
     <PurchasesContext.Provider
       value={{
-        selectedSeats,
-        setSelectedSeats,
         selectedConcessions,
         setSelectedConcessions,
         selectedTickets,
@@ -166,8 +220,7 @@ export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
         setCartItemCount,
         cartCostTotal,
         setCartCostTotal,
-        resetSelectedTickets,
-        resetSelectedSeats
+        resetSelectedTickets
       }}
     >
       {children}

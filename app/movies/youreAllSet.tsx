@@ -2,31 +2,24 @@ import GorditaText from "@/components/GorditaText";
 import YoureAllSetHeader from "@/components/purchaseTickets/youreAllSet/YoureAllSetHeader";
 import ShimmerOverlay from "@/components/ShimmerOverlay";
 import { icons, images } from "@/constants";
-import { movieTicketPrice } from "@/constants/PriceConstants";
 import { useModal } from "@/context/ModalContext";
 import { PurchasesContext } from "@/context/PurchasesContext";
 import { TheatreDataContext } from "@/context/theatreDataContext";
 import { TimerContext } from "@/context/TimerContext";
-import { getCurrentDate } from "@/utils/dateAndTime";
 import { formatRuntime } from "@/utils/formatMovieData";
 import { generateTicketConfirmationNumber } from "@/utils/generateTicketConfirmationNumber";
 import { useRouter } from "expo-router";
 import React, { useContext, useRef } from "react";
 import { Image, SafeAreaView, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+
 const YoureAllSet = () => {
   const purchasesContext = useContext(PurchasesContext);
   if (!purchasesContext) {
     throw new Error("PurchasesContext must be used within PurchasesProvider");
   }
-  const {
-    resetSelectedTickets,
-    resetSelectedSeats,
-    setSelectedTickets,
-    selectedTickets,
-    selectedSeats,
-    setSelectedSeats
-  } = purchasesContext;
+  const { resetSelectedTickets, setSelectedTickets, selectedTickets } =
+    purchasesContext;
 
   const { selectedSession, loading } = useContext(TheatreDataContext);
   const router = useRouter();
@@ -34,6 +27,13 @@ const YoureAllSet = () => {
   const { startTimer, stopTimer, resetTimer } = useContext(TimerContext);
   const yesNoModalId = useRef<string | null>(null);
   const cancelModalId = useRef<string | null>(null);
+
+  // Aggregate all seats from adult, child, and senior tickets
+  const allSelectedSeats = [
+    ...selectedTickets.adult.seats,
+    ...selectedTickets.child.seats,
+    ...selectedTickets.senior.seats
+  ];
 
   if (!selectedSession || loading) {
     return (
@@ -46,9 +46,9 @@ const YoureAllSet = () => {
       </SafeAreaView>
     );
   }
+
   const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
   const { theatre, screen, showtime } = selectedSession;
-  console.log(screen);
   const data = {
     movieTitle: screen?.movie?.title ?? "Theatre",
     posterImage: screen?.movie?.poster_path
@@ -63,17 +63,23 @@ const YoureAllSet = () => {
     auditoriumNumber: screen?.number ?? 1
   };
 
-  // For development
-  if (selectedSeats.length === 0) {
-    setSelectedSeats(["D9", "D10", "D11"]);
-    setSelectedTickets([
-      {
-        projector: data.projector,
-        age: "Adult",
-        cost: movieTicketPrice.adult,
-        count: 3
-      }
-    ]);
+  // For development - initialize if no seats set
+  if (allSelectedSeats.length === 0) {
+    setSelectedTickets({
+      adult: {
+        ...selectedTickets.adult,
+        seats: ["D9", "D10", "D11"],
+        tickets: {
+          ...selectedTickets.adult.tickets,
+          Standard: {
+            ...selectedTickets.adult.tickets.Standard,
+            count: 3
+          }
+        }
+      },
+      child: selectedTickets.child,
+      senior: selectedTickets.senior
+    });
   }
 
   function selectedYes(yes: boolean, source: "yesNo" | "cancel") {
@@ -91,7 +97,6 @@ const YoureAllSet = () => {
       if (source === "yesNo") {
         resetTimer();
         startTimer(420);
-        resetSelectedSeats();
         resetSelectedTickets();
         router.push({
           pathname: "/movies/[id]",
@@ -111,7 +116,6 @@ const YoureAllSet = () => {
       }
     }
   }
-  console.log("selected", selectedSeats);
 
   return (
     <View className="flex-1 bg-black px-2">
@@ -198,18 +202,26 @@ const YoureAllSet = () => {
               <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
                 TICKETS
               </GorditaText>
-              {selectedTickets.some(ticket => ticket.count > 0) ? (
-                selectedTickets
-                  .filter(ticket => ticket.count > 0)
-                  .map((ticket, index) => (
-                    <GorditaText
-                      key={index}
-                      className="text-white font-gordita-regular"
-                    >
-                      {ticket.count} {ticket.age}
-                    </GorditaText>
-                  ))
-              ) : (
+              {["adult", "child", "senior"].map(age =>
+                Object.entries(selectedTickets[age].tickets).map(
+                  ([projectorType, ticket]) =>
+                    ticket.count > 0 ? (
+                      <GorditaText
+                        key={`${age}-${projectorType}`}
+                        className="text-white font-gordita-regular"
+                      >
+                        {ticket.count}{" "}
+                        {age.charAt(0).toUpperCase() + age.slice(1)} (
+                        {projectorType})
+                      </GorditaText>
+                    ) : null
+                )
+              )}
+              {["adult", "child", "senior"].every(age =>
+                Object.values(selectedTickets[age].tickets).every(
+                  ticket => ticket.count === 0
+                )
+              ) && (
                 <GorditaText className="text-white font-gordita-regular">
                   1 Adult
                 </GorditaText>
@@ -231,13 +243,16 @@ const YoureAllSet = () => {
               </GorditaText>
               <View className="flex-row">
                 <GorditaText className="text-white font-gordita-regular">
-                  {selectedSeats.join(", ")}
+                  {allSelectedSeats.length > 0
+                    ? allSelectedSeats.join(", ")
+                    : "No seats selected"}
                 </GorditaText>
                 <TouchableOpacity>
                   <GorditaText className="text-blue-100"> View</GorditaText>
                 </TouchableOpacity>
               </View>
             </View>
+
             <View>
               <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
                 THEATRE
@@ -251,13 +266,14 @@ const YoureAllSet = () => {
                 </TouchableOpacity>
               </View>
             </View>
+
             <View>
               <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
                 DATE
               </GorditaText>
               <View className="flex-row">
                 <GorditaText className="text-white font-gordita-regular">
-                  {getCurrentDate()}
+                  {selectedTickets.adult.date}
                 </GorditaText>
                 <TouchableOpacity>
                   <GorditaText className="text-blue-100"> View</GorditaText>
@@ -270,4 +286,5 @@ const YoureAllSet = () => {
     </View>
   );
 };
+
 export default YoureAllSet;

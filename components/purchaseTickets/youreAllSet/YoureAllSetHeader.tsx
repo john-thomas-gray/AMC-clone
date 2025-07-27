@@ -10,7 +10,7 @@ type YoureAllSetProps = {
 };
 
 const YoureAllSet = ({ id, onPress }: YoureAllSetProps) => {
-  const { resetSelectedSeats } = useContext(PurchasesContext)!;
+  const { resetSelectedTickets } = useContext(PurchasesContext)!;
 
   const router = useRouter();
   return (
@@ -23,7 +23,7 @@ const YoureAllSet = ({ id, onPress }: YoureAllSetProps) => {
 
       <XButton
         onPress={() => {
-          resetSelectedSeats();
+          resetSelectedTickets();
           if (onPress) {
             onPress();
           }

@@ -21,11 +21,11 @@ import { PurchasesContext } from "@/context/PurchasesContext";
 import { useFocusEffect } from "@react-navigation/native";
 
 const MovieDetail = () => {
-  const { resetSelectedSeats } = useContext(PurchasesContext)!;
+  const { resetSelectedTickets } = useContext(PurchasesContext)!;
 
   useFocusEffect(
     React.useCallback(() => {
-      resetSelectedSeats();
+      resetSelectedTickets();
     }, [])
   );
   const { id } = useLocalSearchParams();

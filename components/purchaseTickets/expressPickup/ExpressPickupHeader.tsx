@@ -13,8 +13,7 @@ type ExpressPickupHeaderProps = {
 };
 
 const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
-  const { resetSelectedSeats, resetSelectedTickets } =
-    useContext(PurchasesContext);
+  const { resetSelectedTickets } = useContext(PurchasesContext);
   const { selectedSession } = useContext(TheatreDataContext);
   const router = useRouter();
   const { showModal, hideModal } = useModal();
@@ -37,7 +36,6 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
 
   const handleClose = () => {
     hideModal(alertModalId.current!);
-    resetSelectedSeats();
     resetSelectedTickets();
     router.push({
       pathname: "/movies/[id]",
@@ -60,7 +58,6 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
       if (source === "yesNo") {
         resetTimer();
         startTimer(420);
-        resetSelectedSeats();
         resetSelectedTickets();
       }
 

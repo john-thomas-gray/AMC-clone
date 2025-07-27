@@ -11,8 +11,7 @@ import Auditorium from "../../components/purchaseTickets/seatSelection/Auditoriu
 
 const SeatSelection = () => {
   const { selectedSession } = useContext(TheatreDataContext);
-  const { selectedSeats, setSelectedSeats, resetSelectedSeats } =
-    useContext(PurchasesContext)!;
+  const { selectedTickets, setSelectedTickets } = useContext(PurchasesContext)!;
 
   const router = useRouter();
 
@@ -33,7 +32,7 @@ const SeatSelection = () => {
   const seatNum = screen.type.seatCount || 100;
 
   const handleSeatToggle = (seatID: string) => {
-    setSelectedSeats(prev =>
+    setSelectedTickets(prev =>
       prev.includes(seatID)
         ? prev.filter(id => id !== seatID)
         : [...prev, seatID]

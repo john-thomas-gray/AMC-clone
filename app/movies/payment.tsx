@@ -31,8 +31,7 @@ const Payment = () => {
   >("default");
 
   const { showModal, hideModal } = useModal();
-  const { resetSelectedSeats, resetSelectedTickets } =
-    useContext(PurchasesContext);
+  const { resetSelectedTickets } = useContext(PurchasesContext);
   const { selectedSession, loading } = useContext(TheatreDataContext);
   const router = useRouter();
   const { resetTimer, startTimer, onTimeReached } = useContext(TimerContext);
@@ -47,7 +46,7 @@ const Payment = () => {
       alertModalId.current = null;
     }
 
-    resetSelectedSeats();
+    resetSelectedTickets();
     resetSelectedTickets();
 
     router.push({
@@ -71,7 +70,7 @@ const Payment = () => {
       if (source === "yesNo") {
         resetTimer();
         startTimer(420);
-        resetSelectedSeats();
+        resetSelectedTickets();
         resetSelectedTickets();
       }
 
