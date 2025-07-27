@@ -7,14 +7,9 @@ import { ScrollView } from "react-native-gesture-handler";
 type AuditoriumProps = {
   seatNum: number;
   onSeatToggle: (seatID: string) => void;
-  selectedSeats: string[];
 };
 
-const Auditorium = ({
-  seatNum,
-  onSeatToggle,
-  selectedSeats
-}: AuditoriumProps) => {
+const Auditorium = ({ seatNum, onSeatToggle }: AuditoriumProps) => {
   const pairs = [
     {
       icon: icons.seat,
@@ -45,6 +40,8 @@ const Auditorium = ({
   const handleSeatToggle = (seatID: string) => {
     onSeatToggle(seatID);
   };
+
+  const selectedSeats: string[] = [];
 
   const seatTypes = pairs.map((pair, index) => (
     <View key={index} className="flex-row items-center">

@@ -11,7 +11,7 @@ import Auditorium from "../../components/purchaseTickets/seatSelection/Auditoriu
 
 const SeatSelection = () => {
   const { selectedSession } = useContext(TheatreDataContext);
-  const { selectedTickets, setSelectedTickets } = useContext(PurchasesContext)!;
+  const { selectedSeats, setSelectedSeats } = useContext(PurchasesContext)!;
 
   const router = useRouter();
 
@@ -32,7 +32,7 @@ const SeatSelection = () => {
   const seatNum = screen.type.seatCount || 100;
 
   const handleSeatToggle = (seatID: string) => {
-    setSelectedTickets(prev =>
+    setSelectedSeats(prev =>
       prev.includes(seatID)
         ? prev.filter(id => id !== seatID)
         : [...prev, seatID]
@@ -49,11 +49,7 @@ const SeatSelection = () => {
       />
       <SignInBanner />
       <View className="flex-1 pt-4">
-        <Auditorium
-          seatNum={seatNum}
-          onSeatToggle={handleSeatToggle}
-          selectedSeats={selectedSeats}
-        />
+        <Auditorium seatNum={seatNum} onSeatToggle={handleSeatToggle} />
       </View>
       <PurchaseTicketsFooter
         disabled={selectedSeats.length === 0}

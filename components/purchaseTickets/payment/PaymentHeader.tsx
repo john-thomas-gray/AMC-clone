@@ -19,7 +19,7 @@ const PaymentHeader = ({ to }: PaymentHeaderProps) => {
   if (!purchasesContext) {
     throw new Error("PurchasesContext must be used within PurchasesProvider");
   }
-  const { resetSelectedTickets } = purchasesContext;
+  const { resetSelectedTickets, resetSelectedSeats } = purchasesContext;
 
   const { selectedSession } = useContext(TheatreDataContext);
 
@@ -54,6 +54,7 @@ const PaymentHeader = ({ to }: PaymentHeaderProps) => {
         resetTimer();
         startTimer(420);
         resetSelectedTickets();
+        resetSelectedSeats();
         router.push({
           pathname: "/movies/[id]",
           params: {
@@ -63,6 +64,8 @@ const PaymentHeader = ({ to }: PaymentHeaderProps) => {
       }
 
       if (source === "cancel") {
+        resetSelectedTickets();
+        resetSelectedSeats();
         router.push({
           pathname: "/movies/[id]",
           params: {

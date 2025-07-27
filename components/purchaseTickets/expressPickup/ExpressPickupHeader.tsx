@@ -13,7 +13,8 @@ type ExpressPickupHeaderProps = {
 };
 
 const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
-  const { resetSelectedTickets } = useContext(PurchasesContext);
+  const { resetSelectedTickets, resetSelectedSeats } =
+    useContext(PurchasesContext);
   const { selectedSession } = useContext(TheatreDataContext);
   const router = useRouter();
   const { showModal, hideModal } = useModal();
@@ -35,8 +36,12 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
   };
 
   const handleClose = () => {
-    hideModal(alertModalId.current!);
+    if (alertModalId.current) {
+      hideModal(alertModalId.current);
+      alertModalId.current = null;
+    }
     resetSelectedTickets();
+    resetSelectedSeats();
     router.push({
       pathname: "/movies/[id]",
       params: { id: selectedSession?.screen.movie.id.toString() ?? "" }
@@ -59,9 +64,12 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
         resetTimer();
         startTimer(420);
         resetSelectedTickets();
+        resetSelectedSeats();
       }
 
       if (source === "cancel") {
+        resetSelectedTickets();
+        resetSelectedSeats();
         router.push({
           pathname: "/movies/[id]",
           params: {
@@ -74,11 +82,13 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
 
   const hasRegistered = useRef(false);
 
+  const { startTimer, resetTimer } = useContext(TimerContext);
+
   useEffect(() => {
     if (hasRegistered.current) return;
 
     onTimeReached(30, () => {
-      showModal("yesno", {
+      yesNoModalId.current = showModal("yesno", {
         title: "Need More Time?",
         body: "We had to release any reserved tickets or food & beverage items because the allotted time has expired.",
         onYes: () => selectedYes(true, "yesNo"),
@@ -88,8 +98,6 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
 
     hasRegistered.current = true;
   }, []);
-
-  const { startTimer, stopTimer, resetTimer } = useContext(TimerContext);
 
   return (
     <View className="bg-black h-[18%] flex-row justify-between items-center px-4 pt-[67] border border-red pb-[12]">
@@ -109,7 +117,7 @@ const ExpressPickupHeader = ({ to }: ExpressPickupHeaderProps) => {
           initialSeconds={420}
           onFinish={() =>
             onTimeReached(0, () => {
-              showModal("alert", {
+              alertModalId.current = showModal("alert", {
                 title: "Oops! Time is up.",
                 body: "We had to release any reserved tickets or food & beverage items because the allotted time has expired.",
                 onClose: () => handleClose()

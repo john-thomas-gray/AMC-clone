@@ -46,6 +46,11 @@ export interface PurchasesContextValue {
   setCartCostTotal: React.Dispatch<React.SetStateAction<number>>;
 
   resetSelectedTickets: () => void;
+
+  selectedSeats: string[];
+  setSelectedSeats: React.Dispatch<React.SetStateAction<string[]>>;
+
+  resetSelectedSeats: () => void;
 }
 
 const defaultPurchasesContextValue: PurchasesContextValue = {
@@ -61,7 +66,10 @@ const defaultPurchasesContextValue: PurchasesContextValue = {
   setCartItemCount: () => {},
   cartCostTotal: 0,
   setCartCostTotal: () => {},
-  resetSelectedTickets: () => {}
+  resetSelectedTickets: () => {},
+  selectedSeats: [],
+  setSelectedSeats: () => {},
+  resetSelectedSeats: () => {}
 };
 
 export const PurchasesContext = createContext<PurchasesContextValue>(
@@ -74,6 +82,8 @@ export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
   const [selectedConcessions, setSelectedConcessions] = useState<
     ConcessionItem[]
   >([]);
+
+  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
 
   const [selectedTickets, setSelectedTickets] =
     React.useState<SelectedTicketsByAge>({
@@ -209,6 +219,10 @@ export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const resetSelectedSeats = () => {
+    setSelectedSeats([]);
+  };
+
   return (
     <PurchasesContext.Provider
       value={{
@@ -220,7 +234,10 @@ export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
         setCartItemCount,
         cartCostTotal,
         setCartCostTotal,
-        resetSelectedTickets
+        resetSelectedTickets,
+        selectedSeats,
+        setSelectedSeats,
+        resetSelectedSeats
       }}
     >
       {children}

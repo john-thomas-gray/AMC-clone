@@ -31,15 +31,18 @@ const Payment = () => {
   >("default");
 
   const { showModal, hideModal } = useModal();
-  const { resetSelectedTickets } = useContext(PurchasesContext);
+  const { resetSelectedTickets, resetSelectedSeats } =
+    useContext(PurchasesContext);
   const { selectedSession, loading } = useContext(TheatreDataContext);
   const router = useRouter();
   const { resetTimer, startTimer, onTimeReached } = useContext(TimerContext);
+
   const handlePaymentSelected = (
     type: "default" | "applePay" | "bitPay" | "payPal" | "venmo"
   ) => {
     setSelectedPaymentMethod(type);
   };
+
   const handleClose = () => {
     if (alertModalId.current) {
       hideModal(alertModalId.current);
@@ -47,7 +50,7 @@ const Payment = () => {
     }
 
     resetSelectedTickets();
-    resetSelectedTickets();
+    resetSelectedSeats();
 
     router.push({
       pathname: "/movies/[id]",
@@ -71,7 +74,7 @@ const Payment = () => {
         resetTimer();
         startTimer(420);
         resetSelectedTickets();
-        resetSelectedTickets();
+        resetSelectedSeats();
       }
 
       if (source === "cancel") {

@@ -20,7 +20,8 @@ const PurchaseTicketsHeader = ({
   to,
   onPress
 }: PurchaseTicketsHeaderProps) => {
-  const { resetSelectedTickets } = useContext(PurchasesContext)!;
+  const { resetSelectedTickets, resetSelectedSeats } =
+    useContext(PurchasesContext)!;
   const router = useRouter();
   return (
     <View className="bg-black h-[18%] flex-row justify-between items-center px-4 pt-[67] border border-red pb-[12]">
@@ -38,6 +39,7 @@ const PurchaseTicketsHeader = ({
       <XButton
         onPress={() => {
           resetSelectedTickets();
+          resetSelectedSeats();
           if (onPress) {
             onPress();
           }

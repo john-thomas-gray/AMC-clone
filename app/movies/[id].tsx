@@ -21,13 +21,16 @@ import { PurchasesContext } from "@/context/PurchasesContext";
 import { useFocusEffect } from "@react-navigation/native";
 
 const MovieDetail = () => {
-  const { resetSelectedTickets } = useContext(PurchasesContext)!;
+  const { resetSelectedTickets, resetSelectedSeats } =
+    useContext(PurchasesContext)!;
 
   useFocusEffect(
     React.useCallback(() => {
       resetSelectedTickets();
-    }, [])
+      resetSelectedSeats();
+    }, [resetSelectedTickets, resetSelectedSeats])
   );
+
   const { id } = useLocalSearchParams();
 
   const slideButtonNames = ["SHOWTIMES", "DETAILS", "VIDEOS"];

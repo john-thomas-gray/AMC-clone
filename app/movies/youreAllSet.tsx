@@ -9,11 +9,14 @@ import { TimerContext } from "@/context/TimerContext";
 import { formatRuntime } from "@/utils/formatMovieData";
 import { generateTicketConfirmationNumber } from "@/utils/generateTicketConfirmationNumber";
 import { useRouter } from "expo-router";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Image, SafeAreaView, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 const YoureAllSet = () => {
+  const [confirmationNumber] = useState(() =>
+    generateTicketConfirmationNumber()
+  );
   const purchasesContext = useContext(PurchasesContext);
   if (!purchasesContext) {
     throw new Error("PurchasesContext must be used within PurchasesProvider");
@@ -34,6 +37,27 @@ const YoureAllSet = () => {
     ...selectedTickets.child.seats,
     ...selectedTickets.senior.seats
   ];
+
+  // Set default seats if none selected (do this safely in useEffect)
+  useEffect(() => {
+    if (allSelectedSeats.length === 0) {
+      setSelectedTickets({
+        adult: {
+          ...selectedTickets.adult,
+          seats: ["D9", "D10", "D11"],
+          tickets: {
+            ...selectedTickets.adult.tickets,
+            Standard: {
+              ...selectedTickets.adult.tickets.Standard,
+              count: 3
+            }
+          }
+        },
+        child: selectedTickets.child,
+        senior: selectedTickets.senior
+      });
+    }
+  }, [allSelectedSeats.length, selectedTickets, setSelectedTickets]);
 
   if (!selectedSession || loading) {
     return (
@@ -62,25 +86,6 @@ const YoureAllSet = () => {
     genre: screen?.movie?.genres?.[0].name ?? "Unknown Genre",
     auditoriumNumber: screen?.number ?? 1
   };
-
-  // For development - initialize if no seats set
-  if (allSelectedSeats.length === 0) {
-    setSelectedTickets({
-      adult: {
-        ...selectedTickets.adult,
-        seats: ["D9", "D10", "D11"],
-        tickets: {
-          ...selectedTickets.adult.tickets,
-          Standard: {
-            ...selectedTickets.adult.tickets.Standard,
-            count: 3
-          }
-        }
-      },
-      child: selectedTickets.child,
-      senior: selectedTickets.senior
-    });
-  }
 
   function selectedYes(yes: boolean, source: "yesNo" | "cancel") {
     const clearModal = (ref: React.RefObject<string | null>) => {
@@ -172,7 +177,7 @@ const YoureAllSet = () => {
               TICKET CONFIRMATION #:
             </GorditaText>
             <GorditaText className="text-white font-gordita-regular">
-              {generateTicketConfirmationNumber()}
+              {confirmationNumber}
             </GorditaText>
           </View>
         </View>
@@ -202,7 +207,8 @@ const YoureAllSet = () => {
               <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
                 TICKETS
               </GorditaText>
-              {["adult", "child", "senior"].map(age =>
+
+              {(["adult", "child", "senior"] as const).map(age =>
                 Object.entries(selectedTickets[age].tickets).map(
                   ([projectorType, ticket]) =>
                     ticket.count > 0 ? (
@@ -211,13 +217,13 @@ const YoureAllSet = () => {
                         className="text-white font-gordita-regular"
                       >
                         {ticket.count}{" "}
-                        {age.charAt(0).toUpperCase() + age.slice(1)} (
-                        {projectorType})
+                        {age.charAt(0).toUpperCase() + age.slice(1)}
                       </GorditaText>
                     ) : null
                 )
               )}
-              {["adult", "child", "senior"].every(age =>
+
+              {(["adult", "child", "senior"] as const).every(age =>
                 Object.values(selectedTickets[age].tickets).every(
                   ticket => ticket.count === 0
                 )

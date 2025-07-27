@@ -12,6 +12,19 @@ import { RelativePathString, useRouter } from "expo-router";
 import React, { useContext, useState } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 
+interface TicketDetail {
+  cost: number;
+  count: number;
+}
+
+interface TicketGroup {
+  date: string;
+  seats: string[];
+  tickets: {
+    [projectorType: string]: TicketDetail;
+  };
+}
+
 const TicketSelection = () => {
   const router = useRouter();
   const { selectedSession } = useContext(TheatreDataContext);
@@ -32,13 +45,25 @@ const TicketSelection = () => {
     setCartItemCount,
     cartCostTotal,
     setCartCostTotal,
-    resetSelectedTickets
+    resetSelectedTickets,
+    resetSelectedSeats
   } = purchasesContext;
 
   const [ticketCount, setTicketCount] = useState(0);
   const [concessionCount, setConcessionCount] = useState(0);
 
-  const totalTicketCount = selectedTickets.reduce((sum, t) => sum + t.count, 0);
+  const totalTicketCount = (
+    Object.values(selectedTickets) as TicketGroup[]
+  ).reduce(
+    (sum, group) =>
+      sum +
+      Object.values(group.tickets).reduce(
+        (ticketSum, ticket) => ticketSum + ticket.count,
+        0
+      ),
+    0
+  );
+
   const remainingTickets = selectedSeats.length - totalTicketCount;
 
   if (!selectedSession) {
@@ -53,6 +78,8 @@ const TicketSelection = () => {
           onPress={() => {
             setTicketCount(0);
             setConcessionCount(0);
+            resetSelectedTickets();
+            resetSelectedSeats();
           }}
         />
       </View>
@@ -131,6 +158,8 @@ const TicketSelection = () => {
         onPress={() => {
           setTicketCount(0);
           setConcessionCount(0);
+          resetSelectedTickets();
+          resetSelectedSeats();
         }}
       />
       <ScrollView className="flex">
@@ -158,41 +187,36 @@ const TicketSelection = () => {
           </View>
 
           {ticketSkews.map((ticket, index) => {
-            const existingTicket = selectedTickets.find(
-              t => t.age === ticket.age && t.projector === screen.type.projector
-            );
+            const ageKey = ticket.age.toLowerCase() as
+              | "adult"
+              | "child"
+              | "senior";
+            const projectorType = screen.type.projector;
 
-            const ticketCount = existingTicket?.count ?? 0;
+            // Directly access the count for this age and projector
+            const ticketCount =
+              selectedTickets[ageKey]?.tickets[projectorType]?.count ?? 0;
 
             const setTicketCount = (value: React.SetStateAction<number>) => {
               setSelectedTickets(prev => {
-                const updated = [...prev];
-                const ticketIndex = updated.findIndex(
-                  t =>
-                    t.age === ticket.age &&
-                    t.projector === screen.type.projector
-                );
-
                 const newCount =
                   typeof value === "function"
-                    ? value(updated[ticketIndex]?.count ?? 0)
+                    ? value(prev[ageKey]?.tickets[projectorType]?.count ?? 0)
                     : value;
 
-                if (ticketIndex !== -1) {
-                  updated[ticketIndex] = {
-                    ...updated[ticketIndex],
-                    count: newCount
-                  };
-                } else {
-                  updated.push({
-                    projector: screen.type.projector,
-                    age: ticket.age,
-                    cost: ticket.cost,
-                    count: newCount
-                  });
-                }
-
-                return updated;
+                return {
+                  ...prev,
+                  [ageKey]: {
+                    ...prev[ageKey],
+                    tickets: {
+                      ...prev[ageKey].tickets,
+                      [projectorType]: {
+                        ...prev[ageKey].tickets[projectorType],
+                        count: newCount
+                      }
+                    }
+                  }
+                };
               });
             };
 
