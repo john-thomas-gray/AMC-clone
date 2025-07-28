@@ -4,6 +4,8 @@ import amcTabFocused from "../assets/icons/amcTabFocused.png";
 
 import applePay from "../assets/icons/applePay.png";
 
+import appleWallet from "../assets/icons/appleWallet.png";
+
 import available from "../assets/icons/available.png";
 
 import backArrow from "../assets/icons/backArrow.png";
@@ -188,6 +190,7 @@ export const icons = {
   amcTab,
   amcTabFocused,
   applePay,
+  appleWallet,
   available,
   backArrow,
   backArrowWhite,

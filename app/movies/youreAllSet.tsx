@@ -10,10 +10,16 @@ import { formatRuntime } from "@/utils/formatMovieData";
 import { generateTicketConfirmationNumber } from "@/utils/generateTicketConfirmationNumber";
 import { useRouter } from "expo-router";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Image, SafeAreaView, TouchableOpacity, View } from "react-native";
+import { Image, Pressable, SafeAreaView, TextInput, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 const YoureAllSet = () => {
+  // ADD LOGIC TO HANDLE THE TIMER
+  // ADD LOGIC TO HANDLE THE TIMER
+  // ADD LOGIC TO HANDLE THE TIMER
+  // ADD LOGIC TO HANDLE THE TIMER
+  // ADD LOGIC TO HANDLE THE TIMER
+
   const [confirmationNumber] = useState(() =>
     generateTicketConfirmationNumber()
   );
@@ -30,6 +36,7 @@ const YoureAllSet = () => {
   const { startTimer, stopTimer, resetTimer } = useContext(TimerContext);
   const yesNoModalId = useRef<string | null>(null);
   const cancelModalId = useRef<string | null>(null);
+  const [numberEntered, setNumberEntered] = useState(false);
 
   // Aggregate all seats from adult, child, and senior tickets
   const allSelectedSeats = [
@@ -126,7 +133,7 @@ const YoureAllSet = () => {
     <View className="flex-1 bg-black px-2">
       <YoureAllSetHeader id={data.id} />
       <ScrollView>
-        <GorditaText className="text-center text-gray-100 mb-8">
+        <GorditaText className="text-sm text-gray-100 mb-8">
           We emailed your receipt. See you at the movies!
         </GorditaText>
 
@@ -173,10 +180,10 @@ const YoureAllSet = () => {
               <Image source={icons.twitterBw} className="h-9 w-9 mx-0.5" />
             </View>
 
-            <GorditaText className="text-gray-200 font-gordita-regular uppercase">
+            <GorditaText className="text-gray-100 font-gordita-regular uppercase">
               TICKET CONFIRMATION #:
             </GorditaText>
-            <GorditaText className="text-white font-gordita-regular">
+            <GorditaText className="text-white font-gordita-regular text-lg">
               {confirmationNumber}
             </GorditaText>
           </View>
@@ -188,104 +195,237 @@ const YoureAllSet = () => {
         </View>
 
         {/* Info and Icon Columns */}
-        <View className="flex-row items-start">
-          {/* Left Column: Icon */}
-          <View className="mr-4">
-            <Image source={icons.ticketTabFocused} className="h-12 w-12" />
-            <Image source={icons.locationTabFocused} className="h-12 w-12" />
-            <Image source={icons.calendar} className="h-12 w-12" />
+        <View className="w-full items-center justify-center">
+          <View className="flex-row">
+            {/* Left Column: Icon */}
+            <View className="mr-4 flex-column border border-red-500">
+              <Image source={icons.ticketTabFocused} className="h-12 w-12" />
+              <Image source={icons.locationTabFocused} className="h-12 w-12" />
+              <Image source={icons.calendar} className="h-12 w-12" />
+              <Image
+                source={icons.creditCard}
+                className="h-12 w-12"
+                resizeMode="contain"
+              />
+            </View>
+
+            {/* Right Column: GorditaText */}
+            <View className="flex-column border border-blue-100">
+              <View className="mb-3">
+                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-1">
+                  TICKETS
+                </GorditaText>
+
+                {(["adult", "child", "senior"] as const).map(age =>
+                  Object.entries(selectedTickets[age].tickets).map(
+                    ([projectorType, ticket]) =>
+                      ticket.count > 0 ? (
+                        <GorditaText
+                          key={`${age}-${projectorType}`}
+                          className="text-white font-gordita-regular text-lg"
+                        >
+                          {ticket.count}{" "}
+                          {age.charAt(0).toUpperCase() + age.slice(1)}
+                        </GorditaText>
+                      ) : null
+                  )
+                )}
+
+                {(["adult", "child", "senior"] as const).every(age =>
+                  Object.values(selectedTickets[age].tickets).every(
+                    ticket => ticket.count === 0
+                  )
+                ) && (
+                  <GorditaText className="text-white font-gordita-regular text-lg">
+                    1 Adult
+                  </GorditaText>
+                )}
+              </View>
+
+              <View>
+                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-1">
+                  AUDITORIUM
+                </GorditaText>
+                <GorditaText className="text-white font-gordita-regular text-lg">
+                  {data.auditoriumNumber}
+                </GorditaText>
+              </View>
+
+              <View>
+                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-1">
+                  SEATS
+                </GorditaText>
+                <View className="flex-row">
+                  <GorditaText className="text-white font-gordita-regular text-lg">
+                    {allSelectedSeats.length > 0
+                      ? allSelectedSeats.join(", ")
+                      : "No seats selected"}
+                  </GorditaText>
+                  <Pressable>
+                    <GorditaText className="text-blue-100"> View</GorditaText>
+                  </Pressable>
+                </View>
+              </View>
+
+              <View>
+                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-1">
+                  THEATRE
+                </GorditaText>
+                <View className="flex-column">
+                  <GorditaText className="text-white font-gordita-regular text-lg mb-2">
+                    {data.theatreName}
+                  </GorditaText>
+                  <View className="flex-column">
+                    <GorditaText className="text-blue-100 text-sm">
+                      ADDRESS LINE 1
+                    </GorditaText>
+                    <GorditaText className="text-blue-100 text-sm">
+                      ADDRESS LINE 2
+                    </GorditaText>
+                  </View>
+                </View>
+              </View>
+
+              <View>
+                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-1">
+                  DATE
+                </GorditaText>
+                <View className="flex-column">
+                  <GorditaText className="text-white font-gordita-regular text-lg">
+                    {selectedTickets.adult.date}
+                  </GorditaText>
+                  <GorditaText>at TIME</GorditaText>
+                  <GorditaText className="text-blue-100 font-gordita-bold">
+                    Add to calendar
+                  </GorditaText>
+                </View>
+              </View>
+
+              <View>
+                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-1">
+                  PAYMENT
+                </GorditaText>
+                <GorditaText className="text-white font-gordita-regular text-lg">
+                  PAYMENT TYPE
+                </GorditaText>
+                <GorditaText className="text-gray-100">COST</GorditaText>
+              </View>
+            </View>
+          </View>
+
+          <View className="flex items-center pb-8 border-b border-gray-300">
             <Image
-              source={icons.creditCard}
-              className="h-12 w-12"
+              source={icons.appleWallet}
+              className="h-12" // Tailwind height/width
               resizeMode="contain"
             />
           </View>
+        </View>
 
-          {/* Right Column: GorditaText */}
-          <View className="flex-1">
-            <View className="mb-3">
-              <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
+        <View className="py-8 border-b border-gray-300">
+          <GorditaText className="text-white font-gordita-bold text-2xl">
+            Send My Digital Tickets
+          </GorditaText>
+
+          <GorditaText className="text-sm text-gray-100 mb-8">
+            Add your number to get your ticket via text.
+          </GorditaText>
+
+          <GorditaText className="text-white font-gordita-bold">
+            Phone Number
+          </GorditaText>
+
+          <TextInput></TextInput>
+
+          <Pressable>
+            <GorditaText
+              className={`text-lg font-gordita-bold ${
+                numberEntered ? "text-gray-100" : "text-gray-200"
+              }`}
+            >
+              Text My Tickets
+            </GorditaText>
+          </Pressable>
+        </View>
+
+        <View className="pt-8 pb-6 ">
+          <GorditaText className="text-white font-gordita-bold text-2xl">
+            Order Details
+          </GorditaText>
+
+          <View className="flex-column pb-6">
+            <View className="flex-column">
+              <GorditaText className="text-gray-100 text-sm font-gordita-regular uppercase">
                 TICKETS
               </GorditaText>
 
-              {(["adult", "child", "senior"] as const).map(age =>
-                Object.entries(selectedTickets[age].tickets).map(
-                  ([projectorType, ticket]) =>
-                    ticket.count > 0 ? (
-                      <GorditaText
-                        key={`${age}-${projectorType}`}
-                        className="text-white font-gordita-regular"
-                      >
-                        {ticket.count}{" "}
-                        {age.charAt(0).toUpperCase() + age.slice(1)}
-                      </GorditaText>
-                    ) : null
-                )
-              )}
-
-              {(["adult", "child", "senior"] as const).every(age =>
-                Object.values(selectedTickets[age].tickets).every(
-                  ticket => ticket.count === 0
-                )
-              ) && (
-                <GorditaText className="text-white font-gordita-regular">
-                  1 Adult
+              <View className="flex-row justify-between">
+                <GorditaText className="font-gordita-bold">
+                  Adult Ticket
                 </GorditaText>
-              )}
-            </View>
 
-            <View>
-              <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
-                AUDITORIUM
-              </GorditaText>
-              <GorditaText className="text-white font-gordita-regular">
-                {data.auditoriumNumber}
-              </GorditaText>
-            </View>
+                <GorditaText className="font-gordita-bold">COST</GorditaText>
+              </View>
 
-            <View>
-              <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
-                SEATS
-              </GorditaText>
-              <View className="flex-row">
-                <GorditaText className="text-white font-gordita-regular">
-                  {allSelectedSeats.length > 0
-                    ? allSelectedSeats.join(", ")
-                    : "No seats selected"}
+              <View className="flex-row justify-between">
+                <GorditaText className="font-gordita-bold">
+                  3x Child Ticket
                 </GorditaText>
-                <TouchableOpacity>
-                  <GorditaText className="text-blue-100"> View</GorditaText>
-                </TouchableOpacity>
+
+                <GorditaText className="font-gordita-bold">COST</GorditaText>
               </View>
             </View>
 
-            <View>
-              <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
-                THEATRE
+            <View className="flex-column">
+              <GorditaText className="text-gray-100 text-sm font-gordita-regular uppercase">
+                Concessions
               </GorditaText>
-              <View className="flex-row">
-                <GorditaText className="text-white font-gordita-regular">
-                  {data.theatreName}
+
+              <View className="flex-row justify-between">
+                <GorditaText className="font-gordita-bold">
+                  Large Popcorn
                 </GorditaText>
-                <TouchableOpacity>
-                  <GorditaText className="text-blue-100"> View</GorditaText>
-                </TouchableOpacity>
+
+                <GorditaText className="font-gordita-bold">COST</GorditaText>
+              </View>
+
+              <View className="flex-row justify-between">
+                <GorditaText className="font-gordita-bold">3x Soda</GorditaText>
+
+                <GorditaText className="font-gordita-bold">COST</GorditaText>
               </View>
             </View>
 
-            <View>
-              <GorditaText className="text-gray-200 font-gordita-regular uppercase mb-1">
-                DATE
+            <View className="flex-column">
+              <GorditaText className="text-gray-100 text-sm font-gordita-regular uppercase">
+                FEES
               </GorditaText>
-              <View className="flex-row">
-                <GorditaText className="text-white font-gordita-regular">
-                  {selectedTickets.adult.date}
+
+              <View className="flex-row justify-between">
+                <GorditaText className="font-gordita-bold">
+                  Convenience Fee
                 </GorditaText>
-                <TouchableOpacity>
-                  <GorditaText className="text-blue-100"> View</GorditaText>
-                </TouchableOpacity>
+
+                <GorditaText className="font-gordita-bold">COST</GorditaText>
               </View>
             </View>
+          </View>
+
+          <View className="border-y border-gray-300 pt-4 pb-3">
+            <View className="flex-row justify-between items-center">
+              <GorditaText className="font-gordita-bold">Taxes</GorditaText>
+
+              <GorditaText className="font-gordita-bold">COST</GorditaText>
+            </View>
+          </View>
+          <View className="flex-row justify-end items-center pb-12 pt-6">
+            <View className="mr-2 ">
+              <GorditaText className="text-md text-gray-100 uppercase">
+                TOTAL
+              </GorditaText>
+            </View>
+
+            <GorditaText className="font-gordita-bold">TOTAL COST</GorditaText>
           </View>
         </View>
       </ScrollView>
