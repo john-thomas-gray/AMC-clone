@@ -36,7 +36,7 @@ const YoureAllSet = () => {
   const { startTimer, stopTimer, resetTimer } = useContext(TimerContext);
   const yesNoModalId = useRef<string | null>(null);
   const cancelModalId = useRef<string | null>(null);
-  const [numberEntered, setNumberEntered] = useState(false);
+  const [phoneNumber, onChangePhoneNumber] = useState("");
 
   // Aggregate all seats from adult, child, and senior tickets
   const allSelectedSeats = [
@@ -198,7 +198,7 @@ const YoureAllSet = () => {
         <View className="w-full items-center justify-center">
           <View className="flex-row gap-x-10 items-start mb-2">
             {/* Left Column: Icon */}
-            <View className="flex-column border border-red-500 ml-10">
+            <View className="flex-column  ml-10">
               <Image
                 source={icons.ticketTabFocused}
                 className="h-12 w-12 mt-[54]"
@@ -216,7 +216,7 @@ const YoureAllSet = () => {
             </View>
 
             {/* Right Column: GorditaText */}
-            <View className="flex-column border border-blue-100">
+            <View className="flex-column">
               <View className="mb-2">
                 <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-[2]">
                   TICKETS
@@ -353,25 +353,33 @@ const YoureAllSet = () => {
           />
         </View>
 
-        <View className="py-8 border-b border-gray-300">
-          <GorditaText className="text-white font-gordita-bold text-2xl">
+        <View className="py-10 border-b border-gray-300">
+          <GorditaText className="text-white font-gordita-bold text-2xl pb-1">
             Send My Digital Tickets
           </GorditaText>
 
-          <GorditaText className="text-sm text-gray-100 mb-8">
+          <GorditaText className="text-sm text-gray-100 ">
             Add your number to get your ticket via text.
           </GorditaText>
 
-          <GorditaText className="text-white font-gordita-bold">
+          <GorditaText className="text-white font-gordita-bold text-lg mb-1">
             Phone Number
           </GorditaText>
 
-          <TextInput></TextInput>
+          <TextInput
+            onChangeText={onChangePhoneNumber}
+            value={phoneNumber}
+            autoComplete="tel"
+            className="mb-3"
+            style={[
+              { height: 48, backgroundColor: "#191919", borderRadius: 5 }
+            ]}
+          />
 
           <Pressable>
             <GorditaText
               className={`text-lg font-gordita-bold ${
-                numberEntered ? "text-gray-100" : "text-gray-200"
+                phoneNumber ? "text-gray-100" : "text-gray-200"
               }`}
             >
               Text My Tickets
@@ -379,14 +387,14 @@ const YoureAllSet = () => {
           </Pressable>
         </View>
 
-        <View className="pt-8 pb-6 ">
-          <GorditaText className="text-white font-gordita-bold text-2xl">
+        <View className="pt-10 pb-6 ">
+          <GorditaText className="text-white font-gordita-bold text-2xl pb-6">
             Order Details
           </GorditaText>
 
           <View className="flex-column pb-6">
-            <View className="flex-column">
-              <GorditaText className="text-gray-100 text-sm font-gordita-regular uppercase">
+            <View className="flex-column pb-5">
+              <GorditaText className="text-gray-100 text-sm font-gordita-regular uppercase mb-3">
                 TICKETS
               </GorditaText>
 
@@ -397,38 +405,10 @@ const YoureAllSet = () => {
 
                 <GorditaText className="font-gordita-bold">COST</GorditaText>
               </View>
-
-              <View className="flex-row justify-between">
-                <GorditaText className="font-gordita-bold">
-                  3x Child Ticket
-                </GorditaText>
-
-                <GorditaText className="font-gordita-bold">COST</GorditaText>
-              </View>
             </View>
 
             <View className="flex-column">
-              <GorditaText className="text-gray-100 text-sm font-gordita-regular uppercase">
-                Concessions
-              </GorditaText>
-
-              <View className="flex-row justify-between">
-                <GorditaText className="font-gordita-bold">
-                  Large Popcorn
-                </GorditaText>
-
-                <GorditaText className="font-gordita-bold">COST</GorditaText>
-              </View>
-
-              <View className="flex-row justify-between">
-                <GorditaText className="font-gordita-bold">3x Soda</GorditaText>
-
-                <GorditaText className="font-gordita-bold">COST</GorditaText>
-              </View>
-            </View>
-
-            <View className="flex-column">
-              <GorditaText className="text-gray-100 text-sm font-gordita-regular uppercase">
+              <GorditaText className="text-gray-100 text-sm font-gordita-regular uppercase mb-3">
                 FEES
               </GorditaText>
 
