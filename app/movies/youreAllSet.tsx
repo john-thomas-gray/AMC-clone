@@ -2,11 +2,12 @@ import GorditaText from "@/components/GorditaText";
 import YoureAllSetHeader from "@/components/purchaseTickets/youreAllSet/YoureAllSetHeader";
 import ShimmerOverlay from "@/components/ShimmerOverlay";
 import { icons, images } from "@/constants";
+import { movieTicketPrice } from "@/constants/PriceConstants";
 import { useModal } from "@/context/ModalContext";
 import { PurchasesContext } from "@/context/PurchasesContext";
 import { TheatreDataContext } from "@/context/theatreDataContext";
 import { TimerContext } from "@/context/TimerContext";
-import { formatRuntime } from "@/utils/formatMovieData";
+import { formatCalendarDate, formatRuntime } from "@/utils/formatMovieData";
 import { generateTicketConfirmationNumber } from "@/utils/generateTicketConfirmationNumber";
 import { useRouter } from "expo-router";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -23,6 +24,7 @@ const YoureAllSet = () => {
   const [confirmationNumber] = useState(() =>
     generateTicketConfirmationNumber()
   );
+
   const purchasesContext = useContext(PurchasesContext);
   if (!purchasesContext) {
     throw new Error("PurchasesContext must be used within PurchasesProvider");
@@ -37,34 +39,108 @@ const YoureAllSet = () => {
   const yesNoModalId = useRef<string | null>(null);
   const cancelModalId = useRef<string | null>(null);
   const [phoneNumber, onChangePhoneNumber] = useState("");
+  const [isValidNumber, setIsValidNumber] = useState(false);
+  const [addressArray, setAddressArray] = useState<string[]>(["", ""]);
 
-  // Aggregate all seats from adult, child, and senior tickets
+  function checkPhoneNumber(number: string) {
+    const regex =
+      /^(\+?1|\+?44)?\s?(\d{3})[- ]?(\d{3})[- ]?(\d{4})$|^(\+?1|\+?44)?(\d{10})$/;
+    // Explanation:
+    // - Optional country code (+1 or +44), with or without +
+    // - Optional space after country code
+    // - 3 digits, optional dash or space, 3 digits, optional dash or space, 4 digits
+    // OR
+    // - Optional country code (+1 or +44), followed immediately by 10 digits
+
+    // Normalize input by removing leading/trailing spaces
+    number = number.trim();
+    console.log(number, regex.test(number));
+    return regex.test(number);
+  }
+
   const allSelectedSeats = [
     ...selectedTickets.adult.seats,
     ...selectedTickets.child.seats,
     ...selectedTickets.senior.seats
   ];
 
-  // Set default seats if none selected (do this safely in useEffect)
   useEffect(() => {
-    if (allSelectedSeats.length === 0) {
-      setSelectedTickets({
+    const valid = checkPhoneNumber(phoneNumber);
+    setIsValidNumber(valid);
+  }, [phoneNumber]);
+
+  const noTicketsSelected = (["adult", "child", "senior"] as const).every(age =>
+    Object.values(selectedTickets[age].tickets).every(
+      ticket => ticket.count === 0
+    )
+  );
+
+  useEffect(() => {
+    if (noTicketsSelected) {
+      const adultSeats = ["D3", "D4"];
+      const childSeats = ["D5", "D6", "D7"];
+      const seniorSeats = ["D8"];
+      // adult: {
+      //         date: today,
+      //         seats: [],
+      //         tickets: {
+      //           Standard: {
+      //             cost: movieTicketPrice.adult + movieTicketPrice.fee,
+      //             count: 0
+      //           },
+      //           IMax: {
+      //             cost: movieTicketPrice.adultImax + movieTicketPrice.feeImax,
+      //             count: 0
+      //           }
+      //         }
+      //       },
+      setSelectedTickets(prev => ({
+        ...prev,
         adult: {
-          ...selectedTickets.adult,
-          seats: ["D9", "D10", "D11"],
+          ...prev.adult,
+          seats: [...adultSeats],
           tickets: {
-            ...selectedTickets.adult.tickets,
             Standard: {
-              ...selectedTickets.adult.tickets.Standard,
+              cost: 0,
+              count: 0
+            },
+            IMax: {
+              cost: movieTicketPrice.adult * 2,
+              count: 2
+            }
+          }
+        },
+        child: {
+          ...prev.child,
+          seats: [...childSeats],
+          tickets: {
+            Standard: {
+              cost: 0,
+              count: 0
+            },
+            IMax: {
+              cost: movieTicketPrice.child * 3,
               count: 3
             }
           }
         },
-        child: selectedTickets.child,
-        senior: selectedTickets.senior
-      });
+        senior: {
+          ...prev.senior,
+          seats: [...seniorSeats],
+          tickets: {
+            Standard: {
+              cost: 0,
+              count: 0
+            },
+            IMax: {
+              cost: movieTicketPrice.senior,
+              count: 1
+            }
+          }
+        }
+      }));
     }
-  }, [allSelectedSeats.length, selectedTickets, setSelectedTickets]);
+  }, [noTicketsSelected, movieTicketPrice, setSelectedTickets]);
 
   if (!selectedSession || loading) {
     return (
@@ -81,17 +157,20 @@ const YoureAllSet = () => {
   const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
   const { theatre, screen, showtime } = selectedSession;
   const data = {
-    movieTitle: screen?.movie?.title ?? "Theatre",
+    movieTitle: screen?.movie?.title ?? "Unknown Movie Title",
     posterImage: screen?.movie?.poster_path
       ? `${BASE_IMAGE_URL}${screen.movie.poster_path}`
       : "https://via.placeholder.com/150x225",
-    showtime: showtime ?? "",
-    projector: screen?.type?.projector ?? "",
+    showtime: showtime ?? "9:30pm",
+    projector: screen?.type?.projector ?? "IMax",
     id: screen?.movie?.id ?? 1,
     theatreName: theatre?.name ?? "Unknown Theatre",
-    runtime: screen?.movie?.runtime ?? 0,
+    runtime: screen?.movie?.runtime ?? 120,
     genre: screen?.movie?.genres?.[0].name ?? "Unknown Genre",
-    auditoriumNumber: screen?.number ?? 1
+    auditoriumNumber: screen?.number ?? 1,
+    theatreAddressLineOne: addressArray[0] ?? "123 Fake Street",
+    theatreAddressLineTwo: addressArray[1] ?? "San Francisco, CA 94115",
+    selectedSeats: allSelectedSeats
   };
 
   function selectedYes(yes: boolean, source: "yesNo" | "cancel") {
@@ -128,6 +207,7 @@ const YoureAllSet = () => {
       }
     }
   }
+  console.log();
 
   return (
     <View className="flex-1 bg-black px-4">
@@ -222,30 +302,20 @@ const YoureAllSet = () => {
                   TICKETS
                 </GorditaText>
 
-                {(["adult", "child", "senior"] as const).map(age =>
-                  Object.entries(selectedTickets[age].tickets).map(
-                    ([projectorType, ticket]) =>
-                      ticket.count > 0 ? (
-                        <GorditaText
-                          key={`${age}-${projectorType}`}
-                          className="text-white font-gordita-regular text-lg"
-                        >
-                          {ticket.count}{" "}
-                          {age.charAt(0).toUpperCase() + age.slice(1)}
-                        </GorditaText>
-                      ) : null
-                  )
-                )}
+                {(["adult", "child", "senior"] as const).map(age => {
+                  const totalCount = Object.values(
+                    selectedTickets[age].tickets
+                  ).reduce((sum, ticket) => sum + ticket.count, 0);
 
-                {(["adult", "child", "senior"] as const).every(age =>
-                  Object.values(selectedTickets[age].tickets).every(
-                    ticket => ticket.count === 0
-                  )
-                ) && (
-                  <GorditaText className="text-white font-gordita-regular text-lg">
-                    1 Adult
-                  </GorditaText>
-                )}
+                  return totalCount > 0 ? (
+                    <GorditaText
+                      key={age}
+                      className="text-white font-gordita-regular text-lg"
+                    >
+                      {totalCount} {age.charAt(0).toUpperCase() + age.slice(1)}
+                    </GorditaText>
+                  ) : null;
+                })}
               </View>
 
               <View>
@@ -263,9 +333,7 @@ const YoureAllSet = () => {
                 </GorditaText>
                 <View className="flex-row items-center">
                   <GorditaText className="text-white font-gordita-regular text-lg mb-2">
-                    {allSelectedSeats.length > 0
-                      ? allSelectedSeats.join(", ")
-                      : "No seats selected"}
+                    {data.selectedSeats.join(", ")}
                   </GorditaText>
                   <Pressable>
                     <GorditaText className="font-gordita-bold text-blue-100 pb-1 pl-2">
@@ -288,13 +356,13 @@ const YoureAllSet = () => {
                       className="text-blue-100 text-sm"
                       style={{ lineHeight: 14 }}
                     >
-                      ADDRESS LINE 1
+                      {data.theatreAddressLineOne}
                     </GorditaText>
                     <GorditaText
                       className="text-blue-100 text-sm"
                       style={{ lineHeight: 14 }}
                     >
-                      ADDRESS LINE 2
+                      {data.theatreAddressLineTwo}
                     </GorditaText>
                   </View>
                 </View>
@@ -309,17 +377,19 @@ const YoureAllSet = () => {
                     className="text-white font-gordita-regular text-lg"
                     style={{ lineHeight: 16 }}
                   >
-                    {selectedTickets.adult.date}
+                    {formatCalendarDate(selectedTickets.adult.date)}
                   </GorditaText>
                   <GorditaText
                     className="text-gray-100 text-sm mb-7"
                     style={{ lineHeight: 14 }}
                   >
-                    at TIME
+                    at {selectedSession.showtime}
                   </GorditaText>
-                  <GorditaText className="text-blue-100 font-gordita-bold mb-10">
-                    Add to calendar
-                  </GorditaText>
+                  <Pressable>
+                    <GorditaText className="text-blue-100 font-gordita-bold mb-10">
+                      Add to calendar
+                    </GorditaText>
+                  </Pressable>
                 </View>
               </View>
 
@@ -345,13 +415,13 @@ const YoureAllSet = () => {
         </View>
 
         {/* Apple Wallet Icon */}
-        <View className="flex items-center pb-[40] border-b border-gray-300">
+        <Pressable className="flex items-center pb-[40] border-b border-gray-300">
           <Image
             source={icons.appleWallet}
-            className="h-14" // Tailwind height/width
+            className="h-14"
             resizeMode="contain"
           />
-        </View>
+        </Pressable>
 
         <View className="py-10 border-b border-gray-300">
           <GorditaText className="text-white font-gordita-bold text-2xl pb-1">
@@ -371,15 +441,28 @@ const YoureAllSet = () => {
             value={phoneNumber}
             autoComplete="tel"
             className="mb-3"
+            // caretHidden={true}
+            inputMode="tel"
             style={[
-              { height: 48, backgroundColor: "#191919", borderRadius: 5 }
+              {
+                height: 48,
+                backgroundColor: "#191919",
+                borderRadius: 5,
+                color: "white",
+                paddingLeft: 10
+              }
             ]}
           />
 
-          <Pressable>
+          <Pressable
+            disabled={!isValidNumber}
+            onPress={() => {
+              console.log("Text my tickets pressed");
+            }}
+          >
             <GorditaText
               className={`text-lg font-gordita-bold ${
-                phoneNumber ? "text-gray-100" : "text-gray-200"
+                isValidNumber ? "text-blue-100" : "text-gray-200"
               }`}
             >
               Text My Tickets

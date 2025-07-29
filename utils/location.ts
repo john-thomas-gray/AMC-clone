@@ -59,7 +59,6 @@ export const getNearbyTheatres = async (
       `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radiusInMeters}&keyword=AMC+Theatre&type=movie_theater&key=${apiKey}`
     );
     const data = await response.json();
-    console.log("Nearby theatre data:", data.status);
 
     if (data.status !== "OK") {
       throw new Error(`Google Places API error: ${data.status}`);

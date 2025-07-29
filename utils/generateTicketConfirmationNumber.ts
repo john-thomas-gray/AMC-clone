@@ -1,4 +1,3 @@
-// generateTicket.ts
 export const generateTicketConfirmationNumber = (): string => {
   let confirmationNumber = "";
 
@@ -9,6 +8,3 @@ export const generateTicketConfirmationNumber = (): string => {
 
   return confirmationNumber;
 };
-
-// Run the function and print it
-console.log(generateTicketConfirmationNumber());

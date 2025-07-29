@@ -9,12 +9,12 @@ export interface ConcessionItem {
   count: number;
 }
 
-interface TicketDetail {
+export interface TicketDetail {
   cost: number;
   count: number;
 }
 
-interface TicketGroup {
+export interface TicketGroup {
   date: string;
   seats: string[];
   tickets: {
@@ -22,7 +22,7 @@ interface TicketGroup {
   };
 }
 
-interface SelectedTicketsByAge {
+export interface SelectedTicketsByAge {
   adult: TicketGroup;
   child: TicketGroup;
   senior: TicketGroup;
