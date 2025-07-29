@@ -15,7 +15,7 @@ const YoureAllSet = ({ id, onPress }: YoureAllSetProps) => {
 
   const router = useRouter();
   return (
-    <View className="bg-black h-[16%] flex-row justify-between items-center pt-[67] border border-red">
+    <View className="bg-black h-[13.5%] flex-row justify-between items-center pt-[70]">
       <View className="w-[265]">
         <Text className="text-white font-gordita-bold text-3xl">
           You&apos;re All Set

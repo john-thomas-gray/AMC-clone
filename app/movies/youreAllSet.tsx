@@ -130,22 +130,22 @@ const YoureAllSet = () => {
   }
 
   return (
-    <View className="flex-1 bg-black px-2">
+    <View className="flex-1 bg-black px-4">
       <YoureAllSetHeader id={data.id} />
       <ScrollView>
-        <GorditaText className="text-sm text-gray-100 mb-8">
+        <GorditaText className="text-sm text-gray-100 mb-8 mt-1">
           We emailed your receipt. See you at the movies!
         </GorditaText>
 
         {/* Movie Info Row */}
-        <View className="flex-row px-4 mb-4">
+        <View className="flex-row pl-8 mb-4 mt-2">
           <Image
             source={{ uri: data.posterImage }}
-            style={{ width: 75, height: 100 }}
+            style={{ width: 90, height: 110 }}
             resizeMode="contain"
           />
 
-          <View className="flex-1 ml-4">
+          <View className="flex-1 ml-10">
             <GorditaText
               className="text-white font-gordita-bold text-2xl mb-2"
               numberOfLines={2}
@@ -154,7 +154,7 @@ const YoureAllSet = () => {
               {data.movieTitle}
             </GorditaText>
 
-            <View className="flex-row items-center mb-4">
+            <View className="flex-row items-center mb-6">
               <GorditaText className="text-gray-100 font-gordita-regular">
                 {formatRuntime(data.runtime)}{" "}
               </GorditaText>
@@ -172,7 +172,7 @@ const YoureAllSet = () => {
               className="text-white font-gordita-bold text-lg mb-2"
               style={{ lineHeight: 18 }}
             >
-              Share & Meet Your Friends at {"\n"}AMC Theatres!
+              Share & Meet Your Friends at AMC Theatres!
             </GorditaText>
 
             <View className="flex-row items-center mb-6">
@@ -189,30 +189,36 @@ const YoureAllSet = () => {
           </View>
         </View>
 
-        {/* Center Circle */}
-        <View className="w-full items-center justify-center mt-20 mb-8">
+        {/* QR Code */}
+        <View className="w-full items-center justify-center mt-12 mb-8">
           <View className="h-[150px] w-[150px] rounded-full bg-white" />
         </View>
 
-        {/* Info and Icon Columns */}
+        {/* Icon and Info Columns */}
         <View className="w-full items-center justify-center">
-          <View className="flex-row">
+          <View className="flex-row gap-x-10 items-start mb-2">
             {/* Left Column: Icon */}
-            <View className="mr-4 flex-column border border-red-500">
-              <Image source={icons.ticketTabFocused} className="h-12 w-12" />
-              <Image source={icons.locationTabFocused} className="h-12 w-12" />
-              <Image source={icons.calendar} className="h-12 w-12" />
+            <View className="flex-column border border-red-500 ml-10">
+              <Image
+                source={icons.ticketTabFocused}
+                className="h-12 w-12 mt-[54]"
+              />
+              <Image
+                source={icons.locationTabFocused}
+                className="h-12 w-12 mt-[84]"
+              />
+              <Image source={icons.calendar} className="h-12 w-12 mt-[76]" />
               <Image
                 source={icons.creditCard}
-                className="h-12 w-12"
+                className="h-12 w-12 mt-[58]"
                 resizeMode="contain"
               />
             </View>
 
             {/* Right Column: GorditaText */}
             <View className="flex-column border border-blue-100">
-              <View className="mb-3">
-                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-1">
+              <View className="mb-2">
+                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-[2]">
                   TICKETS
                 </GorditaText>
 
@@ -243,43 +249,51 @@ const YoureAllSet = () => {
               </View>
 
               <View>
-                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-1">
+                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-[2]">
                   AUDITORIUM
                 </GorditaText>
-                <GorditaText className="text-white font-gordita-regular text-lg">
+                <GorditaText className="text-white font-gordita-regular text-lg mb-2 mb-2">
                   {data.auditoriumNumber}
                 </GorditaText>
               </View>
 
-              <View>
-                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-1">
+              <View className="mb-3">
+                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-[2]">
                   SEATS
                 </GorditaText>
-                <View className="flex-row">
-                  <GorditaText className="text-white font-gordita-regular text-lg">
+                <View className="flex-row items-center">
+                  <GorditaText className="text-white font-gordita-regular text-lg mb-2">
                     {allSelectedSeats.length > 0
                       ? allSelectedSeats.join(", ")
                       : "No seats selected"}
                   </GorditaText>
                   <Pressable>
-                    <GorditaText className="text-blue-100"> View</GorditaText>
+                    <GorditaText className="font-gordita-bold text-blue-100 pb-1 pl-2">
+                      View
+                    </GorditaText>
                   </Pressable>
                 </View>
               </View>
 
-              <View>
-                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-1">
+              <View className="mb-6">
+                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-[2]">
                   THEATRE
                 </GorditaText>
                 <View className="flex-column">
-                  <GorditaText className="text-white font-gordita-regular text-lg mb-2">
+                  <GorditaText className="text-white font-gordita-regular text-lg mb-1">
                     {data.theatreName}
                   </GorditaText>
                   <View className="flex-column">
-                    <GorditaText className="text-blue-100 text-sm">
+                    <GorditaText
+                      className="text-blue-100 text-sm"
+                      style={{ lineHeight: 14 }}
+                    >
                       ADDRESS LINE 1
                     </GorditaText>
-                    <GorditaText className="text-blue-100 text-sm">
+                    <GorditaText
+                      className="text-blue-100 text-sm"
+                      style={{ lineHeight: 14 }}
+                    >
                       ADDRESS LINE 2
                     </GorditaText>
                   </View>
@@ -287,39 +301,56 @@ const YoureAllSet = () => {
               </View>
 
               <View>
-                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-1">
+                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-[8]">
                   DATE
                 </GorditaText>
                 <View className="flex-column">
-                  <GorditaText className="text-white font-gordita-regular text-lg">
+                  <GorditaText
+                    className="text-white font-gordita-regular text-lg"
+                    style={{ lineHeight: 16 }}
+                  >
                     {selectedTickets.adult.date}
                   </GorditaText>
-                  <GorditaText>at TIME</GorditaText>
-                  <GorditaText className="text-blue-100 font-gordita-bold">
+                  <GorditaText
+                    className="text-gray-100 text-sm mb-7"
+                    style={{ lineHeight: 14 }}
+                  >
+                    at TIME
+                  </GorditaText>
+                  <GorditaText className="text-blue-100 font-gordita-bold mb-10">
                     Add to calendar
                   </GorditaText>
                 </View>
               </View>
 
               <View>
-                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-1">
+                <GorditaText className="text-gray-100 font-gordita-regular uppercase mb-[6]">
                   PAYMENT
                 </GorditaText>
-                <GorditaText className="text-white font-gordita-regular text-lg">
-                  PAYMENT TYPE
+                <GorditaText
+                  className="text-white font-gordita-regular text-lg"
+                  style={{ lineHeight: 16 }}
+                >
+                  Apple Pay
                 </GorditaText>
-                <GorditaText className="text-gray-100">COST</GorditaText>
+                <GorditaText
+                  className="text-gray-100 text-sm mb-7"
+                  style={{ lineHeight: 14 }}
+                >
+                  Cost
+                </GorditaText>
               </View>
             </View>
           </View>
+        </View>
 
-          <View className="flex items-center pb-8 border-b border-gray-300">
-            <Image
-              source={icons.appleWallet}
-              className="h-12" // Tailwind height/width
-              resizeMode="contain"
-            />
-          </View>
+        {/* Apple Wallet Icon */}
+        <View className="flex items-center pb-[40] border-b border-gray-300">
+          <Image
+            source={icons.appleWallet}
+            className="h-14" // Tailwind height/width
+            resizeMode="contain"
+          />
         </View>
 
         <View className="py-8 border-b border-gray-300">
