@@ -6,6 +6,8 @@ import applePay from "../assets/icons/applePay.png";
 
 import appleWallet from "../assets/icons/appleWallet.png";
 
+import audioDescription from "../assets/icons/audio-description.png";
+
 import available from "../assets/icons/available.png";
 
 import backArrow from "../assets/icons/backArrow.png";
@@ -19,6 +21,8 @@ import calendar from "../assets/icons/calendar.png";
 import cart from "../assets/icons/cart.png";
 
 import checkmark from "../assets/icons/checkmark.png";
+
+import closedCaptions from "../assets/icons/closed-captions.png";
 
 import companion from "../assets/icons/companion.png";
 
@@ -132,9 +136,15 @@ import favicon from "../assets/images/favicon.png";
 
 import icon from "../assets/images/icon.png";
 
-import loadingOne from "../assets/images/loadingOne.png";
+import loadingMovieDetail from "../assets/images/loading/loadingMovieDetail.png";
 
-import loadingOneShimmer from "../assets/images/loadingOneShimmer.png";
+import loadingOne from "../assets/images/loading/loadingOne.png";
+
+import loadingOneShimmer from "../assets/images/loading/loadingOneShimmer.png";
+
+import loadingSeatSelect from "../assets/images/loading/loadingSeatSelect.png";
+
+import loadingTicketSelect from "../assets/images/loading/loadingTicketSelect.png";
 
 import screen from "../assets/images/screen.png";
 
@@ -191,6 +201,7 @@ export const icons = {
   amcTabFocused,
   applePay,
   appleWallet,
+  audioDescription,
   available,
   backArrow,
   backArrowWhite,
@@ -198,6 +209,7 @@ export const icons = {
   calendar,
   cart,
   checkmark,
+  closedCaptions,
   companion,
   creditCard,
   downArrowWhite,
@@ -257,8 +269,11 @@ export const images = {
   fandangoLogo,
   favicon,
   icon,
+  loadingMovieDetail,
   loadingOne,
   loadingOneShimmer,
+  loadingSeatSelect,
+  loadingTicketSelect,
   screen,
   screenImax,
   splashIcon,

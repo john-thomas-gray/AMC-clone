@@ -192,8 +192,35 @@ const YoureAllSet = () => {
             </GorditaText>
 
             <View className="flex-row items-center mb-6">
-              <Image source={icons.facebookBw} className="h-9 w-9 mx-0.5" />
-              <Image source={icons.twitterBw} className="h-9 w-9 mx-0.5" />
+              <Pressable>
+                <Image source={icons.facebookBw} className="h-9 w-9 mx-0.5" />
+              </Pressable>
+
+              <Pressable>
+                <Image source={icons.twitterBw} className="h-9 w-9 mx-0.5" />
+              </Pressable>
+            </View>
+
+            <GorditaText
+              className="text-white font-gordita-bold text-lg mb-2"
+              style={{ lineHeight: 18 }}
+            >
+              Accessibility
+            </GorditaText>
+
+            <View className="flex-row items-center mb-6">
+              <Pressable>
+                <Image
+                  source={icons.audioDescription}
+                  className="h-20 w-20 mx-0.5"
+                />
+              </Pressable>
+              <Pressable>
+                <Image
+                  source={icons.closedCaptions}
+                  className="h-20 w-20 mx-0.5"
+                />
+              </Pressable>
             </View>
 
             <GorditaText className="text-gray-100 font-gordita-regular uppercase">
