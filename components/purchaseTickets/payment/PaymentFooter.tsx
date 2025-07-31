@@ -50,6 +50,7 @@ const PaymentFooter = ({
             onPress={() => {
               onPress();
             }}
+            disabled={disabled}
           />
         </View>
       </View>

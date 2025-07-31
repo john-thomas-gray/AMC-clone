@@ -4,7 +4,11 @@ import ConcessionSelector from "@/components/purchaseTickets/ticketSelection/Con
 import TicketSelectionFooter from "@/components/purchaseTickets/ticketSelection/TicketSelectionFooter";
 import TicketSelector from "@/components/purchaseTickets/ticketSelection/TicketSelector";
 import { icons, images } from "@/constants";
-import { concessionPrice, movieTicketPrice } from "@/constants/PriceConstants";
+import {
+  concessionPrice,
+  fees,
+  movieTicketPrice
+} from "@/constants/PriceConstants";
 import { PurchasesContext } from "@/context/PurchasesContext";
 import { TheatreDataContext } from "@/context/theatreDataContext";
 import { getCurrentDate } from "@/utils/dateAndTime";
@@ -65,7 +69,7 @@ const TicketSelection = () => {
   );
 
   const remainingTickets = selectedSeats.length - totalTicketCount;
-
+  console.log(totalTicketCount);
   if (!selectedSession) {
     return (
       <View className="flex-1 bg-black">
@@ -111,40 +115,40 @@ const TicketSelection = () => {
           {
             age: "Adult",
             cost: movieTicketPrice.adult,
-            fee: movieTicketPrice.fee,
-            totalPrice: movieTicketPrice.adult + movieTicketPrice.fee
+            fee: fees.convenienceFee,
+            totalPrice: movieTicketPrice.adult + fees.convenienceFee
           },
           {
             age: "Child",
             cost: movieTicketPrice.child,
-            fee: movieTicketPrice.fee,
-            totalPrice: movieTicketPrice.child + movieTicketPrice.fee
+            fee: fees.convenienceFee,
+            totalPrice: movieTicketPrice.child + fees.convenienceFee
           },
           {
             age: "Senior",
             cost: movieTicketPrice.senior,
-            fee: movieTicketPrice.fee,
-            totalPrice: movieTicketPrice.senior + movieTicketPrice.fee
+            fee: fees.convenienceFee,
+            totalPrice: movieTicketPrice.senior + fees.convenienceFee
           }
         ]
       : [
           {
             age: "Adult",
             cost: movieTicketPrice.adultImax,
-            fee: movieTicketPrice.feeImax,
-            totalPrice: movieTicketPrice.adultImax + movieTicketPrice.feeImax
+            fee: fees.convenienceFeeImax,
+            totalPrice: movieTicketPrice.adultImax + fees.convenienceFeeImax
           },
           {
             age: "Child",
             cost: movieTicketPrice.childImax,
-            fee: movieTicketPrice.feeImax,
-            totalPrice: movieTicketPrice.childImax + movieTicketPrice.feeImax
+            fee: fees.convenienceFeeImax,
+            totalPrice: movieTicketPrice.childImax + fees.convenienceFeeImax
           },
           {
             age: "Senior",
             cost: movieTicketPrice.seniorImax,
-            fee: movieTicketPrice.feeImax,
-            totalPrice: movieTicketPrice.seniorImax + movieTicketPrice.feeImax
+            fee: fees.convenienceFeeImax,
+            totalPrice: movieTicketPrice.seniorImax + fees.convenienceFeeImax
           }
         ];
 

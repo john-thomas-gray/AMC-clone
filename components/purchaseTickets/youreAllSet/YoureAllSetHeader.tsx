@@ -5,11 +5,10 @@ import React, { useContext } from "react";
 import { Text, View } from "react-native";
 
 type YoureAllSetProps = {
-  id: number;
   onPress?: () => void;
 };
 
-const YoureAllSet = ({ id, onPress }: YoureAllSetProps) => {
+const YoureAllSet = ({ onPress }: YoureAllSetProps) => {
   const { resetSelectedTickets, resetSelectedSeats } =
     useContext(PurchasesContext)!;
 
@@ -26,12 +25,10 @@ const YoureAllSet = ({ id, onPress }: YoureAllSetProps) => {
         onPress={() => {
           resetSelectedTickets();
           resetSelectedSeats();
-          if (onPress) {
-            onPress();
-          }
+          //Reset all purchase context values
+
           router.push({
-            pathname: "/movies/[id]",
-            params: { id: id.toString() }
+            pathname: "/(tabs)/home"
           });
         }}
       />

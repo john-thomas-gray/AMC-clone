@@ -2,67 +2,42 @@ import GorditaText from "@/components/GorditaText";
 import YoureAllSetHeader from "@/components/purchaseTickets/youreAllSet/YoureAllSetHeader";
 import ShimmerOverlay from "@/components/ShimmerOverlay";
 import { icons, images } from "@/constants";
-import { movieTicketPrice } from "@/constants/PriceConstants";
-import { useModal } from "@/context/ModalContext";
+import { fees, movieTicketPrice } from "@/constants/PriceConstants";
 import { PurchasesContext } from "@/context/PurchasesContext";
 import { TheatreDataContext } from "@/context/theatreDataContext";
 import { TimerContext } from "@/context/TimerContext";
+import { checkPhoneNumber } from "@/utils/dateAndTime";
 import { formatCalendarDate, formatRuntime } from "@/utils/formatMovieData";
 import { generateTicketConfirmationNumber } from "@/utils/generateTicketConfirmationNumber";
 import { useRouter } from "expo-router";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Image, Pressable, SafeAreaView, TextInput, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 const YoureAllSet = () => {
-  // ADD LOGIC TO HANDLE THE TIMER
-  // ADD LOGIC TO HANDLE THE TIMER
-  // ADD LOGIC TO HANDLE THE TIMER
-  // ADD LOGIC TO HANDLE THE TIMER
-  // ADD LOGIC TO HANDLE THE TIMER
-
   const [confirmationNumber] = useState(() =>
     generateTicketConfirmationNumber()
   );
 
-  const purchasesContext = useContext(PurchasesContext);
-  if (!purchasesContext) {
-    throw new Error("PurchasesContext must be used within PurchasesProvider");
-  }
-  const { resetSelectedTickets, setSelectedTickets, selectedTickets } =
-    purchasesContext;
-
+  const { setSelectedTickets, selectedTickets, paymentMethod, cartCostTotal } =
+    useContext(PurchasesContext);
   const { selectedSession, loading } = useContext(TheatreDataContext);
-  const router = useRouter();
-  const { showModal, hideModal } = useModal();
   const { startTimer, stopTimer, resetTimer } = useContext(TimerContext);
-  const yesNoModalId = useRef<string | null>(null);
-  const cancelModalId = useRef<string | null>(null);
+
+  const router = useRouter();
   const [phoneNumber, onChangePhoneNumber] = useState("");
   const [isValidNumber, setIsValidNumber] = useState(false);
   const [addressArray, setAddressArray] = useState<string[]>(["", ""]);
-
-  function checkPhoneNumber(number: string) {
-    const regex =
-      /^(\+?1|\+?44)?\s?(\d{3})[- ]?(\d{3})[- ]?(\d{4})$|^(\+?1|\+?44)?(\d{10})$/;
-    // Explanation:
-    // - Optional country code (+1 or +44), with or without +
-    // - Optional space after country code
-    // - 3 digits, optional dash or space, 3 digits, optional dash or space, 4 digits
-    // OR
-    // - Optional country code (+1 or +44), followed immediately by 10 digits
-
-    // Normalize input by removing leading/trailing spaces
-    number = number.trim();
-    console.log(number, regex.test(number));
-    return regex.test(number);
-  }
 
   const allSelectedSeats = [
     ...selectedTickets.adult.seats,
     ...selectedTickets.child.seats,
     ...selectedTickets.senior.seats
   ];
+
+  useEffect(() => {
+    stopTimer();
+  }, []);
 
   useEffect(() => {
     const valid = checkPhoneNumber(phoneNumber);
@@ -80,31 +55,18 @@ const YoureAllSet = () => {
       const adultSeats = ["D3", "D4"];
       const childSeats = ["D5", "D6", "D7"];
       const seniorSeats = ["D8"];
-      // adult: {
-      //         date: today,
-      //         seats: [],
-      //         tickets: {
-      //           Standard: {
-      //             cost: movieTicketPrice.adult + movieTicketPrice.fee,
-      //             count: 0
-      //           },
-      //           IMax: {
-      //             cost: movieTicketPrice.adultImax + movieTicketPrice.feeImax,
-      //             count: 0
-      //           }
-      //         }
-      //       },
+
       setSelectedTickets(prev => ({
         ...prev,
         adult: {
           ...prev.adult,
           seats: [...adultSeats],
           tickets: {
-            Standard: {
+            standard: {
               cost: 0,
               count: 0
             },
-            IMax: {
+            iMax: {
               cost: movieTicketPrice.adult * 2,
               count: 2
             }
@@ -114,11 +76,11 @@ const YoureAllSet = () => {
           ...prev.child,
           seats: [...childSeats],
           tickets: {
-            Standard: {
+            standard: {
               cost: 0,
               count: 0
             },
-            IMax: {
+            iMax: {
               cost: movieTicketPrice.child * 3,
               count: 3
             }
@@ -128,11 +90,11 @@ const YoureAllSet = () => {
           ...prev.senior,
           seats: [...seniorSeats],
           tickets: {
-            Standard: {
+            standard: {
               cost: 0,
               count: 0
             },
-            IMax: {
+            iMax: {
               cost: movieTicketPrice.senior,
               count: 1
             }
@@ -156,6 +118,11 @@ const YoureAllSet = () => {
 
   const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
   const { theatre, screen, showtime } = selectedSession;
+  const convenienceFee =
+    screen.type.projector === "IMax"
+      ? fees.convenienceFeeImax
+      : fees.convenienceFee;
+
   const data = {
     movieTitle: screen?.movie?.title ?? "Unknown Movie Title",
     posterImage: screen?.movie?.poster_path
@@ -170,48 +137,16 @@ const YoureAllSet = () => {
     auditoriumNumber: screen?.number ?? 1,
     theatreAddressLineOne: addressArray[0] ?? "123 Fake Street",
     theatreAddressLineTwo: addressArray[1] ?? "San Francisco, CA 94115",
-    selectedSeats: allSelectedSeats
+    selectedSeats: allSelectedSeats,
+    paymentMethod: paymentMethod,
+    cartCostTotal: cartCostTotal,
+    confirmationNumber: confirmationNumber,
+    convenienceFee: convenienceFee
   };
-
-  function selectedYes(yes: boolean, source: "yesNo" | "cancel") {
-    const clearModal = (ref: React.RefObject<string | null>) => {
-      if (ref.current) {
-        hideModal(ref.current);
-        ref.current = null;
-      }
-    };
-
-    clearModal(cancelModalId);
-    clearModal(yesNoModalId);
-
-    if (yes) {
-      if (source === "yesNo") {
-        resetTimer();
-        startTimer(420);
-        resetSelectedTickets();
-        router.push({
-          pathname: "/movies/[id]",
-          params: {
-            id: selectedSession?.screen.movie.id.toString() ?? ""
-          }
-        });
-      }
-
-      if (source === "cancel") {
-        router.push({
-          pathname: "/movies/[id]",
-          params: {
-            id: selectedSession?.screen.movie.id.toString() ?? ""
-          }
-        });
-      }
-    }
-  }
-  console.log();
 
   return (
     <View className="flex-1 bg-black px-4">
-      <YoureAllSetHeader id={data.id} />
+      <YoureAllSetHeader />
       <ScrollView>
         <GorditaText className="text-sm text-gray-100 mb-8 mt-1">
           We emailed your receipt. See you at the movies!
@@ -264,7 +199,7 @@ const YoureAllSet = () => {
               TICKET CONFIRMATION #:
             </GorditaText>
             <GorditaText className="text-white font-gordita-regular text-lg">
-              {confirmationNumber}
+              {data.confirmationNumber}
             </GorditaText>
           </View>
         </View>
@@ -307,14 +242,27 @@ const YoureAllSet = () => {
                     selectedTickets[age].tickets
                   ).reduce((sum, ticket) => sum + ticket.count, 0);
 
-                  return totalCount > 0 ? (
+                  if (totalCount === 0) return null;
+
+                  const pluralLabels: Record<string, string> = {
+                    adult: "Adults",
+                    child: "Children",
+                    senior: "Seniors"
+                  };
+
+                  const label =
+                    totalCount > 1
+                      ? pluralLabels[age]
+                      : age.charAt(0).toUpperCase() + age.slice(1);
+
+                  return (
                     <GorditaText
                       key={age}
                       className="text-white font-gordita-regular text-lg"
                     >
-                      {totalCount} {age.charAt(0).toUpperCase() + age.slice(1)}
+                      {totalCount} {label}
                     </GorditaText>
-                  ) : null;
+                  );
                 })}
               </View>
 
@@ -398,16 +346,16 @@ const YoureAllSet = () => {
                   PAYMENT
                 </GorditaText>
                 <GorditaText
-                  className="text-white font-gordita-regular text-lg"
+                  className="text-white font-gordita-regular text-lg capitalize"
                   style={{ lineHeight: 16 }}
                 >
-                  Apple Pay
+                  {data.paymentMethod}
                 </GorditaText>
                 <GorditaText
                   className="text-gray-100 text-sm mb-7"
                   style={{ lineHeight: 14 }}
                 >
-                  Cost
+                  ${data.cartCostTotal}
                 </GorditaText>
               </View>
             </View>
@@ -470,56 +418,142 @@ const YoureAllSet = () => {
           </Pressable>
         </View>
 
-        <View className="pt-10 pb-6 ">
-          <GorditaText className="text-white font-gordita-bold text-2xl pb-6">
-            Order Details
-          </GorditaText>
+        <View className="flex-column pb-6">
+          <View className="pt-10 pb-6 ">
+            <GorditaText className="text-white font-gordita-bold text-2xl pb-6">
+              Order Details
+            </GorditaText>
 
-          <View className="flex-column pb-6">
-            <View className="flex-column pb-5">
-              <GorditaText className="text-gray-100 text-sm font-gordita-regular uppercase mb-3">
-                TICKETS
-              </GorditaText>
+            <View className="flex-column pb-6">
+              <View className="flex-column pb-5">
+                <GorditaText className="text-gray-100 text-sm font-gordita-regular uppercase mb-3">
+                  TICKETS
+                </GorditaText>
+                <View>
+                  {(selectedTickets?.adult?.tickets?.standard?.count > 0 ||
+                    selectedTickets?.adult?.tickets?.iMax?.count > 0) && (
+                    <View className="flex-row justify-between mb-1">
+                      <GorditaText className="font-gordita-bold">
+                        {(selectedTickets?.adult?.tickets?.standard?.count ??
+                          0) +
+                          (selectedTickets?.adult?.tickets?.iMax?.count ??
+                            0) ===
+                        1
+                          ? "Adult Ticket"
+                          : `${
+                              (selectedTickets?.adult?.tickets?.standard
+                                ?.count ?? 0) +
+                              (selectedTickets?.adult?.tickets?.iMax?.count ??
+                                0)
+                            } Adult Tickets`}
+                      </GorditaText>
 
-              <View className="flex-row justify-between">
-                <GorditaText className="font-gordita-bold">
-                  Adult Ticket
+                      <GorditaText className="font-gordita-bold">
+                        $
+                        {(
+                          (selectedTickets?.adult?.tickets?.standard?.cost ??
+                            0) +
+                          (selectedTickets?.adult?.tickets?.iMax?.cost ?? 0)
+                        ).toFixed(2)}
+                      </GorditaText>
+                    </View>
+                  )}
+
+                  {(selectedTickets?.child?.tickets?.standard?.count > 0 ||
+                    selectedTickets?.child?.tickets?.iMax?.count > 0) && (
+                    <View className="flex-row justify-between mb-1">
+                      <GorditaText className="font-gordita-bold">
+                        {(selectedTickets?.child?.tickets?.standard?.count ??
+                          0) +
+                          (selectedTickets?.child?.tickets?.iMax?.count ??
+                            0) ===
+                        1
+                          ? "Child Ticket"
+                          : `${
+                              (selectedTickets?.child?.tickets?.standard
+                                ?.count ?? 0) +
+                              (selectedTickets?.child?.tickets?.iMax?.count ??
+                                0)
+                            } Child Tickets`}
+                      </GorditaText>
+
+                      <GorditaText className="font-gordita-bold">
+                        $
+                        {(
+                          (selectedTickets?.child?.tickets?.standard?.cost ??
+                            0) +
+                          (selectedTickets?.child?.tickets?.iMax?.cost ?? 0)
+                        ).toFixed(2)}
+                      </GorditaText>
+                    </View>
+                  )}
+
+                  {(selectedTickets?.senior?.tickets?.standard?.count > 0 ||
+                    selectedTickets?.senior?.tickets?.iMax?.count > 0) && (
+                    <View className="flex-row justify-between mb-1">
+                      <GorditaText className="font-gordita-bold">
+                        {(selectedTickets?.senior?.tickets?.standard?.count ??
+                          0) +
+                          (selectedTickets?.senior?.tickets?.iMax?.count ??
+                            0) ===
+                        1
+                          ? "Senior Ticket"
+                          : `${
+                              (selectedTickets?.senior?.tickets?.standard
+                                ?.count ?? 0) +
+                              (selectedTickets?.senior?.tickets?.iMax?.count ??
+                                0)
+                            } Senior Tickets`}
+                      </GorditaText>
+
+                      <GorditaText className="font-gordita-bold">
+                        $
+                        {(
+                          (selectedTickets?.senior?.tickets?.standard?.cost ??
+                            0) +
+                          (selectedTickets?.senior?.tickets?.iMax?.cost ?? 0)
+                        ).toFixed(2)}
+                      </GorditaText>
+                    </View>
+                  )}
+                </View>
+              </View>
+
+              <View className="flex-column">
+                <GorditaText className="text-gray-100 text-sm font-gordita-regular uppercase mb-3">
+                  FEES
                 </GorditaText>
 
-                <GorditaText className="font-gordita-bold">COST</GorditaText>
+                <View className="flex-row justify-between">
+                  <GorditaText className="font-gordita-bold">
+                    Convenience Fee
+                  </GorditaText>
+
+                  <GorditaText className="font-gordita-bold">
+                    ${data.convenienceFee}
+                  </GorditaText>
+                </View>
               </View>
             </View>
 
-            <View className="flex-column">
-              <GorditaText className="text-gray-100 text-sm font-gordita-regular uppercase mb-3">
-                FEES
-              </GorditaText>
+            <View className="border-y border-gray-300 pt-4 pb-3">
+              <View className="flex-row justify-between items-center">
+                <GorditaText className="font-gordita-bold">Taxes</GorditaText>
 
-              <View className="flex-row justify-between">
-                <GorditaText className="font-gordita-bold">
-                  Convenience Fee
-                </GorditaText>
-
-                <GorditaText className="font-gordita-bold">COST</GorditaText>
+                <GorditaText className="font-gordita-bold">$0.00</GorditaText>
               </View>
             </View>
-          </View>
+            <View className="flex-row justify-end items-center pb-12 pt-6">
+              <View className="mr-2 ">
+                <GorditaText className="text-md text-gray-100 uppercase">
+                  TOTAL
+                </GorditaText>
+              </View>
 
-          <View className="border-y border-gray-300 pt-4 pb-3">
-            <View className="flex-row justify-between items-center">
-              <GorditaText className="font-gordita-bold">Taxes</GorditaText>
-
-              <GorditaText className="font-gordita-bold">COST</GorditaText>
-            </View>
-          </View>
-          <View className="flex-row justify-end items-center pb-12 pt-6">
-            <View className="mr-2 ">
-              <GorditaText className="text-md text-gray-100 uppercase">
-                TOTAL
+              <GorditaText className="font-gordita-bold">
+                ${data.cartCostTotal}
               </GorditaText>
             </View>
-
-            <GorditaText className="font-gordita-bold">TOTAL COST</GorditaText>
           </View>
         </View>
       </ScrollView>

@@ -14,22 +14,20 @@ import {
 } from "@/utils/formatMovieData";
 import { LinearGradient } from "expo-linear-gradient";
 import { RelativePathString, useLocalSearchParams } from "expo-router";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Image, ImageBackground, Pressable, Text, View } from "react-native";
 
 import { PurchasesContext } from "@/context/PurchasesContext";
-import { useFocusEffect } from "@react-navigation/native";
 
 const MovieDetail = () => {
-  const { resetSelectedTickets, resetSelectedSeats } =
+  const { resetSelectedTickets, resetSelectedSeats, setPaymentMethod } =
     useContext(PurchasesContext)!;
 
-  useFocusEffect(
-    React.useCallback(() => {
-      resetSelectedTickets();
-      resetSelectedSeats();
-    }, [resetSelectedTickets, resetSelectedSeats])
-  );
+  useEffect(() => {
+    resetSelectedTickets();
+    resetSelectedSeats();
+    setPaymentMethod("default");
+  }, []);
 
   const { id } = useLocalSearchParams();
 

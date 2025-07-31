@@ -26,21 +26,22 @@ const Payment = () => {
   const cancelModalId = useRef<string | null>(null);
   const rewardsHeight = useRef(new Animated.Value(40)).current;
 
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
-    "default" | "applePay" | "bitPay" | "payPal" | "venmo"
-  >("default");
-
   const { showModal, hideModal } = useModal();
-  const { resetSelectedTickets, resetSelectedSeats } =
-    useContext(PurchasesContext);
+  const {
+    resetSelectedTickets,
+    resetSelectedSeats,
+    paymentMethod,
+    setPaymentMethod
+  } = useContext(PurchasesContext);
   const { selectedSession, loading } = useContext(TheatreDataContext);
-  const router = useRouter();
   const { resetTimer, startTimer, onTimeReached } = useContext(TimerContext);
+
+  const router = useRouter();
 
   const handlePaymentSelected = (
     type: "default" | "applePay" | "bitPay" | "payPal" | "venmo"
   ) => {
-    setSelectedPaymentMethod(type);
+    setPaymentMethod(type);
   };
 
   const handleClose = () => {
@@ -210,25 +211,25 @@ const Payment = () => {
               text="Apple Pay"
               image={icons.applePay}
               onPressOut={() => handlePaymentSelected("applePay")}
-              selected={selectedPaymentMethod === "applePay"}
+              selected={paymentMethod === "applePay"}
             />
             <PaymentSelector
               text="BitPay"
               image={icons.bitPay}
               onPressOut={() => handlePaymentSelected("bitPay")}
-              selected={selectedPaymentMethod === "bitPay"}
+              selected={paymentMethod === "bitPay"}
             />
             <PaymentSelector
               text="PayPal"
               image={icons.payPal}
               onPressOut={() => handlePaymentSelected("payPal")}
-              selected={selectedPaymentMethod === "payPal"}
+              selected={paymentMethod === "payPal"}
             />
             <PaymentSelector
               text="Venmo"
               image={icons.venmo}
               onPressOut={() => handlePaymentSelected("venmo")}
-              selected={selectedPaymentMethod === "venmo"}
+              selected={paymentMethod === "venmo"}
             />
 
             <Animated.View
@@ -323,8 +324,8 @@ const Payment = () => {
             pathname: "/movies/youreAllSet"
           });
         }}
-        disabled={!selectedPaymentMethod}
-        selectedPaymentMethod={selectedPaymentMethod}
+        disabled={paymentMethod === "default"}
+        selectedPaymentMethod={paymentMethod}
       />
     </View>
   );

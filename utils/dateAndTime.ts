@@ -25,3 +25,17 @@ export const showMatinee = (showtime: string = "10:00pm") => {
   }
   return true;
 };
+
+export function checkPhoneNumber(number: string) {
+  const regex =
+    /^(\+?1|\+?44)?\s?(\d{3})[- ]?(\d{3})[- ]?(\d{4})$|^(\+?1|\+?44)?(\d{10})$/;
+  // - Optional country code (+1 or +44), with or without +
+  // - Optional space after country code
+  // - 3 digits, optional dash or space, 3 digits, optional dash or space, 4 digits
+  // OR
+  // - Optional country code (+1 or +44), followed immediately by 10 digits
+
+  // Normalize input by removing leading/trailing spaces
+  number = number.trim();
+  return regex.test(number);
+}
