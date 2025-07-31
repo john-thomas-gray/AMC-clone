@@ -1,5 +1,6 @@
 import GorditaText from "@/components/GorditaText";
 import YoureAllSetHeader from "@/components/purchaseTickets/youreAllSet/YoureAllSetHeader";
+import TicketQR from "@/components/QR/TicketQR";
 import ShimmerOverlay from "@/components/ShimmerOverlay";
 import { icons, images } from "@/constants";
 import { fees, movieTicketPrice } from "@/constants/PriceConstants";
@@ -67,7 +68,7 @@ const YoureAllSet = () => {
               count: 0
             },
             iMax: {
-              cost: movieTicketPrice.adult * 2,
+              cost: movieTicketPrice.adult,
               count: 2
             }
           }
@@ -81,7 +82,7 @@ const YoureAllSet = () => {
               count: 0
             },
             iMax: {
-              cost: movieTicketPrice.child * 3,
+              cost: movieTicketPrice.child,
               count: 3
             }
           }
@@ -205,8 +206,11 @@ const YoureAllSet = () => {
         </View>
 
         {/* QR Code */}
-        <View className="w-full items-center justify-center mt-12 mb-8">
+        <View className="w-full items-center justify-center mt-12 mb-8 relative">
           <View className="h-[150px] w-[150px] rounded-full bg-white" />
+          <View className="absolute">
+            <TicketQR />
+          </View>
         </View>
 
         {/* Icon and Info Columns */}
@@ -480,9 +484,10 @@ const YoureAllSet = () => {
                       <GorditaText className="font-gordita-bold">
                         $
                         {(
-                          (selectedTickets?.child?.tickets?.standard?.cost ??
-                            0) +
-                          (selectedTickets?.child?.tickets?.iMax?.cost ?? 0)
+                          selectedTickets?.child?.tickets?.standard?.cost *
+                            selectedTickets?.child?.tickets?.standard?.count +
+                          selectedTickets?.child?.tickets?.iMax?.cost *
+                            selectedTickets?.child?.tickets?.iMax?.count
                         ).toFixed(2)}
                       </GorditaText>
                     </View>
@@ -499,19 +504,22 @@ const YoureAllSet = () => {
                         1
                           ? "Senior Ticket"
                           : `${
-                              (selectedTickets?.senior?.tickets?.standard
-                                ?.count ?? 0) +
-                              (selectedTickets?.senior?.tickets?.iMax?.count ??
-                                0)
+                              selectedTickets?.senior?.tickets?.standard
+                                ?.count *
+                                selectedTickets?.senior?.tickets?.standard
+                                  ?.cost +
+                              selectedTickets?.senior?.tickets?.iMax?.count *
+                                selectedTickets?.senior?.tickets?.iMax?.cost
                             } Senior Tickets`}
                       </GorditaText>
 
                       <GorditaText className="font-gordita-bold">
                         $
                         {(
-                          (selectedTickets?.senior?.tickets?.standard?.cost ??
-                            0) +
-                          (selectedTickets?.senior?.tickets?.iMax?.cost ?? 0)
+                          selectedTickets?.senior?.tickets?.standard?.cost *
+                            selectedTickets?.senior?.tickets?.standard?.count +
+                          selectedTickets?.senior?.tickets?.iMax?.cost *
+                            selectedTickets?.senior?.tickets?.iMax?.count
                         ).toFixed(2)}
                       </GorditaText>
                     </View>

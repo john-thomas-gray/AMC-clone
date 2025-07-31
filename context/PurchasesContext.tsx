@@ -100,6 +100,9 @@ export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
   const [cartCostTotal, setCartCostTotal] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("default");
 
+  console.log(movieTicketPrice.adultImax);
+  console.log(fees.convenienceFeeImax);
+
   const [selectedTickets, setSelectedTickets] =
     React.useState<SelectedTicketsByAge>({
       adult: {
@@ -181,11 +184,13 @@ export const PurchasesProvider = ({ children }: { children: ReactNode }) => {
       0
     );
 
-    setCartCostTotal(Number((ticketTotal + concessionTotal).toFixed(2)));
+    console.log("Ticket Count:", ticketCount);
+    console.log("Ticket Total:", ticketTotal);
     console.log("Cart Cost Total:", cartCostTotal);
     console.log("Cart Item Count:", cartItemCount);
     console.log("Selected Tickets:", selectedTickets);
-    console.log("Ticket Total:", ticketTotal);
+    console.log("Selected Concessions:", selectedConcessions);
+    setCartCostTotal(Number((ticketTotal + concessionTotal).toFixed(2)));
   }, [selectedTickets, selectedConcessions]);
 
   const resetSelectedTickets = () => {
