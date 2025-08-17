@@ -10,7 +10,8 @@ import { TimerContext } from "@/context/TimerContext";
 import { checkPhoneNumber } from "@/utils/dateAndTime";
 import { formatCalendarDate, formatRuntime } from "@/utils/formatMovieData";
 import { generateTicketConfirmationNumber } from "@/utils/generateTicketConfirmationNumber";
-import { useRouter } from "expo-router";
+import * as Linking from "expo-linking";
+import { Link, useRouter } from "expo-router";
 import React, { useContext, useEffect, useState } from "react";
 import { Image, Pressable, SafeAreaView, TextInput, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -145,6 +146,10 @@ const YoureAllSet = () => {
     convenienceFee: convenienceFee
   };
 
+  const redirectUrl = Linking.createURL("tell://", {
+    // queryParams: { hello: "world" }
+  });
+
   return (
     <View className="flex-1 bg-black px-4">
       <YoureAllSetHeader />
@@ -209,12 +214,12 @@ const YoureAllSet = () => {
             </GorditaText>
 
             <View className="flex-row items-center mb-6">
-              <Pressable>
+              <Link href={redirectUrl}>
                 <Image
                   source={icons.audioDescription}
                   className="h-20 w-20 mx-0.5"
                 />
-              </Pressable>
+              </Link>
               <Pressable>
                 <Image
                   source={icons.closedCaptions}

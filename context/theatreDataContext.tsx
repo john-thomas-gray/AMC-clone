@@ -46,6 +46,33 @@ const getSeatCount = (screenType: string): number => {
   }
 };
 
+const screenTypes: ScreenTypesMap = {
+  laser: {
+    projector: "Laser at AMC",
+    logo: logos.laser,
+    tagline: "PICTURE A BETTER WORLD",
+    seatCount: getSeatCount("laser")
+  },
+  reald: {
+    projector: "RealD 3D",
+    logo: logos.reald,
+    tagline: "VISUALIZING THE FUTURE",
+    seatCount: getSeatCount("reald")
+  },
+  dolby: {
+    projector: "Dolby Cinema",
+    logo: logos.dolby,
+    tagline: "COMPLETELY CAPTIVATING",
+    seatCount: getSeatCount("dolby")
+  },
+  imax: {
+    projector: "IMax",
+    logo: logos.imax,
+    tagline: "EXPERIENCE THE EXTRAORDINARY",
+    seatCount: getSeatCount("imax")
+  }
+};
+
 const getScreenNum = (theatre: string): number => {
   const match = theatre.match(/(\d+)(?!.*\d)/);
   return match ? Number(match[1]) : 1;
@@ -136,33 +163,6 @@ const getFeatures = (screenType: string, seatCount: number): string[] => {
         "Closed Caption",
         "Audio Description"
       ];
-  }
-};
-
-const screenTypes: ScreenTypesMap = {
-  laser: {
-    projector: "Laser at AMC",
-    logo: logos.laser,
-    tagline: "PICTURE A BETTER WORLD",
-    seatCount: getSeatCount("laser")
-  },
-  reald: {
-    projector: "RealD 3D",
-    logo: logos.reald,
-    tagline: "VISUALIZING THE FUTURE",
-    seatCount: getSeatCount("reald")
-  },
-  dolby: {
-    projector: "Dolby Cinema",
-    logo: logos.dolby,
-    tagline: "COMPLETELY CAPTIVATING",
-    seatCount: getSeatCount("dolby")
-  },
-  imax: {
-    projector: "IMax",
-    logo: logos.imax,
-    tagline: "EXPERIENCE THE EXTRAORDINARY",
-    seatCount: getSeatCount("imax")
   }
 };
 

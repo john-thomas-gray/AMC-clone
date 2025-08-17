@@ -85,6 +85,7 @@ export const formatTheatreAddress = async (
     if (!data.results || data.results.length === 0) {
       throw new Error("No results from geocoding API");
     }
+    console.log("BAZINGA!");
     const fullAddress = data.results[0].formatted_address;
     const parts = fullAddress.split(",");
 

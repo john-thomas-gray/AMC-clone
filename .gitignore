@@ -41,3 +41,7 @@ app-example
 
 # stripe
 /stripe/
+
+# audio
+*.wav
+*.mp3

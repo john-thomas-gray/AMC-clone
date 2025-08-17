@@ -63,15 +63,10 @@ declare interface IconButtonProps {
   style?: string;
 }
 
-declare interface Genre {
-  id: number;
-  name: string;
-}
-
 declare interface Movie {
   id: number;
   backdropPath?: string;
-  genres?: Genre[];
+  genres?: { id: number; name: string }[];
   title?: string;
   synopsis?: string;
   release_date?: string;
