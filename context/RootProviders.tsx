@@ -11,11 +11,12 @@ type RootProvidersProps = {
 };
 
 const apiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY || "";
+const clerkKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 export const RootProviders = ({ children }: RootProvidersProps) => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ClerkProvider tokenCache={tokenCache}>
+      <ClerkProvider tokenCache={tokenCache} publishableKey="pk_test_cmljaC1hbGllbi0yMS5jbGVyay5hY2NvdW50cy5kZXYk">
         <PurchasesProvider>
           <TheatreDataContextProvider apiKey={apiKey}>
             <StatusBar style="light" />
