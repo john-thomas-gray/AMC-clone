@@ -81,7 +81,13 @@ The app uses the TMDB API for movie metadata and integrates with Clerk for authe
 Copy and paste into your terminal:
 
 ```bash
-git clone https://github.com/john-thomas-gray/AMC-clone.git && cd AMC-clone && npm install && npx expo start --clear
+git clone https://github.com/john-thomas-gray/AMC-clone.git && cd AMC-clone && npm install
+```
+
+Configure environment variables (see [Configuration](#configuration))
+
+```bash
+npx expo start --clear
 ```
 
 Then press `i` for iOS Simulator, `a` for Android emulator, or scan the QR code with Expo Go on a physical device.
