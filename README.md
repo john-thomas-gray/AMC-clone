@@ -13,7 +13,7 @@ AMC Clone is a cross-platform (iOS, Android, Web) application that enables users
 - Select showtimes, seats, and ticket types (standard/IMAX)
 - Add food and drinks (concessions) to their order
 - Complete checkout with Stripe-powered payments (card, Apple Pay, Google Pay)
-- Save favorite theaters and access express pickup for concessions
+- Save favorite theaters and access express pickup for the concessions
 
 The app uses the TMDB API for movie metadata and integrates with Clerk for authentication, Stripe for payments, and Google Places for theater locations.
 
