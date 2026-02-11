@@ -1,8 +1,9 @@
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
-import React from 'react'
+import React, { useContext } from 'react'
 import { FlatList, Image, Keyboard, Pressable, Text, View } from 'react-native'
 import { icons } from '../../constants'
 import { useBottomSheet } from '../../context/BottomSheetContext'
+import { TheatreDataContext } from '../../context/theatreDataContext'
 import XButton from '../buttons/XButton'
 
 type SelectTheatreBottomSheetProps = {
@@ -22,6 +23,7 @@ const SelectTheatreBottomSheet = ({
   }: SelectTheatreBottomSheetProps) => {
 
   const { setIsSheetOpen, setSelectedTheatre, selectedTheatre } = useBottomSheet();
+  const { theatres } = useContext(TheatreDataContext);
 
   const handleSheetChange = (index: number) => {
     const isOpen = index > 0;
@@ -32,9 +34,8 @@ const SelectTheatreBottomSheet = ({
     }
   };
 
-  const DummyData = {
-    theatres: ["AMC Bay Street 16", "AMC Burbank 16", "AMC Century City 15", "AMC Downtown Disney 12", "AMC Empire 25", "AMC Garden State Plaza 16", "AMC Lincoln Square 13", "AMC Loews Boston Common 19", "AMC Loews Cherry Hill 24", "AMC Loews Jersey Gardens 20", "AMC Loews Lincoln Square 13", "AMC Loews Newport Centre 11", "AMC Loews Oak Tree 6", "AMC Loews Palisades Center 21", "AMC Loews Rockaway 16", "AMC Loews Stony Brook 17"]
-  }
+  // Extract theatre names from context data
+  const theatreNames = theatres.map(theatre => theatre.name);
 
   const handleTheatreSelection = (theatre: string) => {
     setSelectedTheatre(theatre);
@@ -81,8 +82,8 @@ const SelectTheatreBottomSheet = ({
                 </Text>
               </View>
             }
-            data={DummyData.theatres.slice(0, 5)}
-            keyExtractor={(item, index) => `theatre-${index}`}
+            data={theatreNames.slice(0, 5)}
+            keyExtractor={(item, index) => `theatre-${item}-${index}`}
             renderItem={({ item }) => (
               <Pressable
                 className="w-full"
