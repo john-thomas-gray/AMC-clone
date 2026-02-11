@@ -47,10 +47,10 @@ export const getUserLocation = async (
 
 export const getNearbyTheatres = async (
   apiKey: string
-): Promise<NearbyTheatre[]> => {
+): Promise<{ theatres: NearbyTheatre[]; userLocation: string }> => {
   try {
     // Get user's coordinates and address
-    const { coords } = await getUserLocation(apiKey);
+    const { coords, address } = await getUserLocation(apiKey);
     const { latitude, longitude } = coords;
 
     // Fetch nearby theatres using Google Places API
@@ -90,10 +90,10 @@ export const getNearbyTheatres = async (
       }
     }));
 
-    return theatres;
+    return { theatres, userLocation: address };
   } catch (error) {
     console.log("getNearby using backup. Error:", error);
-    return amcTheatresdummy;
+    return { theatres: amcTheatresdummy, userLocation: "Location unavailable" };
   }
 };
 

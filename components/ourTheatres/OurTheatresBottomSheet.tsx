@@ -1,9 +1,10 @@
 import { icons } from "@/constants";
+import { TheatreDataContext } from "@/context/theatreDataContext";
 import BottomSheet, {
   BottomSheetFlatList,
   BottomSheetView
 } from "@gorhom/bottom-sheet";
-import React from "react";
+import React, { useContext } from "react";
 import { Image, Keyboard, Pressable, Text, View } from "react-native";
 import CustomButton from "../buttons/CustomButton";
 
@@ -12,6 +13,13 @@ type OurTheatresBottomSheetProps = {
   snapPoints?: number[] | string[];
   initialSnapIndex: number | 0;
   bottomSheetRef?: React.RefObject<any>;
+};
+
+type TheatreListItem = {
+  name: string;
+  address1: string;
+  address2: string;
+  distance: string;
 };
 
 const OurTheatresBottomSheet = ({
@@ -26,40 +34,21 @@ const OurTheatresBottomSheet = ({
     }
   };
 
-  const DummyData = {
-    theatres: [
-      {
-        name: "AMC Kabuki 8",
-        address1: "1881 Post St",
-        address2: "San Francisco, CA 94115",
-        distance: "0.7"
-      },
-      {
-        name: "AMC Metreon 16",
-        address1: "135 4th St #3000",
-        address2: "San Francisco, CA 94103",
-        distance: "1.2"
-      },
-      {
-        name: "AMC Bay Street 16",
-        address1: "5614 Bay St",
-        address2: "Emeryville, CA 94608",
-        distance: "8.5"
-      },
-      {
-        name: "AMC DINE-IN Sunnyvale 12",
-        address1: "150 W McKinley Ave",
-        address2: "Sunnyvale, CA 94086",
-        distance: "42.0"
-      },
-      {
-        name: "AMC Mercado 20",
-        address1: "3111 Mission College Blvd",
-        address2: "Santa Clara, CA 95054",
-        distance: "45.3"
-      }
-    ]
-  };
+  const { theatres, loading } = useContext(TheatreDataContext);
+
+  // Transform theatres from context into the shape expected by the UI
+  const theatreList: TheatreListItem[] = theatres.map((theatre) => {
+    // Extract city/state from compound_code (e.g., "X6Q6+QV Ocean City, Maryland")
+    const addressParts = theatre.compound_code.split(" ");
+    const cityState = addressParts.slice(1).join(" ");
+    
+    return {
+      name: theatre.name,
+      address1: theatre.vicinity,
+      address2: cityState || theatre.compound_code,
+      distance: "" // Distance calculation would require user location
+    };
+  });
 
   const handleTheatreSelection = (theatre: string) => {
     console.log("handleTheatreSelection pressed");
@@ -89,11 +78,11 @@ const OurTheatresBottomSheet = ({
       >
         <BottomSheetView className="flex-1 bg-black">
           <View className="flex-1">
-            <BottomSheetFlatList
+            <BottomSheetFlatList<TheatreListItem>
               contentContainerStyle={{ paddingBottom: 100 }}
-              data={DummyData.theatres}
-              keyExtractor={(item, index) => `theatre-${index}`}
-              renderItem={({ item, index }) => (
+              data={theatreList}
+              keyExtractor={(item: TheatreListItem, index: number) => `theatre-${item.name}-${index}`}
+              renderItem={({ item, index }: { item: TheatreListItem; index: number }) => (
                 <View className="w-full mb-4">
                   <View className="flex-row items-center h-12 bg-black px-4">
                     <Text className={`text-white font-gordita-regular text-xl`}>
@@ -122,9 +111,11 @@ const OurTheatresBottomSheet = ({
                         {item.address2}
                       </Text>
                     </Pressable>
-                    <Text className="text-gray-100 font-gordita-regular text-sm mr-4">
-                      {item.distance} mi
-                    </Text>
+                    {item.distance && (
+                      <Text className="text-gray-100 font-gordita-regular text-sm mr-4">
+                        {item.distance} mi
+                      </Text>
+                    )}
                   </View>
                   <View className="flex-row ml-[15.5%] my-4">
                     <CustomButton

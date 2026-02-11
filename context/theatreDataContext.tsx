@@ -20,6 +20,7 @@ interface TheatreDataContextValue {
   theatres: Theatre[];
   loading: boolean;
   error?: Error;
+  userLocation?: string;
   selectedSession?: SelectedSession;
   setSelectedSession?: React.Dispatch<
     React.SetStateAction<SelectedSession | undefined>
@@ -28,7 +29,8 @@ interface TheatreDataContextValue {
 
 export const TheatreDataContext = createContext<TheatreDataContextValue>({
   theatres: [],
-  loading: true
+  loading: true,
+  userLocation: undefined
 });
 
 const getSeatCount = (screenType: string): number => {
@@ -246,6 +248,7 @@ export const TheatreDataContextProvider = ({
   const [theatres, setTheatres] = useState<Theatre[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | undefined>(undefined);
+  const [userLocation, setUserLocation] = useState<string | undefined>(undefined);
   const [selectedSession, setSelectedSession] = useState<
     SelectedSession | undefined
   >(undefined);
@@ -256,8 +259,9 @@ export const TheatreDataContextProvider = ({
       setError(undefined);
 
       try {
-        const nearby = await getNearbyTheatres(apiKey);
-
+        const { theatres: nearby, userLocation: location } = await getNearbyTheatres(apiKey);
+        
+        setUserLocation(location);
         const detailedTheatres = await generateTheatres(nearby);
 
         setTheatres(detailedTheatres);
@@ -282,7 +286,7 @@ export const TheatreDataContextProvider = ({
   }, [apiKey]);
   return (
     <TheatreDataContext.Provider
-      value={{ theatres, loading, error, selectedSession, setSelectedSession }}
+      value={{ theatres, loading, error, userLocation, selectedSession, setSelectedSession }}
     >
       {children}
     </TheatreDataContext.Provider>
